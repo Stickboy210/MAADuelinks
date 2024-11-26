@@ -1,0 +1,391 @@
+{
+  "HomePage": {
+    "next": [
+      "HomePageNoName",
+      "Bonus",
+      "HomePageDuelList",
+      "BatterierEmpty",
+      "HomePageBot",
+      "HomePageSwitch"
+    ]
+  },
+
+  "HomePageDuelList": {
+    "recognition": "FeatureMatch",
+    "template":"Bonus.png",
+    "count": 5,
+    "roi": [
+      33,
+      630,
+      477,
+      462
+    ],
+    "detector": "SIFT",
+    "orger_by": "Score",
+    "green_mask": true,
+    "ratio": 0.4,
+    "action": "Click",
+    "next": [
+      "WaitDuel"
+    ]
+  },
+  "Bonus": {
+    "recognition": "FeatureMatch",
+    "template": "Bonus.png",
+    "action": "Click",
+    "count": 7,
+    "roi": [
+      47,
+      635,
+      569,
+      482
+    ],
+    "green_mask": true,
+    "next": [
+      "BonusWait"
+    ]
+  },
+  "BonusWait": {
+    "pre_wait_freezes": {
+      "time": 600,
+      "threshold": 0.6
+    },
+    "next": [
+      "BonusEnd"
+    ]
+  },
+  "BonusEnd": {
+    "recognition": "OCR",
+    "expected": "确定",
+    "action": "Click",
+    "next": [
+      "BonusWait2"
+    ]
+  },
+  "BonusWait2": {
+    "pre_wait_freezes": {
+      "time": 600,
+      "threshold": 0.6
+    },
+    "next": [
+      "HomePage"
+    ]
+  },
+  "HomePageBot": {
+    "recognition": "FeatureMatch",
+    "template":"Bonus.png",
+    "count": 5,
+    "roi": [
+      47,
+      635,
+      569,
+      482
+    ],
+    "detector": "SIFT",
+    "orger_by": "Score",
+    "green_mask": true,
+    "ratio": 1,
+    "action": "Click",
+    "target_offset": [
+      25,
+      25,
+      0,
+      0
+    ],
+    "next": [
+      "WaitDuel"
+    ]
+  },
+  "HomePageNoName": {
+    "recognition": "FeatureMatch",
+    "template": [
+      "NoName.png"
+    ],
+    "count": 10,
+    "roi": [
+      47,
+      635,
+      569,
+      482
+    ],
+    "detector": "SIFT",
+    "orger_by": "Score",
+    "green_mask": true,
+    "ratio": 0.4,
+    "action": "Click",
+    "next": [
+      "WaitDuel"
+    ]
+  },
+  "StartDuel": {
+    "recognition": "DirectHit",
+    "action": "Click",
+    "target": [
+      649,
+      761,
+      10,
+      10
+    ],
+    "post_wait_freezes":{
+      "threshold":0.6,
+      "time":600
+    },
+    "next": [
+      "StartDuel2",
+      "StartDuel"
+    ]
+  },
+  "StartDuel2": {
+    "recognition": "OCR",
+    "expected": "自动决斗",
+    "action": "Click",
+    "next": [
+      "WaitDuelEnd"
+    ]
+  },
+  "WaitDuel": {
+    "pre_wait_freezes": {
+      "time": 500,
+      "threshold": 0.6
+    },
+    "next": [
+      "CheckNode",
+      "StartDuel2",
+      "Return",
+      "ShutDown",
+      "HomePage"
+    ]
+  },
+  "CheckNode": {
+    "recognition": "ColorMatch",
+    "roi": [
+      350,
+      1241,
+      10,
+      10
+    ],
+    "lower": [
+      [
+        255,
+        255,
+        255
+      ],
+      [
+        255,
+        255,
+        255
+      ],
+      [
+        255,
+        255,
+        255
+      ]
+    ],
+    "upper": [
+      [
+        255,
+        255,
+        255
+      ],
+      [
+        255,
+        255,
+        255
+      ],
+      [
+        255,
+        255,
+        255
+      ]
+    ],
+    "count": 100,
+    "next": [
+      "StartDuel"
+    ]
+  },
+  "Return": {
+    "recognition": "FeatureMatch",
+    "roi": [
+      18,
+      1209,
+      695,
+      53
+    ],
+    "green_mask": true,
+    "template": [
+      "Home.png",
+      "Return.png"
+    ],
+    "count": 10,
+    "action": "Click",
+    "next": [
+      "WaitDuel",
+      "HomePage"
+    ]
+  },
+  "ShutDown": {
+    "recognition": "OCR",
+    "expected": [
+      "关闭",
+      "取消"
+    ],
+    "action": "Click",
+    "next": [
+      "WaitDuel",
+      "HomePage"
+    ]
+  },
+  "WaitDuel2": {
+    "pre_wait_freezes": {
+      "time": 600,
+      "threshold": 0.6
+    },
+    "next": [
+      "StartDuel2"
+    ]
+  },
+  "WaitDuelEnd": {
+    "pre_wait_freezes": {
+      "time": 1000,
+      "threshold": 0.8
+    },
+    "next": [
+      "EndDuel",
+      "WaitDuelEnd"
+    ]
+  },
+  "EndDuel": {
+        "recognition": "OCR",
+        "expected": ["确定","下一步","关闭","取消","重试"],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "ClickReward"
+        ]
+    },
+  "ClickReward": {
+    "action": "Click",
+    "target": [8, 1040, 25, 20],
+    "post_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+    },
+    "next": [
+      "EndDuel",
+      "IfNotHome",
+      "IfHomePage",
+      "WaitDuelEndTest"
+    ]
+  },
+  "IfHomePage":{
+    "recognition":"OCR",
+    "expected":"活动介绍",
+    "roi":[574, 307, 145, 73],
+    "next":[
+      "HomePage"
+    ]
+  },
+  "WaitDuelEndTest":{
+    "post_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+    },
+    "next":[
+      "EndDuel",
+      "IfNotHome",
+      "IfHomePage",
+      "ClickReward",
+      "WaitDuelEndTest"
+    ]
+  }, 
+  "IfNotHome":{
+    "recognition":"OCR",
+    "expected":"取消",
+    "roi":[46, 633, 620, 118],
+    "action":"Click",
+    "next":[
+      "WaitDuelEndTest"
+    ]
+  },
+  "HomePageSwitch": {
+    "recognition": "DirectHit",
+    "action": "Swipe",
+    "begin": [
+      649,
+      761,
+      10,
+      10
+    ],
+    "end": [
+      382,
+      761,
+      10,
+      10
+    ],
+    "next": [
+      "SwitchWait"
+    ]
+  },
+  "SwitchWait": {
+    "pre_wait_freezes": {
+      "time": 1000,
+      "threshold": 0.6
+    },
+    "next": [
+      "HomePage"
+    ]
+  },
+  "BatterierEmpty": {
+    "recognition": "ColorMatch",
+    "roi": [
+      111,
+      79,
+      5,
+      11
+    ],
+    "lower": [
+      [
+        90,
+        90,
+        165
+      ],
+      [
+        90,
+        90,
+        165
+      ],
+      [
+        90,
+        90,
+        162
+      ]
+    ],
+    "upper": [
+      [
+        110,
+        110,
+        182
+      ],
+      [
+        111,
+        111,
+        181
+      ],
+      [
+        90,
+        90,
+        163
+      ]
+    ],
+    "count": 10,
+    "next": [
+      "Stop"
+    ]
+  },
+  "Stop": {
+    "action": "DoNothing"
+  }
+}

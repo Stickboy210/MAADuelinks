@@ -1,0 +1,436 @@
+{
+    "controller": [
+        {
+            "name": "安卓端",
+            "type": "Adb"
+        },
+        {
+            "name": "桌面端",
+            "type": "Win32",
+            "win32": {
+                "class_regex": ".*",
+                "window_regex": "Visual Studio"
+            }
+        }
+    ],
+    "resource": [
+        {
+            "name": "决斗链接服",
+            "path": [
+                "{PROJECT_DIR}/resource"
+            ]
+        }
+    ],
+    "task": [
+        {
+            "name": "刷主页人机直到体力清空（目前识别可能会翻车，但最后一般能把人机刷完）",
+            "entry": "HomePage",
+            "option":[
+                "主页世界"
+            ]
+        },
+        {
+            "name": "清战队任务加战队副本",
+            "entry": "FindClan"
+        },
+        {
+            "name":"清自动传送门",
+            "entry":"PortalsEntry",
+            "option":[
+                "传送门等级"
+            ]
+        },
+        {
+          "name":"手动清传送门（目前还停不下来，需要手动停止）",
+          "entry":"ManualPortalsEntry",
+          "option":[
+            "传送门钥匙种类"
+          ]
+        },
+        {
+            "name": "领任务",
+            "entry": "HomePageReward"
+        },
+        {
+            "name": "刷转轮活动",
+            "entry": "WheelActivityEntry"
+        }
+    ],
+    "option": {
+        "传送门等级": {
+            "cases": [
+                {
+                    "name": "10级",
+                    "pipeline_override": {
+                        "SelectPortals": {
+                          "expected": "10级"
+                        }
+                    }
+                },
+                {
+                    "name": "20级",
+                    "pipeline_override": {
+                        "SelectPortals": {
+                            "expected": "20级"
+                        }
+                    }
+                },
+                {
+                    "name": "30级",
+                    "pipeline_override": {
+                        "SelectPortals": {
+                            "expected": "30级"
+                        }
+                    }
+                },
+                {
+                    "name": "40级",
+                    "pipeline_override": {
+                        "SelectPortals": {
+                            "expected": "40级"
+                        }
+                    }
+                }
+            ]
+        },
+        "主页世界": {
+          "cases": [
+            {
+              "name": "DM世界",
+              "pipeline_override": {
+                "HomePageDuelList": {
+                  "template": [
+                    "伊西斯·伊修达尔.png",
+                    "光与暗之假面.png",
+                    "利希德.png",
+                    "城之内克也.png",
+                    "基斯·霍华德.png",
+                    "天才吕场.png",
+                    "孔雀舞.png",
+                    "帕伽索斯·J·克劳福德.png",
+                    "御伽龙儿.png",
+                    "恐龙龙崎.png",
+                    "昆虫羽蛾.png",
+                    "暗游戏.png",
+                    "暗貘良.png",
+                    "暗马利克.png",
+                    "梶木渔太.png",
+                    "武藤游戏.png",
+                    "海马圭平.png",
+                    "海马濑人.png",
+                    "潘多拉.png",
+                    "真崎杏子.png",
+                    "迷宫兄弟.png",
+                    "鬼谷冢.png"
+                  ]
+                },
+                "HomePageBot": {
+                  "template": [
+                    "Bot8.png",
+                    "Bot11.png",
+                    "Bot13.png",
+                    "Bot9.png",
+                    "Bot5.png",
+                    "Bot4.png",
+                    "Bot17.png",
+                    "Bot15.png",
+                    "Bot16.png",
+                    "Bot17.png",
+                    "Bot18.png",
+                    "Bot19.png",
+                    "Bot20.png",
+                    "Bot21.png",
+                    "Bot14.png",
+                    "Bot2.png"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DSOD世界",
+              "pipeline_override": {
+                "HomePageDuelList": {
+                  "template": [
+                    "海马濑人（DSOD）.png",
+                    "海马圭平（DSOD）.png",
+                    "武藤游戏（DSOD）.png",
+                    "真崎杏子（DSOD）.png",
+                    "塞拉.png"
+                  ]
+                },
+                "HomePageBot": {
+                  "template": [
+                    "Bot1.png",
+                    "Bot11.png",
+                    "Bot8.png",
+                    "Bot5.png",
+                    "Bot15.png",
+                    "Bot19.png",
+                    "Bot13.png",
+                    "Bot9.png",
+                    "Bot16.png",
+                    "Bot21.png",
+                    "Bot14.png",
+                    "Bot17.png",
+                    "Bot4.png"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "GX世界",
+              "pipeline_override": {
+                "HomePageDuelList": {
+                  "template": [
+                    "万丈目准.png",
+                    "三则大地.png",
+                    "丸藤翔.png",
+                    "凯撒亮.png",
+                    "吉姆·克劳戴尔·库克.png",
+                    "天上院明日香.png",
+                    "尤贝尔.png",
+                    "尤贝尔十代.png",
+                    "库洛诺斯·德·梅迪契.png",
+                    "斋王琢磨.png",
+                    "早乙女礼.png",
+                    "游城十代.png",
+                    "约翰·安德森.png",
+                    "艾德·菲尼克斯.png",
+                    "迪拉诺剑山.png",
+                    "霸王.png"
+                  ]
+                },
+                "HomePageBot": {
+                  "template": [
+                    "Bot8.png",
+                    "Bot16.png",
+                    "Bot11.png",
+                    "Bot13.png",
+                    "Bot9.png",
+                    "Bot5.png",
+                    "Bot4.png",
+                    "Bot17.png",
+                    "Bot22.png",
+                    "Bot23.png",
+                    "Bot24.png",
+                    "Bot25.png",
+                    "Bot26.png",
+                    "Bot39.png"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "5Ds世界",
+              "pipeline_override": {
+                "HomePageDuelList": {
+                  "template": [
+                    "不动游星.png",
+                    "杰克·亚特拉斯.png",
+                    "乌鸦·霍根.png",
+                    "十六夜亚纪.png",
+                    "龙亚.png",
+                    "龙可.png",
+                    "卡利渚.png",
+                    "暗印者鬼柳京介.png",
+                    "暗印者卡利渚.png",
+                    "暗印者雷克斯·戈德温.png",
+                    "帕拉多格斯.png",
+                    "普拉西多.png",
+                    "安提诺米.png"
+                  ]
+                },
+                "HomePageBot": {
+                  "template": [
+                    "Bot1.png",
+                    "Bot2.png",
+                    "Bot3.png",
+                    "Bot4.png",
+                    "Bot5.png",
+                    "Bot6.png",
+                    "Bot7.png",
+                    "Bot8.png",
+                    "Bot9.png",
+                    "Bot10.png",
+                    "Bot11.png",
+                    "Bot12.png",
+                    "Bot16.png",
+                    "Bot13.png",
+                    "Bot17.png"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Z4世界",
+              "pipeline_override": {
+                "HomePageDuelList": {
+                  "template": [
+                    "Ⅲ.png",
+                    "Ⅳ.png",
+                    "天城快斗.png",
+                    "武田铁男.png",
+                    "游马和星光体.png",
+                    "神代凌牙.png",
+                    "神代璃绪.png",
+                    "神月安奈.png",
+                    "观月小鸟.png"
+                  ]
+                },
+                "HomePageBot": {
+                  "template": [
+                    "Bot8.png",
+                    "Bot16.png",
+                    "Bot11.png",
+                    "Bot13.png",
+                    "Bot9.png",
+                    "Bot5.png",
+                    "Bot4.png",
+                    "Bot17.png",
+                    "Bot21.png",
+                    "Bot27.png",
+                    "Bot28.png",
+                    "Bot29.png",
+                    "Bot30.png"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "A5世界",
+              "pipeline_override": {
+                "HomePageDuelList": {
+                  "template": [
+                    "塞瑞娜.png",
+                    "权现坂升.png",
+                    "柊柚子.png",
+                    "榊游矢.png",
+                    "泽渡慎吾.png",
+                    "游斗.png",
+                    "赤马零儿.png",
+                    "黑咲隼.png"
+                  ]
+                },
+                "HomePageBot": {
+                  "template": [
+                    "Bot8.png",
+                    "Bot16.png",
+                    "Bot11.png",
+                    "Bot13.png",
+                    "Bot9.png",
+                    "Bot5.png",
+                    "Bot4.png",
+                    "Bot17.png",
+                    "Bot31.png",
+                    "Bot32.png",
+                    "Bot33.png",
+                    "Bot34.png"
+                  ]
+                }
+              }
+            },
+            {
+        "name": "V6世界",
+        "pipeline_override": {
+          "HomePageDuelList": {
+            "template": [
+              "Go鬼塚.png",
+              "Playnaker和Ai.png",
+              "左轮.png",
+              "焚魂烈火.png",
+              "蓝色天使.png"
+            ]
+          },
+          "HomePageBot": {
+            "template": [
+              "Bot8.png",
+              "Bot16.png",
+              "Bot11.png",
+              "Bot13.png",
+              "Bot9.png",
+              "Bot5.png",
+              "Bot4.png",
+              "Bot17.png",
+              "Bot35.png",
+              "Bot36.png",
+              "Bot37.png",
+              "Bot38.png"
+            ]
+          }
+        }
+      }
+      ]
+        },
+        "传送门钥匙种类":{
+          "cases":[
+            {
+              "name":"迷宫兄弟（绿钥匙）",
+              "pipeline_override":{
+                "SelectManualPortalsRoleWorld2":{
+                  "expected":"DM"
+                },
+                "SelectManualPortalsRole":{
+                  "template":"迷宫兄弟.png"
+                }
+              }
+            },
+            {
+              "name":"天上院明日香（青色钥匙）",
+              "pipeline_override":{
+                "SelectManualPortalsRoleWorld2":{
+                  "expected":"GX"
+                },
+                "SelectManualPortalsRole":{
+                  "template":"天上院明日香.png"
+                }
+              }
+            },
+            {
+              "name":"丸藤翔（黄色钥匙）",
+              "pipeline_override":{
+                "SelectManualPortalsRoleWorld2":{
+                  "expected":"GX"
+                },
+                "SelectManualPortalsRole":{
+                  "template":"丸藤翔.png"
+                }
+              }
+            },
+            {
+              "name":"暗貘良（黑色钥匙）",
+              "pipeline_override":{
+                "SelectManualPortalsRoleWorld2":{
+                  "expected":"DM"
+                },
+                "SelectManualPortalsRole":{
+                  "template":"暗貘良.png"
+                }
+              }
+            },
+            {
+              "name":"帕伽索斯·J·克劳福德（白色钥匙）",
+              "pipeline_override":{
+                "SelectManualPortalsRoleWorld2":{
+                  "expected":"DM"
+                },
+                "SelectManualPortalsRole":{
+                  "template":"帕伽索斯·J·克劳福德.png"
+                }
+              }
+            },
+            {
+              "name":"基斯·霍华德（红色钥匙）",
+              "pipeline_override":{
+                "SelectManualPortalsRoleWorld2":{
+                  "expected":"DM"
+                },
+                "SelectManualPortalsRole":{
+                  "template":"基斯·霍华德.png"
+                }
+              }
+            }
+          ]
+        }
+    },
+    "version": "v0.0.1"
+}
