@@ -52,8 +52,11 @@
       "entry": "HomePageReward"
     },
     {
-      "name": "刷转轮活动",
-      "entry": "WheelActivityEntry"
+      "name": "刷活动",
+      "option": [
+        "活动种类"
+      ],
+      "entry": "ActivityEntry"
     }
   ],
   "option": {
@@ -426,6 +429,20 @@
             },
             "SelectManualPortalsRole": {
               "template": "基斯·霍华德.png"
+            }
+          }
+        }
+      ]
+    },
+    "活动种类": {
+      "cases": [
+        {
+          "name": "转轮活动",
+          "pipeline_override": {
+            "ActivityEntry": {
+              "next": [
+                "WheelActivityEntry"
+              ]
             }
           }
         }
