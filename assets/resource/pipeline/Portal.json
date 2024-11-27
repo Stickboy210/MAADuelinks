@@ -1,293 +1,444 @@
 {
-    "ManualPortalsEntry":{
-        "next":[
+    "ManualPortalsEntry": {
+        "next": [
             "ManualPortalsFind"
         ]
     },
-    "ManualPortalsFind":{
-        "action":"Click",
-        "target":[27, 1200, 110, 75],
-        "post_wait_freezes":{
-            "threshold":0.6,
-            "time":600
+    "ManualPortalsFind": {
+        "action": "Click",
+        "target": [
+            27,
+            1200,
+            110,
+            75
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
         },
-        "next":[
+        "next": [
             "IfManualPortalsFind",
             "ManualPortalsFind"
         ]
     },
-    "ManualPortalsFind2":{
-        "action":"Click",
-        "target":[27, 1200, 110, 75],
-        "post_wait_freezes":{
-            "threshold":0.6,
-            "time":600
+    "ManualPortalsFind2": {
+        "action": "Click",
+        "target": [
+            27,
+            1200,
+            110,
+            75
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
         },
-        "next":[
+        "next": [
             "StartManualPortals"
         ]
     },
-    "IfManualPortalsFind":{
-        "recognition":"OCR",
-        "expected":"传送门",
-        "roi":[114, 118, 146, 45],
-        "next":[
+    "IfManualPortalsFind": {
+        "recognition": "OCR",
+        "expected": "传送门",
+        "roi": [
+            114,
+            118,
+            146,
+            45
+        ],
+        "next": [
             "SelectManualPortals"
         ]
     },
-    "SelectManualPortals":{
-        "action":"Click",
-        "target":[607, 680, 47, 61],
-        "post_wait_freezes":{
-            "time":400,
-            "threshold":0.6
+    "SelectManualPortals": {
+        "action": "Click",
+        "target": [
+            607,
+            680,
+            47,
+            61
+        ],
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "SelectManualPortalsWorld"
         ]
     },
-    "SelectManualPortalsWorld":{
-        "action":"Click",
-        "target":[75, 142, 184, 40],
-        "post_wait_freezes":{
-            "time":400,
-            "threshold":0.6
+    "SelectManualPortalsWorld": {
+        "action": "Click",
+        "target": [
+            75,
+            142,
+            184,
+            40
+        ],
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "SelectManualPortalsWorld2"
         ]
     },
-    "SelectManualPortalsWorld2":{
-        "recognition":"OCR",
-        "action":"Click",
-        "post_wait_freezes":{
-            "time":200,
-            "threshold":0.6
+    "SelectManualPortalsWorld2": {
+        "recognition": "OCR",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 200,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "SelectManualPortalsRole"
         ]
     },
-    "SelectManualPortalsRole":{
-        "recognition":"FeatureMatch",
-        "template":"迷宫兄弟.png",
-        "action":"Click",
-        "next":[
+    "SelectManualPortalsRole": {
+        "recognition": "FeatureMatch",
+        "template": "迷宫兄弟.png",
+        "action": "Click",
+        "next": [
             "SelectManualPortalsRole2"
         ]
     },
-    "SelectManualPortalsRole2":{
-        "recognition":"OCR",
-        "expected":["确认","关闭"],
-        "roi":[128, 985, 493, 271],
-        "action":"Click",
-        "post_wait_freezes":{
-            "threshold":0.6,
-            "time":200
+    "SelectManualPortalsRole2": {
+        "recognition": "OCR",
+        "expected": [
+            "确认",
+            "关闭"
+        ],
+        "roi": [
+            128,
+            985,
+            493,
+            271
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 200
         },
-        "next":[
+        "next": [
             "SelectManualPortalsLevel"
         ]
     },
-    "SelectManualPortalsLevel":{
-        "recognition":"OCR",
-        "expected":"10级",
-        "roi":[26, 829, 666, 95],
-        "action":"Click",
-        "post_wait_freezes":{
-            "time":600,
-            "threshold":0.6
+    "SelectManualPortalsLevel": {
+        "recognition": "OCR",
+        "expected": "10级",
+        "roi": [
+            26,
+            829,
+            666,
+            95
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "StartManualPortals"
         ]
     },
-    "StartManualPortals":{
-        "recognition":"OCR",
-        "expected":"决斗",
-        "action":"Click",
-        "post_wait_freezes":{
-            "time":600,
-            "threshold":0.6
+    "StartManualPortals": {
+        "recognition": "OCR",
+        "expected": "决斗",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "StartManualDuelPortals",
             "ClickManualPortals"
         ]
     },
-    "ClickManualPortals":{
-        "action":"Click",
+    "ClickManualPortals": {
+        "action": "Click",
         "target": [
             649,
             761,
             10,
             10
         ],
-        "post_wait_freezes":{
-            "time":300,
-            "threshold":0.6
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "StartManualDuelPortals",
             "ClickManualPortals"
         ]
     },
-    "StartManualDuelPortals":{
-        "recognition":"OCR",
-        "expected":"决斗",
-        "roi":[21, 1065, 323, 94],
-        "action":"Click",
-        "post_wait_freezes":{
-            "time":600,
-            "threshold":0.6
+    "StartManualDuelPortals": {
+        "recognition": "OCR",
+        "expected": "决斗",
+        "roi": [
+            21,
+            1065,
+            323,
+            94
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "ManualPortalsAction"
         ]
     },
-    "ManualPortalsAction":{
-        "next":[
+    "ManualPortalsAction": {
+        "next": [
             "IfMyTurn",
             "IfEndPhase"
         ]
     },
-    "IfMyTurn":{
-        "recognition":"OCR",
-        "roi":[392, 58, 51, 37],
-        "expected":"你",
-        "next":[
+    "IfMyTurn": {
+        "recognition": "OCR",
+        "roi": [
+            392,
+            58,
+            51,
+            37
+        ],
+        "expected": "你",
+        "next": [
             "MyActionTurn",
             "IfEndPhase"
         ]
     },
-    "MyActionTurn":{
-        "recognition":"OCR",
-        "roi":[465, 59, 128, 40],
-        "expected":"行动步骤",
-        "next":[
+    "MyActionTurn": {
+        "recognition": "OCR",
+        "roi": [
+            465,
+            59,
+            128,
+            40
+        ],
+        "expected": "行动步骤",
+        "next": [
             "SwipeCard"
         ]
     },
-    "SwipeCard":{
-        "action":"Swipe",
-        "begin":[324, 1158, 25, 29],
-        "end":[336, 839, 28, 28],
-        "duration":400,
-        "post_wait_freezes":{
-            "time":300,
-            "threshold":0.4
+    "SwipeCard": {
+        "action": "Swipe",
+        "begin": [
+            324,
+            1158,
+            25,
+            29
+        ],
+        "end": [
+            336,
+            839,
+            28,
+            28
+        ],
+        "duration": 400,
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.4
         },
-        "next":[
+        "next": [
             "IfAbleSummon",
             "BattlePhase0"
         ]
     },
-    "IfAbleSummon":{
-        "recognition":"OCR",
-        "roi":[202, 877, 142, 146],
-        "expected":"通常召唤",
-        "action":"Click",
-        "post_wait_freezes":{
-            "time":400,
-            "threshold":0.4
+    "IfAbleSummon": {
+        "recognition": "OCR",
+        "roi": [
+            202,
+            877,
+            142,
+            146
+        ],
+        "expected": "通常召唤",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.4
         },
-        "next":[
+        "next": [
             "BattlePhase0"
         ]
     },
-    "BattlePhase0":{
-        "action":"Click",
-        "target":[612, 778, 92, 74],
-        "next":[
+    "BattlePhase0": {
+        "action": "Click",
+        "target": [
+            612,
+            778,
+            92,
+            74
+        ],
+        "next": [
             "BattlePhase"
         ]
     },
-    "BattlePhase":{
-        "action":"Click",
-        "target":[612, 778, 92, 74],
-        "post_wait_freezes":{
-            "threshold":0.6,
-            "time":400
+    "BattlePhase": {
+        "action": "Click",
+        "target": [
+            612,
+            778,
+            92,
+            74
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 400
         },
-        "next":[
+        "next": [
             "IfBattlePhase",
             "IfEndPhase"
         ]
     },
-    "IfBattlePhase":{
-        "recognition":"OCR",
-        "roi":[465, 59, 128, 40],
-        "expected":"战斗步骤",
-        "next":[
+    "IfBattlePhase": {
+        "recognition": "OCR",
+        "roi": [
+            465,
+            59,
+            128,
+            40
+        ],
+        "expected": "战斗步骤",
+        "next": [
             "AttackMonster",
             "BattlePhase0"
         ]
     },
-    "AttackMonster":{
-        "recognition":"ColorMatch",
-        "roi":[142, 591, 445, 291],
-        "lower":[[0, 70, 35], [0, 70, 45], [0, 70, 31]],
-        "upper":[[0, 246, 88], [0, 246, 100], [0, 245, 80]],
-        "count":30,
-        "order_by":"Score",
-        "connected":true,
-        "action":"Swipe",
-        "end":[294, 76, 124, 106],
-        "duration":300,
-        "post_wait_freezes":{
-            "threshold":0.60,
-            "time":700,
-            "target":[260, 432, 201, 120]
+    "AttackMonster": {
+        "recognition": "ColorMatch",
+        "roi": [
+            142,
+            591,
+            445,
+            291
+        ],
+        "lower": [
+            [
+                0,
+                70,
+                35
+            ],
+            [
+                0,
+                70,
+                45
+            ],
+            [
+                0,
+                70,
+                31
+            ]
+        ],
+        "upper": [
+            [
+                0,
+                246,
+                88
+            ],
+            [
+                0,
+                246,
+                100
+            ],
+            [
+                0,
+                245,
+                80
+            ]
+        ],
+        "count": 30,
+        "order_by": "Score",
+        "connected": true,
+        "action": "Swipe",
+        "end": [
+            294,
+            76,
+            124,
+            106
+        ],
+        "duration": 300,
+        "post_wait_freezes": {
+            "threshold": 0.60,
+            "time": 700,
+            "target": [
+                260,
+                432,
+                201,
+                120
+            ]
         },
-        "next":[
+        "next": [
             "AttackMonster",
             "IfWin",
             "BattlePhase0"
         ]
     },
-    "IfWin":{
-        "recognition":"OCR",
-        "expected":["确定","下一步","关闭","取消","重试"],
-        "action":"Click",
-        "post_wait_freezes":{
-            "time":400,
-            "threshold":0.6
+    "IfWin": {
+        "recognition": "OCR",
+        "expected": [
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "IfManualPortalsHomePage",
             "ClickManualPortalsEnd"
         ]
     },
-    "IfManualPortalsHomePage":{
-        "recognition":"OCR",
-        "expected":"活动介绍",
-        "roi":[574, 307, 145, 73],
-        "next":[
+    "IfManualPortalsHomePage": {
+        "recognition": "OCR",
+        "expected": "活动介绍",
+        "roi": [
+            574,
+            307,
+            145,
+            73
+        ],
+        "next": [
             "ManualPortalsFind2"
         ]
     },
-    "ClickManualPortalsEnd":{
-        "action":"Click",
-        "target":[15, 1095, 89, 76],
-        "next":[
+    "ClickManualPortalsEnd": {
+        "action": "Click",
+        "target": [
+            15,
+            1095,
+            89,
+            76
+        ],
+        "next": [
             "WaitManualPortalsRewardEnd"
         ]
     },
-    "WaitManualPortalsRewardEnd":{
-        "post_wait_freezes":{
-            "time":300,
-            "threshold":0.6
+    "WaitManualPortalsRewardEnd": {
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "IfManualPortalsHomePage",
             "IfWin",
             "ClickManualPortalsEnd"
         ]
     },
-    "IfEndPhase":{
-        "action":"Click",
-        "target":[317, 550, 66, 53],
-        "next":[
+    "IfEndPhase": {
+        "action": "Click",
+        "target": [
+            317,
+            550,
+            66,
+            53
+        ],
+        "next": [
             "IfMyTurn",
             "IfWin",
             "IfEndPhase"

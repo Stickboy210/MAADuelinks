@@ -67,6 +67,11 @@
             "PortalsEntry"
           ]
         },
+        "ShutDownClanCopy": {
+          "next": [
+            "PortalsEntry"
+          ]
+        },
         "SelectPortals": {
           "expected": "10级"
         },
