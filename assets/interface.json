@@ -57,6 +57,33 @@
         "活动种类"
       ],
       "entry": "ActivityEntry"
+    },
+    {
+      "name": "一键日常",
+      "entry": "FindClan",
+      "pipeline_override": {
+        "ShutDownClan3": {
+          "next": [
+            "PortalsEntry"
+          ]
+        },
+        "SelectPortals": {
+          "expected": "10级"
+        },
+        "PortalsBackToHomePage": {
+          "next": [
+            "HomePage"
+          ]
+        },
+        "Stop": {
+          "next": [
+            "HomePageReward"
+          ]
+        }
+      },
+      "option": [
+        "主页世界"
+      ]
     }
   ],
   "option": {

@@ -1,145 +1,195 @@
 {
-    "PortalsEntry":{
-        "next":[
+    "PortalsEntry": {
+        "next": [
             "PortalsFind"
         ]
     },
-    "PortalsFind":{
-        "action":"Click",
-        "target":[27, 1200, 110, 75],
-        "next":[
+    "PortalsFind": {
+        "action": "Click",
+        "target": [
+            27,
+            1200,
+            110,
+            75
+        ],
+        "next": [
             "IfPortalsFind",
             "PortalsFind"
         ]
     },
-    "IfPortalsFind":{
-        "recognition":"OCR",
-        "expected":"传送门",
-        "roi":[114, 118, 146, 45],
-        "next":[
+    "IfPortalsFind": {
+        "recognition": "OCR",
+        "expected": "传送门",
+        "roi": [
+            114,
+            118,
+            146,
+            45
+        ],
+        "next": [
             "SelectPortals"
         ]
     },
-    "SelectPortals":{
-        "recognition":"OCR",
-        "roi":[26, 829, 666, 95],
-        "action":"Click",
-        "post_wait_freezes":{
-            "time":600,
-            "threshold":0.6
+    "SelectPortals": {
+        "recognition": "OCR",
+        "roi": [
+            26,
+            829,
+            666,
+            95
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "StartPortals"
         ]
     },
-    "StartPortals":{
-        "recognition":"OCR",
-        "expected":"决斗",
-        "action":"Click",
-        "post_wait_freezes":{
-            "time":600,
-            "threshold":0.6
+    "StartPortals": {
+        "recognition": "OCR",
+        "expected": "决斗",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "StartDuelPortals",
             "ClickPortals"
         ]
     },
-    "ClickPortals":{
-        "action":"Click",
+    "ClickPortals": {
+        "action": "Click",
         "target": [
             649,
             761,
             10,
             10
         ],
-        "post_wait_freezes":{
-            "time":300,
-            "threshold":0.6
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "StartDuelPortals",
             "ClickPortals"
         ]
     },
-    "StartDuelPortals":{
-        "recognition":"OCR",
-        "expected":"自动决斗",
-        "action":"Click",
-        "post_wait_freezes":{
-            "time":600,
-            "threshold":0.6
+    "StartDuelPortals": {
+        "recognition": "OCR",
+        "expected": "自动决斗",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "WaitPortalsEnd"
         ]
     },
-    "WaitPortalsEnd":{
-        "post_wait_freezes":{
-            "time":1000,
-            "threshold":0.6
+    "WaitPortalsEnd": {
+        "post_wait_freezes": {
+            "time": 1000,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "IfPortalsEnd",
             "IfNoCount",
             "WaitPortalsEnd"
         ]
     },
-    "IfPortalsEnd":{
-        "recognition":"OCR",
-        "expected":["确定","下一步","关闭","取消","重试"],
-        "action":"Click",
-        "post_wait_freezes":{
-            "time":400,
-            "threshold":0.6
+    "IfPortalsEnd": {
+        "recognition": "OCR",
+        "expected": [
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "IfPortalsHomePage",
             "ClickPortalsEnd"
         ]
     },
-    "WaitPortalsRewardEnd":{
-        "post_wait_freezes":{
-            "time":300,
-            "threshold":0.6
+    "WaitPortalsRewardEnd": {
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "IfPortalsHomePage",
             "IfPortalsEnd",
             "ClickPortalsEnd"
         ]
     },
-    "IfPortalsHomePage":{
-        "recognition":"OCR",
-        "expected":"活动介绍",
-        "roi":[574, 307, 145, 73],
-        "next":[
+    "IfPortalsHomePage": {
+        "recognition": "OCR",
+        "expected": "活动介绍",
+        "roi": [
+            574,
+            307,
+            145,
+            73
+        ],
+        "next": [
             "PortalsFind"
         ]
     },
-    "ClickPortalsEnd":{
-        "action":"Click",
-        "target":[15, 1095, 89, 76],
-        "next":[
+    "ClickPortalsEnd": {
+        "action": "Click",
+        "target": [
+            15,
+            1095,
+            89,
+            76
+        ],
+        "next": [
             "WaitPortalsRewardEnd"
         ]
     },
-    "IfNoCount":{
-        "recognition":"OCR",
-        "expected":"0次",
-        "roi":[638, 1211, 63, 46],
-        "action":"Click",
-        "target":[18, 1206, 85, 57],
-        "post_wait_freezes":{
-            "time":400,
-            "threshold":0.6
+    "IfNoCount": {
+        "recognition": "OCR",
+        "expected": "0次",
+        "roi": [
+            638,
+            1211,
+            63,
+            46
+        ],
+        "action": "Click",
+        "target": [
+            18,
+            1206,
+            85,
+            57
+        ],
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
         },
-        "next":[
+        "next": [
             "PortalsBackToHomePage"
         ]
     },
-    "PortalsBackToHomePage":{
-        "action":"Click",
-        "target":[18, 1206, 85, 57]
+    "PortalsBackToHomePage": {
+        "action": "Click",
+        "target": [
+            18,
+            1206,
+            85,
+            57
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 500
+        }
     }
 }

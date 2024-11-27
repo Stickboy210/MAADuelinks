@@ -15,7 +15,7 @@
             "WaitTheGate"
         ]
     },
-    "FindClanCopy":{
+    "FindClanCopy": {
         "action": "Click",
         "target": [
             592,
@@ -451,22 +451,22 @@
         ]
     },
     "ClickClanReward": {
-    "action": "Click",
-    "target": [
-      643,
-      1196,
-      10,
-      10
-    ],
-    "post_wait_freezes": {
+        "action": "Click",
+        "target": [
+            643,
+            1196,
+            10,
+            10
+        ],
+        "post_wait_freezes": {
             "time": 500,
             "threshold": 0.8
+        },
+        "next": [
+            "PrepareClanDuel0",
+            "WaitClanDuelEnd"
+        ]
     },
-    "next": [
-      "PrepareClanDuel0",
-      "WaitClanDuelEnd"
-    ]
-  },
     "ShutDownClanCopy": {
         "action": "Click",
         "target": [
@@ -483,6 +483,10 @@
             1207,
             79,
             50
-        ]
+        ],
+        "post_wait_freezes": {
+            "time": 200,
+            "threshold": 0.6
+        }
     }
 }
