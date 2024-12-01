@@ -474,7 +474,11 @@
             1202,
             67,
             58
-        ]
+        ],
+        "post_wait_freezes": {
+            "time": 200,
+            "threshold": 0.6
+        }
     },
     "ShutDownClan3": {
         "action": "Click",

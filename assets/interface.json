@@ -26,7 +26,8 @@
       "name": "刷主页人机直到体力清空（目前识别可能会翻车，但最后一般能把人机刷完）",
       "entry": "HomePage",
       "option": [
-        "主页世界"
+        "主页世界",
+        "使用决斗珠？"
       ]
     },
     {
@@ -80,6 +81,11 @@
             "HomePage"
           ]
         },
+        "BatterierEmpty":{
+          "next":[
+            "Stop"
+          ]
+        },
         "Stop": {
           "next": [
             "HomePageReward"
@@ -123,6 +129,30 @@
           "pipeline_override": {
             "SelectPortals": {
               "expected": "40级"
+            }
+          }
+        }
+      ]
+    },
+    "使用决斗珠？":{
+      "cases":[
+        {
+          "name":"是",
+          "pipeline_override":{
+            "BatterierEmpty":{
+              "next":[
+                "FindDuelBead"
+              ]
+            }
+          }
+        },
+        {
+          "name":"否",
+          "pipeline_override":{
+            "BatterierEmpty":{
+              "next":[
+                "Stop"
+              ]
             }
           }
         }
@@ -321,6 +351,7 @@
                 "Bot9.png",
                 "Bot5.png",
                 "Bot4.png",
+                "Bot14.png",
                 "Bot17.png",
                 "Bot21.png",
                 "Bot27.png",
@@ -401,7 +432,7 @@
         {
           "name": "迷宫兄弟（绿钥匙）",
           "pipeline_override": {
-            "SelectManualPortalsRoleWorld2": {
+            "SelectManualPortalsWorld2": {
               "expected": "DM"
             },
             "SelectManualPortalsRole": {
@@ -412,7 +443,7 @@
         {
           "name": "天上院明日香（青色钥匙）",
           "pipeline_override": {
-            "SelectManualPortalsRoleWorld2": {
+            "SelectManualPortalsWorld2": {
               "expected": "GX"
             },
             "SelectManualPortalsRole": {
@@ -423,7 +454,7 @@
         {
           "name": "丸藤翔（黄色钥匙）",
           "pipeline_override": {
-            "SelectManualPortalsRoleWorld2": {
+            "SelectManualPortalsWorld2": {
               "expected": "GX"
             },
             "SelectManualPortalsRole": {
@@ -434,7 +465,7 @@
         {
           "name": "暗貘良（黑色钥匙）",
           "pipeline_override": {
-            "SelectManualPortalsRoleWorld2": {
+            "SelectManualPortalsWorld2": {
               "expected": "DM"
             },
             "SelectManualPortalsRole": {
@@ -445,7 +476,7 @@
         {
           "name": "帕伽索斯·J·克劳福德（白色钥匙）",
           "pipeline_override": {
-            "SelectManualPortalsRoleWorld2": {
+            "SelectManualPortalsWorld2": {
               "expected": "DM"
             },
             "SelectManualPortalsRole": {
@@ -456,7 +487,7 @@
         {
           "name": "基斯·霍华德（红色钥匙）",
           "pipeline_override": {
-            "SelectManualPortalsRoleWorld2": {
+            "SelectManualPortalsWorld2": {
               "expected": "DM"
             },
             "SelectManualPortalsRole": {

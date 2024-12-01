@@ -18,6 +18,19 @@
         },
         "next": [
             "IfManualPortalsFind",
+            "IfSomethingWrong",
+            "ManualPortalsFind"
+        ]
+    },
+    "IfSomethingWrong":{
+        "recognition":"OCR",
+        "expected":["关闭","取消","重试"],
+        "action":"Click",
+        "post_wait_freezes":{
+            "time":400,
+            "threshold":0.6
+        },
+        "next":[
             "ManualPortalsFind"
         ]
     },
