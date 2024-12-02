@@ -60,6 +60,42 @@
             45
         ],
         "next": [
+            "AbjectPortalsWorld"
+        ]
+    },
+    "AbjectPortalsWorld":{
+        "action":"Click",
+        "target":[103, 116, 149, 47],
+        "post_wait_freezes":{
+            "time":400,
+            "threshold":0.6
+        },
+        "next":[
+            "SwipePortalsWorld"
+        ]
+    },
+    "SwipePortalsWorld":{
+        "action":"Swipe",
+        "begin":[288, 721, 139, 66],
+        "end":[296, 1090, 131, 91],
+        "duration": 300,
+        "post_wait_freezes": {
+            "threshold": 0.60,
+            "time": 300
+        },
+        "next":[
+            "SelectDMPortals"
+        ]
+    },
+    "SelectDMPortals":{
+        "recognition":"OCR",
+        "expected":"DM",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":400
+        },
+        "next":[
             "SelectManualPortals"
         ]
     },
@@ -92,6 +128,19 @@
             "threshold": 0.6
         },
         "next": [
+            "SwipeManualPortalsWorld"
+        ]
+    },
+    "SwipeManualPortalsWorld":{
+        "action":"Swipe",
+        "begin":[288, 721, 139, 66],
+        "end":[296, 1090, 131, 91],
+        "duration": 300,
+        "post_wait_freezes": {
+            "threshold": 0.60,
+            "time": 600
+        },
+        "next":[
             "SelectManualPortalsWorld2"
         ]
     },
@@ -374,7 +423,7 @@
         "duration": 300,
         "post_wait_freezes": {
             "threshold": 0.60,
-            "time": 700,
+            "time": 1100,
             "target": [
                 260,
                 432,
@@ -415,9 +464,6 @@
             307,
             145,
             73
-        ],
-        "next": [
-            "ManualPortalsFind2"
         ]
     },
     "ClickManualPortalsEnd": {

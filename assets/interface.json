@@ -28,7 +28,14 @@
       "option": [
         "主页世界",
         "使用决斗珠？"
-      ]
+      ],
+      "pipeline_override":{
+        "StartHomePage":{
+          "next":[
+            "HomePage"
+          ]
+        }
+      }
     },
     {
       "name": "清战队任务加战队副本",
@@ -63,11 +70,6 @@
       "name": "一键日常",
       "entry": "FindClan",
       "pipeline_override": {
-        "ShutDownClan3": {
-          "next": [
-            "PortalsEntry"
-          ]
-        },
         "ShutDownClanCopy": {
           "next": [
             "PortalsEntry"

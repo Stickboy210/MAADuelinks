@@ -478,19 +478,38 @@
         "post_wait_freezes": {
             "time": 200,
             "threshold": 0.6
-        }
+        },
+        "next":[
+            "ShutDownClan3"
+        ]
     },
     "ShutDownClan3": {
+        "recognition":"OCR",
+        "expected":[
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+          ],
         "action": "Click",
-        "target": [
-            20,
-            1207,
-            79,
-            50
-        ],
         "post_wait_freezes": {
             "time": 200,
             "threshold": 0.6
-        }
+        },
+        "next":[
+            "IfClanToHomePage",
+            "ShutDownClan3"
+        ]
+    },
+    "IfClanToHomePage":{
+        "recognition": "OCR",
+        "expected": "活动介绍",
+        "roi": [
+            574,
+            307,
+            145,
+            73
+        ]
     }
 }

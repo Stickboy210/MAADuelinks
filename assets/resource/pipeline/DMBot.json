@@ -452,9 +452,6 @@
     "recognition":"OCR",
     "expected":"确定",
     "roi":[49, 506, 631, 278],
-    "action":"Click",
-    "next":[
-      "HomePage"
-    ]
+    "action":"Click"
   }
 }
