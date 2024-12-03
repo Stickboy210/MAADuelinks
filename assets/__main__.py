@@ -25,7 +25,7 @@ data = {
 
 # 初始化主窗口
 root = tk.Tk()
-root.title("任务勾选框")
+root.title("MAADuelinks2.0")
 
 # 创建欢迎标签
 welcome_label = tk.Label(root, text="欢迎使用MAADuelinks！", font=("Arial", 16), fg="black")
@@ -106,6 +106,10 @@ def Stop_Button(tasker):
 # print_task_list_button = tk.Button(root, text="打印任务列表", command=print_task_list)
 # print_task_list_button.grid(row=len(tasks) + 5, column=0, padx=10, pady=5, sticky='ew')
 
+# 定义超链接函数
+def open_url(url):
+    import webbrowser
+    webbrowser.open(url)
 
 # 创建勾选框并使用grid布局管理器进行布局
 for i, task_name in enumerate(tasks, start=1):
@@ -542,6 +546,13 @@ def main():
     user_path = "./"
     Toolkit.init_option(user_path)
 
+    
+    # # 确保在调用其他功能之前初始化库
+    # from maa.library import Library
+
+    # # 假设您的库文件位于当前工作目录的 "lib" 子目录中
+    # Library.open("./")  # 调用库的初始化函数
+
     resource = Resource()
     res_job = resource.post_path("./resource")
     res_job.wait()
@@ -589,8 +600,12 @@ def main():
     stop_button = tk.Button(root, text="停止", command=lambda: Stop_Button(tasker), font=("Arial", 12),padx=40,bg="red",fg="white")
     stop_button.grid(row=len(tasks) + 5, column=2, padx=10, pady=10, sticky="ew")
 
+    # 创建超链接标签
+    link_label = tk.Label(root, text="关注B站翻弄杂鱼卡片的亡灵", font=("Arial", 10), fg="blue", cursor="hand2")
+    link_label.grid(row=0, column=3, padx=10, pady=10, sticky='ew')
 
-
+    # 为标签添加超链接功能
+    link_label.bind("<Button-1>", lambda e: open_url("https://space.bilibili.com/3546639744633147"))
     #root.protocol("WM_DELETE_WINDOW", lambda: Stop_Button(tasker))
     root.mainloop()  # 启动 Tkinter 的主事件循环
 
