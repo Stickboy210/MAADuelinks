@@ -1,12 +1,51 @@
 {
   "HomePage": {
     "next": [
+      "Return",
       "HomePageNoName",
       "Bonus",
+      "ActivityDuelList",
       "HomePageDuelList",
       "BatterierEmpty",
       "HomePageBot",
       "HomePageSwitch"
+    ]
+  },
+  "ActivityDuelList":{
+    "recognition":"OCR",
+    "expected":"活动",
+    "roi": [
+      33,
+      630,
+      477,
+      462
+    ],
+    "action":"Click",
+    "target_offset":[0,25,0,0],
+    "post_wait_freezes":{
+      "threshold":0.6,
+      "time":600
+    },
+    "next":[
+      "IfActivityBonus",
+      "ActivityDuel"
+    ]
+  },
+  "IfActivityBonus":{
+    "recognition":"OCR",
+    "expected":"确定",
+    "action":"Click",
+    "post_wait_freezes":{
+      "threshold":0.6,
+      "time":400
+    },
+    "next":[
+      "HomePage"
+    ]
+  },
+  "ActivityDuel":{
+    "next":[
+      "CheckNode"
     ]
   },
   "HomePageDuelList": {
@@ -318,7 +357,7 @@
   },
   "IfNotHome": {
     "recognition": "OCR",
-    "expected": "取消",
+    "expected": ["取消","出现"],
     "roi": [
       46,
       633,
@@ -357,6 +396,46 @@
     "next": [
       "HomePage"
     ]
+  },
+  "BatteryEmptyWake":{
+    "recognition":"ColorMatch",
+    "roi":[135, 79, 7, 10],
+    "lower": [
+      [
+        90,
+        90,
+        165
+      ],
+      [
+        90,
+        90,
+        165
+      ],
+      [
+        90,
+        90,
+        162
+      ]
+    ],
+    "upper": [
+      [
+        110,
+        110,
+        182
+      ],
+      [
+        111,
+        111,
+        181
+      ],
+      [
+        90,
+        90,
+        163
+      ]
+    ],
+    "count":10,
+    "next":[]
   },
   "BatterierEmpty": {
     "recognition": "ColorMatch",
@@ -432,7 +511,8 @@
       "time":500
     },
     "next":[
-      "ToHomePage"
+      "ToHomePage",
+      "UseDuelBead"
     ]
   },
   "ToHomePage":{

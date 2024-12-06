@@ -1,4 +1,5 @@
 # python -m pip install maafw
+import maa.library
 from maa.resource import Resource
 from maa.controller import AdbController
 from maa.tasker import Tasker
@@ -7,6 +8,7 @@ from maa.toolkit import Toolkit
 from maa.custom_recognition import CustomRecognition
 from maa.custom_action import CustomAction
 from maa.notification_handler import NotificationHandler, NotificationType
+from maa.job import Job, JobWithResult
 
 import tkinter as tk
 import threading
@@ -81,6 +83,7 @@ manual_portal_input_var = tk.IntVar(root)
 # 创建输入框对应的变量
 manual_entry_var = tk.StringVar(root)  # 刷主页人机直到体力清空的输入框变量
 manual_entry_var.set(0) #默认不使用决斗珠
+use_duelist_beads_var = tk.BooleanVar(root)  # 是否1体力用决斗珠的变量，默认为False
 
 # 创建一个列表框来显示任务列表状态
 # task_listbox = tk.Listbox(root)
@@ -111,33 +114,45 @@ def open_url(url):
     import webbrowser
     webbrowser.open(url)
 
+# 初始化当前行号
+current_row = 1
+
 # 创建勾选框并使用grid布局管理器进行布局
 for i, task_name in enumerate(tasks, start=1):
     var = tk.BooleanVar()
     check_button = tk.Checkbutton(root, text=task_name, variable=var)
-    check_button.grid(row=i, column=0, sticky="w", padx=10, pady=5)
+    check_button.grid(row=current_row, column=0, sticky="w", padx=10, pady=5)
     
     check_vars.append(var)
     
     # 为每个任务创建附加选项
-    if task_name == "刷主页人机直到体力清空":
-        world_menu = tk.OptionMenu(root, selected_world, *world_options)
-        world_menu.grid(row=i, column=1, padx=10, pady=5, sticky='ew')
-        tk.Label(root, text="使用决斗珠次数：").grid(row=i, column=2, sticky="e")  # 添加输入框标签
-        manual_entry = tk.Entry(root, textvariable=manual_entry_var)
-        manual_entry.grid(row=i, column=3, padx=10, pady=5, sticky='ew')
-    elif task_name == "清自动传送门":
-        portal_level_menu = tk.OptionMenu(root, selected_portal_level, *portal_level_options)
-        portal_level_menu.grid(row=i, column=1, padx=10, pady=5, sticky='ew')
-    elif task_name == "手动清传送门（不装卡垫，顶部视角）":
-        portal_key_menu = tk.OptionMenu(root, selected_portal_key, *portal_key_options)
-        portal_key_menu.grid(row=i, column=1, padx=10, pady=5, sticky='ew')
-        tk.Label(root, text="手动次数：").grid(row=i, column=2, sticky="e")  # 添加输入框标签
-        manual_portal_entry = tk.Entry(root, textvariable=manual_portal_input_var)
-        manual_portal_entry.grid(row=i, column=3, padx=10, pady=5, sticky='ew')
-    elif task_name == "刷活动":
-        activity_type_menu = tk.OptionMenu(root, selected_activity_type, *activity_type_options)
-        activity_type_menu.grid(row=i, column=1, padx=10, pady=5, sticky='ew')
+    if task_name in ["刷主页人机直到体力清空", "清自动传送门", "手动清传送门（不装卡垫，顶部视角）", "刷活动"]:
+        if task_name == "刷主页人机直到体力清空":
+            world_menu = tk.OptionMenu(root, selected_world, *world_options)
+            world_menu.grid(row=current_row + 1, column=0, padx=4, pady=5, sticky='ew')
+            tk.Label(root, text="使用决斗珠次数：").grid(row=current_row + 1, column=1, sticky="e")  # 添加输入框标签
+            manual_entry = tk.Entry(root, textvariable=manual_entry_var, width=5)  # 设置宽度为5
+            manual_entry.grid(row=current_row + 1, column=2, padx=4, pady=5, sticky='ew')
+            tk.Label(root, text="是否1体力用决斗珠：").grid(row=current_row + 1, column=3, sticky="e")  # 添加是否1体力用决斗珠的标签
+            use_duelist_beads_checkbox = tk.Checkbutton(root, text="", variable=use_duelist_beads_var)
+            use_duelist_beads_checkbox.grid(row=current_row + 1, column=4, sticky="w", padx=10, pady=5)
+        elif task_name == "清自动传送门":
+            portal_level_menu = tk.OptionMenu(root, selected_portal_level, *portal_level_options)
+            portal_level_menu.grid(row=current_row + 1, column=0, padx=4, pady=5, sticky='ew')
+        elif task_name == "手动清传送门（不装卡垫，顶部视角）":
+            portal_key_menu = tk.OptionMenu(root, selected_portal_key, *portal_key_options)
+            portal_key_menu.grid(row=current_row + 1, column=0, padx=4, pady=5, sticky='ew')
+            tk.Label(root, text="手动次数：").grid(row=current_row + 1, column=1, sticky="e")  # 添加输入框标签
+            manual_portal_entry = tk.Entry(root, textvariable=manual_portal_input_var, width=5)  # 设置宽度为5
+            manual_portal_entry.grid(row=current_row + 1, column=2, padx=4, pady=5, sticky='ew')
+        elif task_name == "刷活动":
+            activity_type_menu = tk.OptionMenu(root, selected_activity_type, *activity_type_options)
+            activity_type_menu.grid(row=current_row + 1, column=0, padx=4, pady=5, sticky='ew')
+        
+        # 更新当前行号，为下一个勾选框和附加选项腾出空间
+        current_row += 2
+    else:
+        current_row += 1
 
 # 更新任务列表显示的函数
 # def update_task_list_display(TaskList):
@@ -153,7 +168,7 @@ for i, task_name in enumerate(tasks, start=1):
 
 
 # 确认按钮事件处理函数
-def on_confirm(tasker,TaskList):
+def on_confirm(tasker, TaskList):
     TaskList.clear()  # 清空TaskList
     for i, var in enumerate(check_vars):
         if var.get():  # 如果勾选框被勾选
@@ -162,6 +177,8 @@ def on_confirm(tasker,TaskList):
                 task.append(selected_world.get())
                 if manual_entry_var.get():
                     task.append(manual_entry_var.get())  # 添加刷主页人机的输入
+                if use_duelist_beads_var.get():  # 如果勾选了是否1体力用决斗珠
+                    task.append("use_duelist_beads")  # 添加到TaskList中
             if i + 1 == 3 and selected_portal_level.get():
                 task.append(selected_portal_level.get())
             if i + 1 == 4:
@@ -173,7 +190,7 @@ def on_confirm(tasker,TaskList):
             if i + 1 == 5 and selected_activity_type.get():
                 task.append(selected_activity_type.get())
             TaskList.append(task)
-    run_start_pipeline(tasker,TaskList)
+    run_start_pipeline(tasker, TaskList)
     #update_task_list_display(TaskList)  # 更新显示
 
 
@@ -235,11 +252,24 @@ def run_start_pipeline(tasker,TaskList):
     while TaskList:
         TaskNum = TaskList.pop(0)
         current_task_name = tasks[TaskNum[0] - 1]  # 获取当前任务名称
-        current_task_label.config(text=f"当前执行的任务: {current_task_name}")  # 更新显示当前任务名称
+        current_task_label.config(text=f"   挖矿虽好，可不要贪杯哦")  # 更新显示当前任务名称
         if(TaskNum[0] == 2):
             
             world_name = TaskNum[1]  # 获取世界名称
             # 根据世界名称选择对应的图片列表
+            if ("use_duelist_beads" in TaskNum and TaskNum[-1] == "use_duelist_beads"):  # 如果勾选了是否1体力用决斗珠
+                pipeline_override["BatterierEmpty"] = {
+                    "roi":[135, 79, 7, 10]
+                }
+            else:
+                pipeline_override["BatterierEmpty"]={
+                    "roi": [
+                        111,
+                        79,
+                        5,
+                        11
+                    ]
+                }
             if world_name == "DM世界":
                 pipeline_override["HomePageDuelList"]["template"] = [
                     "伊西斯·伊修达尔.png",
@@ -511,11 +541,20 @@ def run_start_pipeline(tasker,TaskList):
                 i+=1
 
         elif TaskNum[0] == 6:  # 领任务
-            tasker.post_pipeline("HomePageReward")
+            Job_Result = tasker.post_pipeline("HomePageReward")
+            if Job_Result.succeeded:
+                print("任务成功完成")
+                # 获取任务的详细结果
+                task_detail = Job_Result.get_task_detail(Job_Result.taskid)
+                print(task_detail)
+            else:
+                print("任务未完成或失败")
         elif TaskNum[0] == 5:  # 刷活动
             activity_type = TaskNum[1]  # 获取活动种类
             if (activity_type == "转轮活动"):
                 Taskpar = "WheelActivityEntry"
+            elif(activity_type == "传送门活动"):
+                Taskpar = ""
             pipeline_override = {
                 "ActivityEntry": {"next": Taskpar}
             }
@@ -592,13 +631,17 @@ def main():
     # #创建一个线程来执行Pipeline任务
     # Start_thread = threading.Thread(target=run_start_pipeline, args=(tasker,TaskList))
     
+    # 更新确认按钮和停止按钮的行号
+    confirm_button_row = current_row + 1
+    stop_button_row = current_row + 1
+
     # 创建确认按钮
     confirm_button = tk.Button(root, text="确认", command=lambda: on_confirm(tasker, TaskList), padx=40,font=("Arial", 12),bg="green",fg="white")
-    confirm_button.grid(row=len(tasks) + 5, column=3, padx=10, pady=10, sticky='ew')
-        
+    confirm_button.grid(row=confirm_button_row, column=3, padx=10, pady=10, sticky='ew')
+
     # 创建停止按钮
     stop_button = tk.Button(root, text="停止", command=lambda: Stop_Button(tasker), font=("Arial", 12),padx=40,bg="red",fg="white")
-    stop_button.grid(row=len(tasks) + 5, column=2, padx=10, pady=10, sticky="ew")
+    stop_button.grid(row=stop_button_row, column=2, padx=10, pady=10, sticky="ew")
 
     # 创建超链接标签
     link_label = tk.Label(root, text="关注B站翻弄杂鱼卡片的亡灵", font=("Arial", 10), fg="blue", cursor="hand2")
@@ -606,7 +649,7 @@ def main():
 
     # 为标签添加超链接功能
     link_label.bind("<Button-1>", lambda e: open_url("https://space.bilibili.com/3546639744633147"))
-    #root.protocol("WM_DELETE_WINDOW", lambda: Stop_Button(tasker))
+
     root.mainloop()  # 启动 Tkinter 的主事件循环
 
     # 等待 HomePage 线程结束
