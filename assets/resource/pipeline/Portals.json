@@ -48,8 +48,21 @@
             "threshold": 0.6
         },
         "next": [
-            "StartPortals"
+            "StartPortals",
+            "IfNoMaterial"
         ]
+    },
+    "IfNoMaterial":{
+        "recognition":"OCR",
+        "roi":[144, 1055, 425, 104],
+        "expected":"不足",
+        "action":"Click",
+        "target":[19, 1199, 79, 66],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[]
     },
     "StartPortals": {
         "recognition": "OCR",
@@ -61,6 +74,7 @@
         },
         "next": [
             "StartDuelPortals",
+            "ClickRetry",
             "ClickPortals"
         ]
     },
@@ -78,6 +92,21 @@
         },
         "next": [
             "StartDuelPortals",
+            "ClickRetry",
+            "ClickPortals"
+        ]
+    },
+    "ClickRetry":{
+        "recognition":"OCR",
+        "expected":"重试",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":400
+        },
+        "next":[
+            "StartDuelPortals",
+            "ClickRetry",
             "ClickPortals"
         ]
     },

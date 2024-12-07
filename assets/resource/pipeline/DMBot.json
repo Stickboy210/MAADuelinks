@@ -45,7 +45,9 @@
   },
   "ActivityDuel":{
     "next":[
-      "CheckNode"
+      "CheckNode",
+      "StartDuel2",
+      "HomePage"
     ]
   },
   "HomePageDuelList": {
@@ -177,7 +179,12 @@
     "recognition": "OCR",
     "expected": "自动决斗",
     "action": "Click",
+    "post_wait_freezes":{
+      "threshold":0.6,
+      "time":400
+    },
     "next": [
+      "StartDuel2",
       "WaitDuelEnd"
     ]
   },

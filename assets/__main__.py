@@ -542,13 +542,13 @@ def run_start_pipeline(tasker,TaskList):
 
         elif TaskNum[0] == 6:  # 领任务
             Job_Result = tasker.post_pipeline("HomePageReward")
-            if Job_Result.succeeded:
-                print("任务成功完成")
-                # 获取任务的详细结果
-                task_detail = Job_Result.get_task_detail(Job_Result.taskid)
-                print(task_detail)
-            else:
-                print("任务未完成或失败")
+            # if Job_Result.succeeded:
+            #     print("任务成功完成")
+            #     # 获取任务的详细结果
+            #     task_detail = Job_Result.get_task_detail(Job_Result.taskid)
+            #     print(task_detail)
+            # else:
+            #     print("任务未完成或失败")
         elif TaskNum[0] == 5:  # 刷活动
             activity_type = TaskNum[1]  # 获取活动种类
             if (activity_type == "转轮活动"):

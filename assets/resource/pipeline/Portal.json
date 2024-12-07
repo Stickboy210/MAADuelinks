@@ -351,6 +351,33 @@
         },
         "next": [
             "IfBattlePhase",
+            "IfEndHandcard",
+            "IfEndPhase"
+        ]
+    },
+    "IfEndHandcard":{
+        "recognition":"OCR",
+        "expected":"手卡",
+        "roi":[237, 639, 231, 97],
+        "action":"Click",
+        "target":[58, 773, 148, 212],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":300
+        },
+        "next":[
+            "ConfirmCard"
+        ]
+    },
+    "ConfirmCard":{
+        "recognition":"OCR",
+        "expected":"确认",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":400
+        },
+        "next":[
             "IfEndPhase"
         ]
     },
@@ -500,6 +527,7 @@
         "next": [
             "IfMyTurn",
             "IfWin",
+            "IfEndHandcard",
             "IfEndPhase"
         ]
     }
