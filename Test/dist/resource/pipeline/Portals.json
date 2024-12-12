@@ -1,0 +1,228 @@
+{
+    "PortalsEntry": {
+        "next": [
+            "PortalsFind"
+        ]
+    },
+    "PortalsFind": {
+        "action": "Click",
+        "target": [
+            27,
+            1200,
+            110,
+            75
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.6
+        },
+        "next": [
+            "IfPortalsFind",
+            "PortalsFind"
+        ]
+    },
+    "IfPortalsFind": {
+        "recognition": "OCR",
+        "expected": "传送门",
+        "roi": [
+            114,
+            118,
+            146,
+            45
+        ],
+        "next": [
+            "SelectPortals"
+        ]
+    },
+    "SelectPortals": {
+        "recognition": "OCR",
+        "roi": [
+            26,
+            829,
+            666,
+            95
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
+        },
+        "next": [
+            "StartPortals",
+            "IfNoMaterial"
+        ]
+    },
+    "IfNoMaterial":{
+        "recognition":"OCR",
+        "roi":[144, 1055, 425, 104],
+        "expected":"不足",
+        "action":"Click",
+        "target":[19, 1199, 79, 66],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[]
+    },
+    "StartPortals": {
+        "recognition": "OCR",
+        "expected": "决斗",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
+        },
+        "next": [
+            "StartDuelPortals",
+            "ClickRetry",
+            "ClickPortals"
+        ]
+    },
+    "ClickPortals": {
+        "action": "Click",
+        "target": [
+            649,
+            761,
+            10,
+            10
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.6
+        },
+        "next": [
+            "StartDuelPortals",
+            "ClickRetry",
+            "ClickPortals"
+        ]
+    },
+    "ClickRetry":{
+        "recognition":"OCR",
+        "expected":"重试",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":400
+        },
+        "next":[
+            "StartDuelPortals",
+            "ClickRetry",
+            "ClickPortals"
+        ]
+    },
+    "StartDuelPortals": {
+        "recognition": "OCR",
+        "expected": "自动决斗",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
+        },
+        "next": [
+            "WaitPortalsEnd"
+        ]
+    },
+    "WaitPortalsEnd": {
+        "post_wait_freezes": {
+            "time": 1000,
+            "threshold": 0.6
+        },
+        "next": [
+            "IfPortalsEnd",
+            "IfNoCount",
+            "WaitPortalsEnd"
+        ]
+    },
+    "IfPortalsEnd": {
+        "recognition": "OCR",
+        "expected": [
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
+        },
+        "next": [
+            "IfPortalsHomePage",
+            "ClickPortalsEnd"
+        ]
+    },
+    "WaitPortalsRewardEnd": {
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.6
+        },
+        "next": [
+            "IfPortalsHomePage",
+            "IfPortalsEnd",
+            "ClickPortalsEnd"
+        ]
+    },
+    "IfPortalsHomePage": {
+        "recognition": "OCR",
+        "expected": "活动介绍",
+        "roi": [
+            574,
+            307,
+            145,
+            73
+        ],
+        "next": [
+            "PortalsFind"
+        ]
+    },
+    "ClickPortalsEnd": {
+        "action": "Click",
+        "target": [
+            15,
+            1095,
+            89,
+            76
+        ],
+        "next": [
+            "WaitPortalsRewardEnd"
+        ]
+    },
+    "IfNoCount": {
+        "recognition": "OCR",
+        "expected": "0次",
+        "roi": [
+            638,
+            1211,
+            63,
+            46
+        ],
+        "action": "Click",
+        "target": [
+            18,
+            1206,
+            85,
+            57
+        ],
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
+        },
+        "next": [
+            "PortalsBackToHomePage"
+        ]
+    },
+    "PortalsBackToHomePage": {
+        "action": "Click",
+        "target": [
+            18,
+            1206,
+            85,
+            57
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 500
+        }
+    }
+}

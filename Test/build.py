@@ -11,7 +11,6 @@ for path in site_packages_paths:
     potential_path = os.path.join(path, 'maa', 'bin')
     if os.path.exists(potential_path):
         maa_bin_path = potential_path
-        print(f"找到maa/bin路径为：{maa_bin_path}")
         break
 
 if maa_bin_path is None:
@@ -26,7 +25,6 @@ for path in site_packages_paths:
     potential_path = os.path.join(path, 'MaaAgentBinary')
     if os.path.exists(potential_path):
         maa_bin_path2 = potential_path
-        print(f"找到MaaAgentBinary路径为：{maa_bin_path2}")
         break
 
 if maa_bin_path2 is None:
@@ -43,6 +41,5 @@ PyInstaller.__main__.run([
     '--name=MAADuelinks',
     f'--add-data={add_data_param}',
     f'--add-data={add_data_param2}',
-    '--clean',
+#    '--clean',
 ])
-input("按任意键退出...")

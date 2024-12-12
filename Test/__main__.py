@@ -53,7 +53,7 @@ world_options = [
 portal_level_options = ["10级", "20级", "30级", "40级"]
 
 # 活动种类选项
-activity_type_options = ["转轮活动"]
+activity_type_options = ["转轮活动","骰子活动"]
 
 # 传送门钥匙种类选项
 portal_key_options = [
@@ -334,6 +334,7 @@ def run_start_pipeline(tasker,TaskList):
                     "Bot21.png",
                     "Bot14.png",
                     "Bot17.png",
+                    "Bot20.png",
                     "Bot4.png"
                 ]
             elif world_name == "GX世界":
@@ -357,6 +358,7 @@ def run_start_pipeline(tasker,TaskList):
                 ]
                 pipeline_override["HomePageBot"]["template"] = [
                     "Bot8.png",
+                    "Bot2.png",
                     "Bot16.png",
                     "Bot11.png",
                     "Bot13.png",
@@ -531,7 +533,7 @@ def run_start_pipeline(tasker,TaskList):
             else:
                 print("未找到匹配的name")
             pipeline_override = {
-                "SelectManualPortalsRoleWorld2": {"expected": Expected},
+                "SelectManualPortalsWorld2": {"expected": Expected},
                 "SelectManualPortalsRole": {"template": Template} # 以前是f"{TaskNum[2]}"
             }
             i = 1
@@ -542,19 +544,21 @@ def run_start_pipeline(tasker,TaskList):
 
         elif TaskNum[0] == 6:  # 领任务
             Job_Result = tasker.post_pipeline("HomePageReward")
-            if Job_Result.succeeded:
-                print("任务成功完成")
-                # 获取任务的详细结果
-                task_detail = Job_Result.get_task_detail(Job_Result.taskid)
-                print(task_detail)
-            else:
-                print("任务未完成或失败")
+            # if Job_Result.succeeded:
+            #     print("任务成功完成")
+            #     # 获取任务的详细结果
+            #     task_detail = Job_Result.get_task_detail(Job_Result.taskid)
+            #     print(task_detail)
+            # else:
+            #     print("任务未完成或失败")
         elif TaskNum[0] == 5:  # 刷活动
             activity_type = TaskNum[1]  # 获取活动种类
             if (activity_type == "转轮活动"):
                 Taskpar = "WheelActivityEntry"
             elif(activity_type == "传送门活动"):
                 Taskpar = ""
+            elif(activity_type == "骰子活动"):
+                Taskpar = "DiceActivityEntry"
             pipeline_override = {
                 "ActivityEntry": {"next": Taskpar}
             }

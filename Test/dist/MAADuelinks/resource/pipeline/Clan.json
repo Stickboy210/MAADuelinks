@@ -1,0 +1,515 @@
+{
+    "FindClan": {
+        "action": "Click",
+        "target": [
+            592,
+            1228,
+            10,
+            10
+        ],
+        "pre_wait_freezes": {
+            "time": 2000,
+            "threshold": 0.9
+        },
+        "next": [
+            "WaitTheGate"
+        ]
+    },
+    "FindClanCopy": {
+        "action": "Click",
+        "target": [
+            592,
+            1228,
+            10,
+            10
+        ],
+        "pre_wait_freezes": {
+            "time": 2000,
+            "threshold": 0.9
+        },
+        "next": [
+            "WaitTheGate2"
+        ]
+    },
+    "WaitTheGate": {
+        "pre_wait_freezes": {
+            "time": 1000,
+            "threshold": 0.9
+        },
+        "next": [
+            "MonsterGate",
+            "Clan"
+        ]
+    },
+    "WaitTheGate2": {
+        "pre_wait_freezes": {
+            "time": 1000,
+            "threshold": 0.9
+        },
+        "next": [
+            "MonsterGate2",
+            "Clan2"
+        ]
+    },
+    "MonsterGate2": {
+        "recognition": "FeatureMatch",
+        "roi": [
+            18,
+            1209,
+            695,
+            53
+        ],
+        "green_mask": true,
+        "template": [
+            "Return.png"
+        ],
+        "count": 10,
+        "next": [
+            "ReturnHome2"
+        ]
+    },
+    "ReturnHome2": {
+        "action": "Click",
+        "target": [
+            18,
+            1202,
+            82,
+            59
+        ],
+        "next": [
+            "Clan2"
+        ]
+    },
+    "Clan2": {
+        "action": "Click",
+        "target": [
+            528,
+            595,
+            10,
+            10
+        ],
+        "next": [
+            "WaitClan20"
+        ]
+    },
+    "WaitClan20": {
+        "pre_wait_freezes": {
+            "time": 800,
+            "threshold": 0.6
+        },
+        "next": [
+            "ClanCopy"
+        ]
+    },
+    "MonsterGate": {
+        "recognition": "FeatureMatch",
+        "roi": [
+            18,
+            1209,
+            695,
+            53
+        ],
+        "green_mask": true,
+        "template": [
+            "Return.png"
+        ],
+        "count": 10,
+        "next": [
+            "ReturnHome"
+        ]
+    },
+    "ReturnHome": {
+        "action": "Click",
+        "target": [
+            18,
+            1202,
+            82,
+            59
+        ],
+        "next": [
+            "Clan"
+        ]
+    },
+    "Clan": {
+        "action": "Click",
+        "target": [
+            528,
+            595,
+            10,
+            10
+        ],
+        "next": [
+            "WaitClan"
+        ]
+    },
+    "WaitClan": {
+        "pre_wait_freezes": {
+            "time": 800,
+            "threshold": 0.6
+        },
+        "next": [
+            "Sign"
+        ]
+    },
+    "Sign": {
+        "action": "Click",
+        "target": [
+            83,
+            546,
+            145,
+            39
+        ],
+        "next": [
+            "WaitClan2"
+        ]
+    },
+    "WaitClan2": {
+        "pre_wait_freezes": {
+            "time": 800,
+            "threshold": 0.6
+        },
+        "next": [
+            "Identify",
+            "Collect"
+        ]
+    },
+    "Identify": {
+        "recognition": "OCR",
+        "expected": "确定",
+        "action": "Click",
+        "next": [
+            "WaitClan3"
+        ]
+    },
+    "WaitClan3": {
+        "pre_wait_freezes": {
+            "time": 800,
+            "threshold": 0.6
+        },
+        "next": [
+            "Collect"
+        ]
+    },
+    "Collect": {
+        "action": "Click",
+        "target": [
+            65,
+            987,
+            119,
+            121
+        ],
+        "next": [
+            "Donate"
+        ]
+    },
+    "Donate": {
+        "recognition": "OCR",
+        "expected": "键捐献",
+        "action": "Click",
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "Identify2"
+        ]
+    },
+    "Identify2": {
+        "recognition": "OCR",
+        "expected": "确定",
+        "action": "Click",
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "ShutDownClan"
+        ]
+    },
+    "ShutDownClan": {
+        "recognition": "OCR",
+        "expected": "关闭",
+        "action": "Click",
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "CollectTask"
+        ]
+    },
+    "CollectTask": {
+        "action": "Click",
+        "target": [
+            523,
+            989,
+            124,
+            125
+        ],
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "GetReward"
+        ]
+    },
+    "GetReward": {
+        "recognition": "OCR",
+        "expected": "已完成的任务",
+        "action": "Click",
+        "target": [
+            562,
+            295,
+            75,
+            77
+        ],
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "Identify3"
+        ]
+    },
+    "Identify3": {
+        "recognition": "OCR",
+        "expected": "确定",
+        "action": "Click",
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "GetReward",
+            "ShutDownClan2"
+        ]
+    },
+    "ShutDownClan2": {
+        "recognition": "OCR",
+        "expected": "关闭",
+        "action": "Click",
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "ClanCopy"
+        ]
+    },
+    "ClanCopy": {
+        "action": "Click",
+        "target": [
+            94,
+            705,
+            506,
+            173
+        ],
+        "pre_wait_freezes": {
+            "time": 1000,
+            "threshold": 0.6
+        },
+        "next": [
+            "WaitClanCopy"
+        ]
+    },
+    "WaitClanCopy": {
+        "pre_wait_freezes": {
+            "time": 1000,
+            "threshold": 0.6
+        },
+        "next": [
+            "FindCopy"
+        ]
+    },
+    "FindCopy": {
+        "recognition": "OCR",
+        "expected": "副本进度",
+        "action": "Click",
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.6
+        },
+        "next": [
+            "ClanWaitNode"
+        ]
+    },
+    "ClanWaitNode": {
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.6
+        },
+        "next": [
+            "StrenthEmpty",
+            "PrepareClanDuel"
+        ]
+    },
+    "StrenthEmpty": {
+        "recognition": "ColorMatch",
+        "roi": [
+            109,
+            60,
+            9,
+            25
+        ],
+        "lower": [
+            [
+                1,
+                1,
+                1
+            ],
+            [
+                1,
+                1,
+                1
+            ],
+            [
+                0,
+                0,
+                0
+            ]
+        ],
+        "upper": [
+            [
+                10,
+                10,
+                10
+            ],
+            [
+                10,
+                10,
+                10
+            ],
+            [
+                2,
+                2,
+                2
+            ]
+        ],
+        "count": 50,
+        "next": [
+            "ShutDownClanCopy"
+        ]
+    },
+    "PrepareClanDuel": {
+        "recognition": "OCR",
+        "expected": "剩余对手",
+        "action": "Click",
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.6
+        },
+        "next": [
+            "ClanDuel"
+        ]
+    },
+    "PrepareClanDuel0": {
+        "recognition": "OCR",
+        "expected": "剩余对手",
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.6
+        },
+        "next": [
+            "ClanWaitNode"
+        ]
+    },
+    "ClanDuel": {
+        "recognition": "OCR",
+        "expected": "自动决斗",
+        "action": "Click",
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.6
+        },
+        "next": [
+            "WaitClanDuelEnd"
+        ]
+    },
+    "WaitClanDuelEnd": {
+        "pre_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "EndClanDuel",
+            "PrepareClanDuel0",
+            "ClickClanReward",
+            "WaitClanDuelEnd"
+        ]
+    },
+    "EndClanDuel": {
+        "recognition": "OCR",
+        "expected": "确定",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "ClickClanReward"
+        ]
+    },
+    "ClickClanReward": {
+        "action": "Click",
+        "target": [
+            643,
+            1196,
+            10,
+            10
+        ],
+        "post_wait_freezes": {
+            "time": 500,
+            "threshold": 0.8
+        },
+        "next": [
+            "PrepareClanDuel0",
+            "WaitClanDuelEnd"
+        ]
+    },
+    "ShutDownClanCopy": {
+        "action": "Click",
+        "target": [
+            625,
+            1202,
+            67,
+            58
+        ],
+        "post_wait_freezes": {
+            "time": 200,
+            "threshold": 0.6
+        },
+        "next":[
+            "ShutDownClan3"
+        ]
+    },
+    "ShutDownClan3": {
+        "recognition":"OCR",
+        "expected":[
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+          ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 200,
+            "threshold": 0.6
+        },
+        "next":[
+            "IfClanToHomePage",
+            "ShutDownClan3"
+        ]
+    },
+    "IfClanToHomePage":{
+        "recognition": "OCR",
+        "expected": "活动介绍",
+        "roi": [
+            574,
+            307,
+            145,
+            73
+        ]
+    }
+}

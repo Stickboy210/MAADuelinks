@@ -5,7 +5,7 @@ a = Analysis(
     ['__main__.py'],
     pathex=[],
     binaries=[],
-    datas=[('D:\\大学记忆\\AiGames\\MAA\\MAADuelinks\\myenv\\Lib\\site-packages\\maa\\bin', 'maa/bin'), ('D:\\大学记忆\\AiGames\\MAA\\MAADuelinks\\myenv\\Lib\\site-packages\\MaaAgentBinary', 'MaaAgentBinary')],
+    datas=[('D:\\Program\\python312\\Lib\\site-packages\\maa\\bin', 'maa/bin'), ('D:\\Program\\python312\\Lib\\site-packages\\MaaAgentBinary', 'MaaAgentBinary')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
