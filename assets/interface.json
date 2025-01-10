@@ -29,9 +29,9 @@
         "主页世界",
         "使用决斗珠？"
       ],
-      "pipeline_override":{
-        "StartHomePage":{
-          "next":[
+      "pipeline_override": {
+        "StartHomePage": {
+          "next": [
             "HomePage"
           ]
         }
@@ -83,8 +83,8 @@
             "HomePage"
           ]
         },
-        "BatterierEmpty":{
-          "next":[
+        "BatterierEmpty": {
+          "next": [
             "Stop"
           ]
         },
@@ -136,23 +136,23 @@
         }
       ]
     },
-    "使用决斗珠？":{
-      "cases":[
+    "使用决斗珠？": {
+      "cases": [
         {
-          "name":"是",
-          "pipeline_override":{
-            "BatterierEmpty":{
-              "next":[
+          "name": "是",
+          "pipeline_override": {
+            "BatterierEmpty": {
+              "next": [
                 "FindDuelBead"
               ]
             }
           }
         },
         {
-          "name":"否",
-          "pipeline_override":{
-            "BatterierEmpty":{
-              "next":[
+          "name": "否",
+          "pipeline_override": {
+            "BatterierEmpty": {
+              "next": [
                 "Stop"
               ]
             }
@@ -302,7 +302,7 @@
                 "暗印者鬼柳京介.png",
                 "暗印者卡利渚.png",
                 "暗印者雷克斯·戈德温.png",
-                "帕拉多格斯.png",
+                "帕拉多克斯.png",
                 "普拉西多.png",
                 "安提诺米.png"
               ]

@@ -1,0 +1,208 @@
+{
+    "NewHomePage":{
+        "next":[
+            "IfNotWorld",
+            "NewHomePageNoName",
+            "NewHomePageDuelList",
+            "BatterierEmpty",
+            "NewHomePageBot"
+        ]
+    },
+    "IfNotWorld":{
+        "recognition":"OCR",
+        "expected":"家园",
+        "roi":[327, 1084, 66, 60],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "NewHomePage"
+        ]
+    },
+    "NewHomePageBot":{
+        "recognition":"ColorMatch",
+        "roi":[638, 574, 80, 297],
+        "lower": [[239, 255, 255], [232, 255, 255], [214, 246, 247]], 
+        "upper": [[247, 255, 255], [236, 255, 255], [218, 248, 251]],
+        "count":20,
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.5,
+            "time":600
+        },
+        "next":[
+            "CheckNewNode",
+            "NewHomePage"
+        ]
+    },
+    "CheckNewNode": {
+        "recognition": "ColorMatch",
+        "roi": [
+            350,
+            1241,
+            10,
+            10
+        ],
+        "lower": [
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ]
+        ],
+        "upper": [
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ]
+        ],
+        "count": 100,
+        "next": [
+            "StartNewDuel"
+        ]
+    },
+    "StartNewDuel":{
+        "action": "Click",
+        "target": [
+            649,
+            761,
+            10,
+            10
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "StartNewDuel2",
+            "StartNewDuel"
+        ]
+    },
+    "StartNewDuel2":{
+        "recognition":"OCR",
+        "expected":"自动决斗",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":400
+        },
+        "next":["WaitNewDuelEnd"]
+    },
+    "WaitNewDuelEnd":{
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "StartNewDuel2",
+            "IfNewDuelEnd",
+            "WaitNewDuelEnd"
+        ]
+    },
+    "IfNewDuelEnd":{
+        "recognition":"OCR",
+        "expected": [
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+        ],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":400
+        },
+        "next":[
+            "IfNewDuelEnd",
+            "EndNewDuel",
+            "ClickNewDuel"
+        ]
+    },
+    "ClickNewDuel":{
+        "action":"Click",
+        "target":[
+            8,
+            1040,
+            25,
+            20
+          ],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfNewDuelEnd",
+            "EndNewDuel",
+            "ClickNewDuel"
+        ]
+    },
+    "EndNewDuel":{
+        "recognition": "OCR",
+        "expected": "活动",
+        "roi": [591, 259, 128, 62],
+        "next": [
+            "NewHomePage"
+        ]
+    },
+    "NewHomePageDuelList":{
+        "recognition":"ColorMatch",
+        "roi":[638, 574, 80, 297],
+        "lower": [[175, 207, 251], [226, 226, 249], [237, 239, 247]], 
+        "upper": [[175, 207, 251], [235, 237, 255], [243, 245, 255]],
+        "count":20,
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.5,
+            "time":600
+        },
+        "next":[
+            "CheckNewNode",
+            "NewHomePage"
+        ]
+    },
+    "NewHomePageNoName":{
+        "recognition": "FeatureMatch",
+        "template": [
+          "NoName.png"
+        ],
+        "count": 10,
+        "roi": [638, 574, 80, 297],
+        "detector": "SIFT",
+        "orger_by": "Score",
+        "green_mask": true,
+        "ratio": 0.4,
+        "action": "Click",
+        "post_wait_freezes":{
+            "threshold":0.5,
+            "time":600
+        },
+        "next": [
+          "CheckNewNode",
+          "NewHomePage"
+        ]
+    }
+}

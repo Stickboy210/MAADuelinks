@@ -6,7 +6,7 @@
     },
     "ManualPortalsFind": {
         "action": "Click",
-        "target": [64, 1216, 130, 55],
+        "target": [19, 1215, 111, 57],
         "post_wait_freezes": {
             "threshold": 0.6,
             "time": 600
@@ -31,16 +31,50 @@
     },
     "ManualPortalsFind2": {
         "action": "Click",
-        "target": [64, 1216, 130, 55],
+        "target": [19, 1215, 111, 57],
         "post_wait_freezes": {
             "threshold": 0.6,
             "time": 600
         },
         "next": [
-            "StartManualPortals",
+            "IfManualPortalsFind2",
+            "IfSomethingWrong2",
             "ManualPortalsFind2"
         ]
     },
+    "IfManualPortalsFind2": {
+        "recognition": "OCR",
+        "expected": "传送门",
+        "roi": [
+            114,
+            118,
+            146,
+            45
+        ],
+        "next": [
+            "StartManualPortals"
+        ]
+    },
+    "IfSomethingWrong2": {
+        "recognition": "FeatureMatch",
+        "roi": [
+          18,
+          1209,
+          695,
+          53
+        ],
+        "green_mask": true,
+        "template": [
+            "Home.png",
+            "Return.png"
+        ],
+        "count": 10,
+        "action": "Click",
+        "next": [
+            "IfManualPortalsFind",
+            "ManualPortalsFind2"
+        ]
+      },
     "IfManualPortalsFind": {
         "recognition": "OCR",
         "expected": "传送门",
@@ -161,8 +195,14 @@
     },
     "SelectManualPortalsRole": {
         "recognition": "FeatureMatch",
-        "template": "迷宫兄弟.png",
+        "template": "基斯·霍华德.png",
+        "roi":[50, 211, 621, 897],
+        "count":50,
         "action": "Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
         "next": [
             "SelectManualPortalsRole2"
         ]
@@ -481,6 +521,7 @@
             "threshold": 0.6
         },
         "next": [
+            "IfWin",
             "IfManualPortalsHomePage",
             "ClickManualPortalsEnd"
         ]

@@ -1,12 +1,38 @@
 {
     "FindClan": {
+        "next":[
+            "FindClan2",
+            "FindClan3"
+        ]
+    },
+    "FindClan2":{
+        "recognition":"OCR",
+        "expected":"世界",
+        "roi":[327, 1084, 66, 60],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "FindClanPage"
+        ]
+    },
+    "FindClan3":{
+        "recognition":"OCR",
+        "expected":"家园",
+        "roi":[327, 1084, 66, 60],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "FindClanPage"
+        ]
+    },
+    "FindClanPage":{
         "action": "Click",
-        "target": [
-            592,
-            1228,
-            10,
-            10
-        ],
+        "target": [580, 1211, 137, 67],
         "pre_wait_freezes": {
             "time": 2000,
             "threshold": 0.9
@@ -17,12 +43,7 @@
     },
     "FindClanCopy": {
         "action": "Click",
-        "target": [
-            592,
-            1228,
-            10,
-            10
-        ],
+        "target": [580, 1211, 137, 67],
         "pre_wait_freezes": {
             "time": 2000,
             "threshold": 0.9
@@ -64,6 +85,10 @@
             "Return.png"
         ],
         "count": 10,
+        "post_wait_freezes":{
+            "time":600,
+            "threshold":0.6
+        },
         "next": [
             "ReturnHome2"
         ]
@@ -103,12 +128,7 @@
     },
     "MonsterGate": {
         "recognition": "FeatureMatch",
-        "roi": [
-            18,
-            1209,
-            695,
-            53
-        ],
+        "roi": [1, 1177, 120, 101],
         "green_mask": true,
         "template": [
             "Return.png"

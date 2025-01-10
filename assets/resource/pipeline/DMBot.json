@@ -135,13 +135,13 @@
       482
     ],
     "detector": "SIFT",
-    "orger_by": "Score",
+    "orger_by": "Random",
     "green_mask": true,
-    "ratio": 1,
+    "ratio": 0.6,
     "action": "Click",
     "target_offset": [
-      25,
-      25,
+      0,
+      0,
       0,
       0
     ],
@@ -459,12 +459,7 @@
   },
   "BatterierEmpty": {
     "recognition": "ColorMatch",
-    "roi": [
-      111,
-      79,
-      5,
-      11
-    ],
+    "roi": [67, 78, 5, 8],
     "lower": [
       [
         90,
@@ -524,7 +519,7 @@
   "UseDuelBead":{
     "recognition":"OCR",
     "expected":"使用",
-    "roi":[225, 228, 428, 48],
+    "roi":[360, 355, 161, 37],
     "action":"Click",
     "post_wait_freezes":{
       "threshold":0.6,

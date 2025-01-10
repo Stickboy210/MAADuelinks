@@ -63,7 +63,7 @@
     },
     "SelectAndGetPaied":{
         "recognition":"OCR",
-        "expected":["确定","困难"],
+        "expected":["确定","困难","关闭"],
         "action":"Click",
         "post_wait_freezes":{
             "threshold":0.6,

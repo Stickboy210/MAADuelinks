@@ -53,7 +53,7 @@ world_options = [
 portal_level_options = ["10级", "20级", "30级", "40级"]
 
 # 活动种类选项
-activity_type_options = ["转轮活动","骰子活动"]
+activity_type_options = ["转轮活动","骰子活动","组队决斗活动"]
 
 # 传送门钥匙种类选项
 portal_key_options = [
@@ -259,16 +259,11 @@ def run_start_pipeline(tasker,TaskList):
             # 根据世界名称选择对应的图片列表
             if ("use_duelist_beads" in TaskNum and TaskNum[-1] == "use_duelist_beads"):  # 如果勾选了是否1体力用决斗珠
                 pipeline_override["BatterierEmpty"] = {
-                    "roi":[135, 79, 7, 10]
+                    "roi":[67, 78, 5, 8]
                 }
             else:
                 pipeline_override["BatterierEmpty"]={
-                    "roi": [
-                        111,
-                        79,
-                        5,
-                        11
-                    ]
+                    "roi": [67, 78, 5, 8]
                 }
             if world_name == "DM世界":
                 pipeline_override["HomePageDuelList"]["template"] = [
@@ -485,11 +480,11 @@ def run_start_pipeline(tasker,TaskList):
             i=int(TaskNum[2])
             while i>=0:
                 if(i>0):
-                    tasker.post_pipeline("HomePage",pipeline_override)
+                    tasker.post_pipeline("NewHomePage",pipeline_override)
                     i-=1
                 else:
                     pipeline_override["BatterierEmpty"]["next"] = ["Stop"]
-                    tasker.post_pipeline("HomePage",pipeline_override)
+                    tasker.post_pipeline("NewHomePage",pipeline_override)
                     i-=1
         elif(TaskNum[0] == 1):
             tasker.post_pipeline("FindClan")
@@ -559,6 +554,8 @@ def run_start_pipeline(tasker,TaskList):
                 Taskpar = ""
             elif(activity_type == "骰子活动"):
                 Taskpar = "DiceActivityEntry"
+            elif(activity_type == "组队决斗活动"):
+                Taskpar = "TeamActivityEntry"
             pipeline_override = {
                 "ActivityEntry": {"next": Taskpar}
             }

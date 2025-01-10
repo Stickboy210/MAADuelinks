@@ -6,12 +6,7 @@
     },
     "PortalsFind": {
         "action": "Click",
-        "target": [
-            27,
-            1200,
-            110,
-            75
-        ],
+        "target": [19, 1215, 111, 57],
         "post_wait_freezes": {
             "time": 300,
             "threshold": 0.6

@@ -24,6 +24,7 @@
     "[json]": {
         "editor.formatOnSave": true,
         "editor.insertSpaces": true,
+        "powermode.enabled": true,
         "editor.tabSize": 4,
         "editor.indentSize": "tabSize"
     },

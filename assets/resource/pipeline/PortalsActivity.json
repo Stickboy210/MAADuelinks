@@ -6,12 +6,7 @@
     },
     "PortalsActivityFind":{
         "action": "Click",
-        "target": [
-            39,
-            1125,
-            331,
-            42
-        ],
+        "target": [489, 908, 208, 107],
         "post_wait_freezes": {
             "threshold": 0.6,
             "time": 600

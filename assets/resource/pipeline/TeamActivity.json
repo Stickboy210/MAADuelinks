@@ -1,0 +1,175 @@
+{
+    "TeamActivityEntry":{
+        "action": "Click",
+        "target": [489, 908, 208, 107],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "IfTeamActivityReward",
+            "IfTeamActivityPage"
+        ]
+    },
+    "IfTeamActivityReward":{
+        "recognition": "OCR",
+        "expected": "确定",
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "IfTeamActivityPage"
+        ]
+    },
+    "IfTeamActivityPage":{
+        "recognition":"OCR",
+        "expected":["组队","困难"],
+        "roi":[177, 545, 499, 345],
+        "action":"Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next":[
+            "TeamDuelEnd",
+            "StartTeamActivityDuel",
+            "IfTeamActivityPage",
+            "ClickTeamActivity"
+        ]
+    },
+    "IfTeamVctivitySwitch":{
+        "recognition":"TemplateMatch",
+        "template":"TeamStar.png",
+        "action":"Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next":[
+            "IfTeamActivityPage",
+            "ClickTeamActivity"
+        ]
+    },
+    "AllTeamFull":{
+        "recognition":"TemplateMatch",
+        "template":"FullStar.png",
+        "action":"Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next":[
+            "IfTeamActivityPage",
+            "ClickTeamActivity"
+        ]
+    },
+    "ClickTeamActivity": {
+        "action": "Click",
+        "target": [
+            39,
+            1125,
+            20,
+            20
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "IfTeamActivityPage",
+            "StartTeamActivityDuel",
+            "TeamDuelEnd",
+            "ClickTeamActivity"
+        ]
+    },
+    "StartTeamActivityDuel":{
+        "recognition":"OCR",
+        "expected":["自动"],
+        "action":"Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next":[
+            "WaitTeamDuelEnd"
+        ]
+    },
+    "WaitTeamDuelEnd":{
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1000
+        },
+        "next":[
+            "TeamDuelEnd",
+            "WaitTeamDuelEnd"
+        ]
+    },
+    "TeamDuelEnd":{
+        "recognition":"OCR",
+        "expected": [
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+        ],
+        "action":"Click",
+        "post_wait_freezes": {
+            "threshold": 0.8,
+            "time": 1000
+        },
+        "next":[
+            "TeamDuelEnd",
+            "IfTeamActivityPage",
+            "IfTeamVctivitySwitch",
+            "AllTeamFull",
+            "ClickEndTeamActivity"
+        ]
+    },
+    "ClickEndTeamActivity": {
+        "action": "Click",
+        "target": [
+            8,
+            1040,
+            25,
+            20
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "TeamDuelEnd",
+            "IfTeamActivityPage",
+            "IfTeamVctivitySwitch",
+            "AllTeamFull",
+            "ClickEndTeamActivity"
+        ]
+    },
+    "IfTeamActivityEnd":{
+        "recognition":"OCR",
+        "expected":"不足",
+        "action":"Click",
+        "target":[20, 1205, 84, 58],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next":[
+            "IfTeamHomePage",
+            "IfTeamActivityEnd"
+        ]
+    },
+    "IfTeamHomePage":{
+        "recognition": "OCR",
+        "expected": "活动介绍",
+        "roi": [
+            574,
+            307,
+            145,
+            73
+        ]
+    }
+}

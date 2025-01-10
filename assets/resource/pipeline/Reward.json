@@ -10,12 +10,7 @@
     },
     "HomePageReward": {
         "action": "Click",
-        "target": [
-            232,
-            153,
-            9,
-            22
-        ],
+        "target": [191, 1115, 88, 38],
         "next": [
             "WaitTaskReward"   
         ]
