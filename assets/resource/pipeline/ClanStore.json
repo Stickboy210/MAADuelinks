@@ -1,0 +1,97 @@
+{
+    "ClanStoreFind":{
+        "action":"Click",
+        "target":[267, 965, 177, 178],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":800
+        },
+        "next":[
+            "ClanStoreSwipe"
+        ]
+    },
+    "ClanStoreSwipe":{
+        "action":"Swipe",
+        "begin":[283, 1054, 138, 65],
+        "end":[299, 222, 137, 63],
+        "duration":300,
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":800
+        },
+        "next":[
+            "ClanStoreSwipeUp"
+        ]
+    },
+    "ClanStoreSwipeUp":{
+        "recognition":"OCR",
+        "expected":"科技石",
+        "roi":[18, 258, 679, 914],
+        "action":"Swipe",
+        "end_offset":[0,200,10,10],
+        "duration":400,
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":800
+        },
+        "next":[
+            "GotoSelectKey"
+        ]
+    },
+    "GotoSelectKey":{
+        "next":[
+            "SelectKey",
+            "StopBuy"
+        ]
+    },
+    "SelectKey":{
+        "recognition":"TemplateMatch",
+        "template":"Orkey.png",
+        "threshold":0.9,
+        "action":"Click",
+        "target_offset":[0,150,0,0],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "BuyKey",
+            "StopBuy"
+        ]
+    },
+    "StopBuy":{
+        "next":[]
+    },
+    "BuyKey":{
+        "recognition":"OCR",
+        "expected":"购买",
+        "roi":[393, 678, 261, 86],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":500
+        },
+        "next":[
+            "EnsureBuy"
+        ]
+    },
+    "EnsureBuy":{
+        "recognition":"OCR",
+        "expected":"确定",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[]
+    },
+    "ReturnClanHome":{
+        "action":"Click",
+        "target":[19, 1208, 88, 53],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":500
+        },
+        "next":[]
+    }
+}

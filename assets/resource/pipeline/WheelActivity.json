@@ -14,14 +14,22 @@
     },
     "IfWheelActivityReward": {
         "recognition": "OCR",
-        "expected": "确定",
+        "expected": [
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+        ],
         "action": "Click",
         "post_wait_freezes": {
-            "threshold": 0.6,
-            "time": 600
+            "time": 400,
+            "threshold": 0.6
         },
         "next": [
-            "IfActivityPage"
+            "IfWheelActivityReward",
+            "IfActivityPage",
+            "ClickWheel"
         ]
     },
     "IfActivityPage": {
@@ -39,7 +47,24 @@
         "next": [
             "WheelActivityDuel",
             "IfMaterialEnd",
-            "IfActivityPage"
+            "IfWheelActivityReward",
+            "IfActivityPage",
+            "ClickWheel"
+        ]
+    },
+    "ClickWheel":{
+        "action":"Click",
+        "target":[267, 565, 134, 116],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfWheelActivityReward",
+            "IfActivityPage",
+            "WheelActivityDuel",
+            "IfMaterialEnd",
+            "ClickWheel"
         ]
     },
     "IfMaterialEnd": {
@@ -105,6 +130,7 @@
             395,
             428
         ],
+        "ordered_by":"virtual",
         "action": "Click",
         "post_wait_freezes": {
             "threshold": 0.6,
@@ -116,12 +142,7 @@
     },
     "ClickSide": {
         "action": "Click",
-        "target": [
-            574,
-            307,
-            145,
-            73
-        ],
+        "target": [267, 565, 134, 116],
         "post_wait_freezes": {
             "threshold": 0.6,
             "time": 600
@@ -129,6 +150,7 @@
         "next": [
             "WheelActivityDuel",
             "StartWheelActivityDuel",
+            "IfWheelActivityReward",
             "IfActivityPage",
             "ClickSide"
         ]
@@ -158,14 +180,19 @@
     "WheelDuelEnd": {
         "recognition": "OCR",
         "expected": [
-            "确定"
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
         ],
         "action": "Click",
         "post_wait_freezes": {
-            "threshold": 0.8,
-            "time": 1000
+            "time": 400,
+            "threshold": 0.6
         },
         "next": [
+            "IfWheelActivityReward",
             "IfActivityPage",
             "WheelDuelEnd",
             "ClickSideEnd"
@@ -184,6 +211,7 @@
             "time": 1000
         },
         "next": [
+            "IfWheelActivityReward",
             "IfActivityPage",
             "WheelDuelEnd",
             "ClickSideEnd"

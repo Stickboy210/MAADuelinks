@@ -160,13 +160,8 @@
     },
     "IfPortalsHomePage": {
         "recognition": "OCR",
-        "expected": "活动介绍",
-        "roi": [
-            574,
-            307,
-            145,
-            73
-        ],
+        "expected": "活动",
+        "roi": [591, 259, 128, 62],
         "next": [
             "PortalsFind"
         ]

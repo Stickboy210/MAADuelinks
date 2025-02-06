@@ -1,0 +1,448 @@
+{
+    "Mazeauto":{
+        "next":[
+            "FindMaze",
+            "FindMaze2"
+        ]
+    },
+    "FindMaze":{
+        "recognition":"OCR",
+        "expected":"世界",
+        "roi":[327, 1084, 66, 60],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "FindMazePage"
+        ]
+    },
+    "FindMaze2":{
+        "recognition":"OCR",
+        "expected":"家园",
+        "roi":[327, 1084, 66, 60],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfDMworld",
+            "GotoDMworld"
+        ]
+    },
+    "IfDMworld":{
+        "recognition":"OCR",
+        "expected":"DM",
+        "next":[
+            "FindMazePage"
+        ]
+    },
+    "GotoDMworld":{
+        "action":"Click",
+        "target":[41, 1092, 111, 61],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "GotoDMworld2",
+            "GotoDMworld"
+        ]
+    },
+    "GotoDMworld2":{
+        "recognition":"OCR",
+        "roi":[242, 587, 90, 52],
+        "expected":"DM",
+        "action":"Click",
+        "target":[238, 585, 97, 63],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":1000
+        },
+        "next":[
+            "FindMazePage"
+        ]
+    },
+    "FindMazePage":{
+        "action": "Click",
+        "target": [580, 1211, 137, 67],
+        "post_wait_freezes": {
+            "time": 2000,
+            "threshold": 0.9
+        },
+        "next": [
+            "WaitTheMazeGate"
+        ]
+    },
+    "WaitTheMazeGate": {
+        "post_wait_freezes": {
+            "time": 1000,
+            "threshold": 0.9
+        },
+        "next": [
+            "MazeMonsterGate",
+            "GotoMazePage"
+        ]
+    },
+    "MazeMonsterGate": {
+        "recognition": "OCR",
+        "roi": [3, 48, 144, 49],
+        "expected":"怪物之门",
+        "action": "Click",
+        "target":[19, 1211, 90, 47],
+        "post_wait_freezes":{
+            "time":600,
+            "threshold":0.6
+        },
+        "next": [
+            "GotoMazePage"
+        ]
+    },
+    "GotoMazePage":{
+        "action":"Click",
+        "target":[337, 382, 55, 73],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfalreadyMaze",
+            "FindMazePage2"
+        ]
+    },
+    "FindMazePage2":{
+        "action":"Click",
+        "target":[305, 654, 355, 234],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "StartMaze"
+        ]
+    },
+    "UseEnergy":{
+        "action":"Click",
+        "target":[646, 1002, 42, 46],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+        ]
+    },
+    "IfNotEnergy":{
+        "recognition":"OCR",
+        "expected":"返回",
+        "roi":[303, 651, 112, 95],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "UseEnergy"
+        ]
+    },
+    "StartMaze":{
+        "recognition":"OCR",
+        "expected":"进入迷宫",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "StartMaze2"
+        ]
+    },
+    "StartMaze2":{
+        "recognition":"OCR",
+        "expected":"是",
+        "roi":[55, 645, 620, 132],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":1500
+        },
+        "next":[
+            "IfalreadyMaze",
+            "ClickMaze"
+        ]
+    },
+    "IfalreadyMaze":{
+        "recognition":"OCR",
+        "expected":"卡组编辑",
+        "roi":[5, 1074, 118, 107],
+        "next":[]
+    },
+    "ClickMaze":{
+        "action":"Click",
+        "target":[
+            8,
+            1040,
+            25,
+            20
+        ],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfalreadyMaze",
+            "ClickMaze"
+        ]
+    },
+    "MazeStart":{
+        "next":[
+            "MazeGate",
+            "MazeDice2",
+            "MazeMonster",
+            "MazeBox",
+            "MazeCard",
+            "MazeDice"
+        ]
+    },
+    "MazeGate":{
+        "recognition":"TemplateMatch",
+        "template":"MazeGate.png",
+        "threshold":0.9,
+        "order_by":"Random",
+        "action":"Click",
+        "target_offset":[0,50,0,0],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":1000
+        },
+        "next":[
+            "GetMazeGate",
+            "MazeDice2",
+            "MazeMonster",
+            "MazeBox",
+            "MazeCard",
+            "MazeDice",
+            "IfalreadyMaze"
+        ]
+    },
+    "GetMazeGate":{
+        "recognition":"OCR",
+        "expected":"确定",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":1000
+        },
+        "next":[
+            "IfalreadyMaze"
+        ]
+    },
+    "MazeDice2":{
+        "recognition":"TemplateMatch",
+        "template":"MazeDice2.png",
+        "threshold":0.9,
+        "order_by":"Random",
+        "action":"Click",
+        "target_offset":[0,50,0,0],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":500
+        },
+        "next":[
+            "GetMazeDice2",
+            "MazeMonster",
+            "MazeBox",
+            "MazeCard",
+            "MazeDice",
+            "IfalreadyMaze"
+        ]
+    },
+    "GetMazeDice2":{
+        "recognition":"OCR",
+        "expected":"开始",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":500
+        },
+        "next":[
+            "IfMazeDice2End"
+        ]
+    },
+    "IfMazeDice2End":{
+        "recognition":"OCR",
+        "expected":"关闭",
+        "action":"Click",
+        "next":[
+            "IfalreadyMaze"
+        ]
+    },
+    "MazeDice": {
+        "recognition": "TemplateMatch",
+        "template": "MazeDice.png",
+        "threshold": 0.9,
+        "order_by":"Random",
+        "action": "Click",
+        "target_offset":[0,50,0,0],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time":500
+        },
+        "next": [
+            "GetMazeDice",
+            "IfalreadyMaze"
+        ]
+    },
+    "GetMazeDice": {
+        "recognition": "OCR",
+        "expected": "关闭",
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 500
+        },
+        "next": [
+            "IfalreadyMaze"
+        ]
+    },
+    "MazeBox":{
+        "recognition":"TemplateMatch",
+        "template":"MazeBox.png",
+        "threshold":0.9,
+        "order_by":"Random",
+        "action":"Click",
+        "target_offset":[0,50,0,0],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":700
+        },
+        "next":[
+            "GetMazeBox",
+            "MazeCard",
+            "MazeDice",
+            "IfalreadyMaze"
+        ]
+    },
+    "GetMazeBox":{
+        "recognition":"OCR",
+        "expected":"确定",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfalreadyMaze"
+        ]
+    },
+    "MazeCard":{
+        "recognition":"TemplateMatch",
+        "template":"MazeCard.png",
+        "threshold":0.9,
+        "order_by":"Random",
+        "action":"Click",
+        "target_offset":[0,50,0,0],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":1000
+        },
+        "next":[
+            "GetMazeCard",
+            "MazeDice",
+            "IfalreadyMaze"
+        ]
+    },
+    "GetMazeCard":{
+        "recognition":"OCR",
+        "expected":"确定",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfalreadyMaze"
+        ]
+    },
+    "MazeMonster":{
+        "recognition":"TemplateMatch",
+        "template":"MazeMonster.png",
+        "threshold":0.9,
+        "order_by":"Random",
+        "action":"Click",
+        "target_offset":[0,50,0,0],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":1000
+        },
+        "next":[
+            "StartMazeDuel",
+            "MazeBox",
+            "MazeCard",
+            "MazeDice",
+            "IfalreadyMaze"
+        ]
+    },
+    "StartMazeDuel":{
+        "recognition":"OCR",
+        "expected":"自动决斗",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "WaitMazeDuel"
+        ]
+    },
+    "WaitMazeDuel":{
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":500
+        },
+        "next":[
+            "MazeDuelEnd",
+            "WaitMazeDuel"
+        ]
+    },
+    "MazeDuelEnd":{
+        "recognition":"OCR",
+        "expected":[
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+        ],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":1200
+        },
+        "next":[
+            "IfMazeMoveNow",
+            "MazeDuelEnd",
+            "IfMazetoHome",
+            "ClickMazeEnd"
+        ]
+    },
+    "IfMazetoHome":{
+        "recognition": "OCR",
+        "expected": "活动",
+        "roi": [591, 259, 128, 62]
+    },
+    "ClickMazeEnd":{
+        "action":"Click",
+        "target":[327, 657, 59, 35],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfMazeMoveNow",
+            "IfMazetoHome",
+            "MazeDuelEnd",
+            "ClickMazeEnd"
+        ]
+    }
+}

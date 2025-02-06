@@ -322,23 +322,92 @@
         ],
         "expected": "行动步骤",
         "next": [
-            "SwipeCard"
+            "SwipeCard1",
+            "SwipeCard2",
+            "IfMagicCard",
+            "BattlePhase0"
         ]
     },
-    "SwipeCard": {
+    "IfMagicCard":{
+        "recognition":"ColorMatch",
+        "roi":[44, 1063, 426, 90],
+        "lower": [[21, 150, 139], [1, 135, 121], [11, 112, 113]], 
+        "upper": [[55, 179, 169], [17, 159, 143], [40, 139, 132]],
+        "count": 80,
+        "connected":true,
+        "action":"Swipe",
+        "end_offset":[0,-300,20,20],
+        "duration":400,
+        "post_wait_freezes":{
+            "time":600,
+            "threshold":0.6
+        },
+        "next":[
+            "IfAbleUse",
+            "GotoAttack"
+        ]
+    },
+    "GotoAttack":{
+        "action":"Click",
+        "target":[
+            649,
+            761,
+            10,
+            10
+        ],
+        "next":[
+            "BattlePhase0"
+        ]
+    },
+    "IfAbleUse":{
+        "recognition":"OCR",
+        "roi":[202, 877, 142, 146],
+        "expected":"发动效果",
+        "action":"Click",
+        "post_wait_freezes":{
+            "time":1400,
+            "threshold":0.6
+        },
+        "next":[
+            "IfNeedtoSelect",
+            "MyActionTurn"
+        ]
+    },
+    "IfNeedtoSelect":{
+        "recognition":"OCR",
+        "expected":"选择",
+        "roi":[11, 683, 226, 48],
+        "action":"Click",
+        "target":[58, 773, 148, 212],
+        "post_wait_freezes": {
+            "time": 500,
+            "threshold": 0.6
+        },
+        "next":[
+            "ConfirmSelect"
+        ]
+    },
+    "ConfirmSelect":{
+        "recognition":"OCR",
+        "expected":"确认",
+        "action":"Click",
+        "post_wait_freezes":{
+            "time":1100,
+            "threshold":0.70
+        },
+        "next":[
+            "MyActionTurn"
+        ]
+    },
+    "SwipeCard1": {
+        "recognition": "ColorMatch",
+        "roi": [64, 1069, 436, 118],
+        "lower": [[187, 105, 59], [193, 126, 80], [182, 86, 45]], 
+        "upper": [[195, 127, 81], [201, 144, 103], [192, 109, 62]],
+        "count":80,
+        "connected":true,
         "action": "Swipe",
-        "begin": [
-            324,
-            1158,
-            25,
-            29
-        ],
-        "end": [
-            336,
-            839,
-            28,
-            28
-        ],
+        "end_offset":[0,-300,20,20],
         "duration": 400,
         "post_wait_freezes": {
             "time": 300,
@@ -346,6 +415,27 @@
         },
         "next": [
             "IfAbleSummon",
+            "IfMagicCard",
+            "BattlePhase0"
+        ]
+    },
+    "SwipeCard2":{
+        "recognition": "ColorMatch",
+        "roi": [64, 1069, 436, 118],
+        "lower": [[195, 165, 99], [190, 141, 58], [194, 152, 78]], 
+        "upper": [[207, 180, 126], [198, 152, 76], [203, 164, 98]],
+        "count":80,
+        "connected":true,
+        "action": "Swipe",
+        "end_offset":[0,-300,20,20],
+        "duration": 400,
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.4
+        },
+        "next": [
+            "IfAbleSummon",
+            "IfMagicCard",
             "BattlePhase0"
         ]
     },
@@ -360,10 +450,11 @@
         "expected": "通常召唤",
         "action": "Click",
         "post_wait_freezes": {
-            "time": 400,
-            "threshold": 0.4
+            "time": 1000,
+            "threshold": 0.6
         },
         "next": [
+            "IfMagicCard",
             "BattlePhase0"
         ]
     },
@@ -433,52 +524,20 @@
         ],
         "expected": "战斗步骤",
         "next": [
-            "AttackMonster",
+            "AttackMonsterMiddle1",
+            "AttackMonsterMiddle2",
+            "AttackMonsterLeft1",
+            "AttackMonsterLeft2",
+            "AttackMonsterRight1",
+            "AttackMonsterRight2",
             "BattlePhase0"
         ]
     },
     "AttackMonster": {
         "recognition": "ColorMatch",
-        "roi": [
-            142,
-            591,
-            445,
-            291
-        ],
-        "lower": [
-            [
-                0,
-                70,
-                35
-            ],
-            [
-                0,
-                70,
-                45
-            ],
-            [
-                0,
-                70,
-                31
-            ]
-        ],
-        "upper": [
-            [
-                0,
-                246,
-                88
-            ],
-            [
-                0,
-                246,
-                100
-            ],
-            [
-                0,
-                245,
-                80
-            ]
-        ],
+        "roi": [150, 545, 416, 248],
+        "lower": [[9, 100, 80], [10, 100, 80], [5, 100, 80]],
+        "upper": [[40, 255, 90], [40, 255, 90], [40, 255,120]],
         "count": 30,
         "order_by": "Score",
         "connected": true,
@@ -501,7 +560,172 @@
             ]
         },
         "next": [
+            "IfWin",
             "AttackMonster",
+            "BattlePhase0"
+        ]
+    },
+    "AttackMonsterMiddle1":{
+        "recognition":"ColorMatch",
+        "roi":[315, 661, 91, 63],
+        "lower": [[187, 105, 59], [193, 126, 80], [182, 86, 45]], 
+        "upper": [[195, 127, 81], [201, 144, 103], [192, 109, 62]],
+        "count":30,
+        "connected":true,
+        "action": "Swipe",
+        "begin":[338, 709, 38, 33],
+        "end":[
+            294,
+            76,
+            124,
+            106
+        ],
+        "duration":400,
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":1100
+        },
+        "next":[
+            "IfWin",
+            "AttackMonsterMiddle2",
+            "AttackMonsterLeft1",
+            "AttackMonsterLeft2",
+            "AttackMonsterRight1",
+            "AttackMonsterRight2",
+            "BattlePhase0"
+        ]
+    },
+    "AttackMonsterMiddle2":{
+        "recognition":"ColorMatch",
+        "roi":[315, 661, 91, 63],
+        "lower": [[195, 165, 99], [190, 141, 58], [194, 152, 78]], 
+        "upper": [[207, 180, 126], [198, 152, 76], [203, 164, 98]],
+        "count":30,
+        "connected":true,
+        "action": "Swipe",
+        "begin":[338, 709, 38, 33],
+        "end":[
+            294,
+            76,
+            124,
+            106
+        ],
+        "duration":400,
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":1100
+        },
+        "next":[
+            "IfWin",
+            "AttackMonsterLeft1",
+            "AttackMonsterLeft2",
+            "AttackMonsterRight1",
+            "AttackMonsterRight2",
+            "BattlePhase0"
+        ]
+    },
+    "AttackMonsterLeft1": {
+        "recognition": "ColorMatch",
+        "roi": [170, 660, 86, 71],
+        "lower": [[187, 105, 59], [193, 126, 80], [182, 86, 45]],
+        "upper": [[195, 127, 81], [201, 144, 103], [192, 109, 62]],
+        "count": 30,
+        "connected": true,
+        "action": "Swipe",
+        "begin": [196, 701, 35, 44],
+        "end": [
+            294,
+            76,
+            124,
+            106
+        ],
+        "duration": 400,
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1100
+        },
+        "next": [
+            "IfWin",
+            "AttackMonsterLeft2",
+            "AttackMonsterRight1",
+            "AttackMonsterRight2",
+            "BattlePhase0"
+        ]
+    },
+    "AttackMonsterLeft2": {
+        "recognition": "ColorMatch",
+        "roi": [170, 660, 86, 71],
+        "lower": [[195, 165, 99], [190, 141, 58], [194, 152, 78]],
+        "upper": [[207, 180, 126], [198, 152, 76], [203, 164, 98]],
+        "count": 30,
+        "connected": true,
+        "action": "Swipe",
+        "begin": [196, 701, 35, 44],
+        "end": [
+            294,
+            76,
+            124,
+            106
+        ],
+        "duration": 400,
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1100
+        },
+        "next": [
+            "IfWin",
+            "AttackMonsterRight1",
+            "AttackMonsterRight2",
+            "BattlePhase0"
+        ]
+    },
+    "AttackMonsterRight1": {
+        "recognition": "ColorMatch",
+        "roi": [462, 660, 90, 62],
+        "lower": [[187, 105, 59], [193, 126, 80], [182, 86, 45]],
+        "upper": [[195, 127, 81], [201, 144, 103], [192, 109, 62]],
+        "count": 30,
+        "connected": true,
+        "action": "Swipe",
+        "begin": [492, 703, 31, 33],
+        "end": [
+            294,
+            76,
+            124,
+            106
+        ],
+        "duration": 400,
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1100
+        },
+        "next": [
+            "IfWin",
+            "AttackMonsterRight2",
+            "BattlePhase0"
+        ]
+    },
+    "AttackMonsterRight2": {
+        "recognition": "ColorMatch",
+        "roi": [462, 660, 90, 62],
+        "lower": [[195, 165, 99], [190, 141, 58], [194, 152, 78]],
+        "upper": [[207, 180, 126], [198, 152, 76], [203, 164, 98]],
+        "count": 30,
+        "connected": true,
+        "action": "Swipe",
+        "begin": [492, 703, 31, 33],
+        "end": [
+            294,
+            76,
+            124,
+            106
+        ],
+        "duration": 400,
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1100
+        },
+        "next": [
             "IfWin",
             "BattlePhase0"
         ]
@@ -523,18 +747,14 @@
         "next": [
             "IfWin",
             "IfManualPortalsHomePage",
+            "IfMyTurn",
             "ClickManualPortalsEnd"
         ]
     },
     "IfManualPortalsHomePage": {
         "recognition": "OCR",
-        "expected": "活动介绍",
-        "roi": [
-            574,
-            307,
-            145,
-            73
-        ]
+        "expected": "活动",
+        "roi": [591, 259, 128, 62]
     },
     "ClickManualPortalsEnd": {
         "action": "Click",

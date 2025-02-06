@@ -1,0 +1,225 @@
+{
+    "NewYearActivity2025":{
+        "next":[
+            "IfNewYearActivityNow"
+        ]
+    },
+    "IfNewYearActivityNow":{
+        "recognition":"OCR",
+        "expected":"探索率",
+        "roi":[456, 308, 108, 38],
+        "next":[
+            "SelectActivityBot",
+            "UseRefresh"
+        ]
+    },
+    "UseRefresh":{
+        "recognition":"OCR",
+        "expected":"请使用",
+        "action":"Click",
+        "target":[459, 1001, 200, 47],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":500
+        },
+        "next":[
+            "SelectActivityBot"
+        ]
+    },
+    "SelectActivityBot":{
+        "recognition":"TemplateMatch",
+        "template":["BallCoinL.png","BallCoinS.png","BallCoinG.png","BallCoinP.png","Box.png"],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":500
+        },
+        "next":[
+            "EnsureReward",
+            "CheckActivityBot",
+            "IfNewYearActivityNow"
+        ]
+    },
+    "CheckActivityBot": {
+        "recognition": "ColorMatch",
+        "roi": [
+            350,
+            1241,
+            10,
+            10
+        ],
+        "lower": [
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ]
+        ],
+        "upper": [
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ]
+        ],
+        "count": 100,
+        "action":"Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "StartNewYearDuel",
+            "CheckActivityBot"
+        ]
+    },
+    "StartNewYearDuel":{
+        "recognition":"OCR",
+        "expected":"自动决斗",
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next":[
+            "StartNewYearDuel",
+            "WaitNewYearDuelEnd"
+        ]
+    },
+    "WaitNewYearDuelEnd":{
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfNewYearDuelEnd",
+            "WaitNewYearDuelEnd"
+        ]
+    },
+    "IfNewYearDuelEnd":{
+        "recognition":"OCR",
+        "expected": [
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+        ],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfNewYearDuelEnd",
+            "IfStillTalk",
+            "IfNewYearActivityNow",
+            "ClickNewYear"
+        ]
+    },
+    "ClickNewYear":{
+        "action":"Click",
+        "target":[
+            649,
+            761,
+            10,
+            10
+        ],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfNewYearDuelEnd",
+            "IfStillTalk",
+            "IfNewYearActivityNow",
+            "ClickNewYear"
+        ]
+    },
+    "IfStillTalk": {
+        "recognition": "ColorMatch",
+        "roi": [
+            350,
+            1241,
+            10,
+            10
+        ],
+        "lower": [
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ]
+        ],
+        "upper": [
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ],
+        [
+            255,
+            255,
+            255
+        ]
+        ],
+        "count": 100,
+        "action":"Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "IfStillTalk",
+            "IfNewYearActivityNow"
+        ]
+    },
+    "EnsureReward":{
+        "recognition":"OCR",
+        "expected":["确定"],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "EnsureReward",
+            "IfNewYearActivityNow"
+        ]
+    }
+}

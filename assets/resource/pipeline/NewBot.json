@@ -5,7 +5,39 @@
             "NewHomePageNoName",
             "NewHomePageDuelList",
             "BatterierEmpty",
-            "NewHomePageBot"
+            "NewHomePageBot",
+            "IfAbleStartDuel",
+            "NothingFind"
+        ]
+    },
+    "NothingFind":{
+        "action":"Click",
+        "target":[
+            8,
+            1040,
+            25,
+            20
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next":[
+            "IfAbleStartDuel",
+            "NewHomePage"
+        ]
+    },
+    "IfAbleStartDuel":{
+        "recognition":"OCR",
+        "expected":"自动决斗",
+        "action":"Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next":[
+            "IfAbleStartDuel",
+            "WaitNewDuelEnd"
         ]
     },
     "IfNotWorld":{
@@ -34,6 +66,7 @@
         },
         "next":[
             "CheckNewNode",
+            "StartNewDuel2",
             "NewHomePage"
         ]
     },
@@ -80,8 +113,14 @@
         ]
         ],
         "count": 100,
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.5,
+            "time":600
+        },
         "next": [
-            "StartNewDuel"
+            "StartNewDuel2",
+            "CheckNewNode"
         ]
     },
     "StartNewDuel":{
@@ -109,7 +148,10 @@
             "threshold":0.6,
             "time":400
         },
-        "next":["WaitNewDuelEnd"]
+        "next":[
+            "StartNewDuel2",
+            "WaitNewDuelEnd"
+        ]
     },
     "WaitNewDuelEnd":{
         "post_wait_freezes":{
@@ -149,7 +191,7 @@
             1040,
             25,
             20
-          ],
+        ],
         "post_wait_freezes":{
             "threshold":0.6,
             "time":600

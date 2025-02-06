@@ -9,6 +9,7 @@ from maa.custom_recognition import CustomRecognition
 from maa.custom_action import CustomAction
 from maa.notification_handler import NotificationHandler, NotificationType
 from maa.job import Job, JobWithResult
+import time
 
 import tkinter as tk
 import threading
@@ -27,21 +28,22 @@ data = {
 
 # 初始化主窗口
 root = tk.Tk()
-root.title("MAADuelinks2.0")
+root.title("MAADuelinks3.0")
 
 # 创建欢迎标签
 welcome_label = tk.Label(root, text="欢迎使用MAADuelinks！", font=("Arial", 16), fg="black")
 welcome_label.grid(row=0, column=0, columnspan=4, pady=10, sticky="ew")
 
-
-# 根据您提供的顺序重新排列任务名称
+#任务列表
 tasks = [
     "清战队任务加战队副本",
     "刷主页人机直到体力清空",
     "清自动传送门",
     "手动清传送门（不装卡垫，顶部视角）",
     "刷活动",
-    "领任务"
+    "领任务",
+    "每日决斗回放",
+    "自动龙崎迷宫"  # 添加新任务
 ]
 
 # 世界选项
@@ -53,13 +55,16 @@ world_options = [
 portal_level_options = ["10级", "20级", "30级", "40级"]
 
 # 活动种类选项
-activity_type_options = ["转轮活动","骰子活动","组队决斗活动"]
+activity_type_options = ["转轮活动","骰子活动","组队决斗活动","周年庆活动2025（需手动点进活动区域）"]
 
 # 传送门钥匙种类选项
 portal_key_options = [
     "迷宫兄弟（绿钥匙）", "天上院明日香（青色钥匙）", "丸藤翔（黄色钥匙）",
     "暗貘良（黑色钥匙）", "帕伽索斯·J·克劳福德（白色钥匙）", "基斯·霍华德（红色钥匙）"
 ]
+
+# 龙崎迷宫自动任务的楼层选项
+maze_floor_options = ["第一层", "第二层", "第三层"]
 
 # 创建队列存储勾选的任务编号和参数
 TaskList = []
@@ -78,6 +83,11 @@ selected_portal_key = tk.StringVar(root)
 selected_portal_key.set(portal_key_options[0])  # 默认选择第一个选项
 
 manual_portal_input_var = tk.IntVar(root)
+
+# 在主界面中添加下拉框
+maze_floor_var = tk.StringVar(root)
+maze_floor_var.set(maze_floor_options[0])  # 默认选择第一层
+
 
 
 # 创建输入框对应的变量
@@ -103,6 +113,8 @@ use_duelist_beads_var = tk.BooleanVar(root)  # 是否1体力用决斗珠的变�
 #             print(f"任务 {task[0]}: {task_name}")
 #终止按钮
 def Stop_Button(tasker):
+    global running
+    running = False  # 设置停止标志
     tasker.post_stop()
 
 # 创建打印任务列表按钮
@@ -117,7 +129,6 @@ def open_url(url):
 # 初始化当前行号
 current_row = 1
 
-# 创建勾选框并使用grid布局管理器进行布局
 for i, task_name in enumerate(tasks, start=1):
     var = tk.BooleanVar()
     check_button = tk.Checkbutton(root, text=task_name, variable=var)
@@ -126,33 +137,60 @@ for i, task_name in enumerate(tasks, start=1):
     check_vars.append(var)
     
     # 为每个任务创建附加选项
-    if task_name in ["刷主页人机直到体力清空", "清自动传送门", "手动清传送门（不装卡垫，顶部视角）", "刷活动"]:
-        if task_name == "刷主页人机直到体力清空":
-            world_menu = tk.OptionMenu(root, selected_world, *world_options)
-            world_menu.grid(row=current_row + 1, column=0, padx=4, pady=5, sticky='ew')
-            tk.Label(root, text="使用决斗珠次数：").grid(row=current_row + 1, column=1, sticky="e")  # 添加输入框标签
-            manual_entry = tk.Entry(root, textvariable=manual_entry_var, width=5)  # 设置宽度为5
-            manual_entry.grid(row=current_row + 1, column=2, padx=4, pady=5, sticky='ew')
-            tk.Label(root, text="是否1体力用决斗珠：").grid(row=current_row + 1, column=3, sticky="e")  # 添加是否1体力用决斗珠的标签
-            use_duelist_beads_checkbox = tk.Checkbutton(root, text="", variable=use_duelist_beads_var)
-            use_duelist_beads_checkbox.grid(row=current_row + 1, column=4, sticky="w", padx=10, pady=5)
-        elif task_name == "清自动传送门":
-            portal_level_menu = tk.OptionMenu(root, selected_portal_level, *portal_level_options)
-            portal_level_menu.grid(row=current_row + 1, column=0, padx=4, pady=5, sticky='ew')
-        elif task_name == "手动清传送门（不装卡垫，顶部视角）":
-            portal_key_menu = tk.OptionMenu(root, selected_portal_key, *portal_key_options)
-            portal_key_menu.grid(row=current_row + 1, column=0, padx=4, pady=5, sticky='ew')
-            tk.Label(root, text="手动次数：").grid(row=current_row + 1, column=1, sticky="e")  # 添加输入框标签
-            manual_portal_entry = tk.Entry(root, textvariable=manual_portal_input_var, width=5)  # 设置宽度为5
-            manual_portal_entry.grid(row=current_row + 1, column=2, padx=4, pady=5, sticky='ew')
-        elif task_name == "刷活动":
-            activity_type_menu = tk.OptionMenu(root, selected_activity_type, *activity_type_options)
-            activity_type_menu.grid(row=current_row + 1, column=0, padx=4, pady=5, sticky='ew')
+    if task_name == "刷主页人机直到体力清空":
+        # 将输入框放在勾选框后面，同一行
+        tk.Label(root, text="使用决斗珠次数：").grid(row=current_row, column=1, sticky="e")  # 添加输入框标签
+        manual_entry = tk.Entry(root, textvariable=manual_entry_var, width=5)  # 设置宽度为5
+        manual_entry.grid(row=current_row, column=2, padx=4, pady=5, sticky='ew')
+        current_row += 1  # 增加行号，为下一个选项腾出空间
+    elif task_name == "清自动传送门":
+        # 在“清自动传送门”之前增加额外的行间距
+        current_row += 1  # 增加额外的行间距
+        portal_level_menu = tk.OptionMenu(root, selected_portal_level, *portal_level_options)
+        portal_level_menu.grid(row=current_row, column=0, padx=4, pady=5, sticky='ew')
+        current_row += 1  # 增加行号，为下一个选项腾出空间
+    elif task_name == "手动清传送门（不装卡垫，顶部视角）":
+        current_row += 1
+        portal_key_menu = tk.OptionMenu(root, selected_portal_key, *portal_key_options)
+        portal_key_menu.grid(row=current_row, column=0, padx=4, pady=5, sticky='ew')
+        tk.Label(root, text="手动次数：").grid(row=current_row, column=1, sticky="e")  # 添加输入框标签
+        manual_portal_entry = tk.Entry(root, textvariable=manual_portal_input_var, width=5)  # 设置宽度为5
+        manual_portal_entry.grid(row=current_row, column=2, padx=4, pady=5, sticky='ew')
+        current_row += 1  # 增加行号，为下一个选项腾出空间
+    elif task_name == "刷活动":
+        current_row += 1
+        activity_type_menu = tk.OptionMenu(root, selected_activity_type, *activity_type_options)
+        activity_type_menu.grid(row=current_row, column=0, padx=4, pady=5, sticky='ew')
+        current_row += 1  # 增加行号，为下一个选项腾出空间
+    elif task_name == "清战队任务加战队副本":
+        # 在“清战队任务加战队副本”选项后面添加钥匙选项
+        key_frame = tk.Frame(root, borderwidth=2, relief="groove")  # 创建一个矩形框
+        key_frame.grid(row=current_row, column=1, columnspan=2, padx=10, pady=5, sticky="nsew")
         
-        # 更新当前行号，为下一个勾选框和附加选项腾出空间
-        current_row += 2
+        key_options = ["普通钥匙", "红钥匙", "绿钥匙", "白钥匙", "黑钥匙", "蓝钥匙", "黄钥匙"]
+        key_vars = []
+        for j, key_name in enumerate(key_options):
+            key_var = tk.BooleanVar()
+            key_check_button = tk.Checkbutton(key_frame, text=key_name, variable=key_var)
+            key_check_button.grid(row=j // 3, column=j % 3, padx=5, pady=5, sticky="w")
+            key_vars.append(key_var)
+        
+        # 在矩形框外添加战队副本选项
+        clan_copy_var = tk.BooleanVar()
+        clan_copy_check_button = tk.Checkbutton(root, text="战队副本", variable=clan_copy_var)
+        clan_copy_check_button.grid(row=current_row, column=3, padx=5, pady=5, sticky="w")
+        
+        current_row += 1
     else:
         current_row += 1
+
+# 在“刷主页人机直到体力清空”任务后面添加循环执行时间选项
+current_row += 1
+tk.Label(root, text="循环执行时间（分钟）：").grid(row=current_row, column=1, sticky="e")
+cycle_time_entry = tk.Entry(root, width=5)
+cycle_time_entry.grid(row=current_row, column=2, padx=4, pady=5, sticky='ew')
+cycle_time_var = tk.IntVar(root)
+current_row += 1
 
 # 更新任务列表显示的函数
 # def update_task_list_display(TaskList):
@@ -165,34 +203,259 @@ for i, task_name in enumerate(tasks, start=1):
 #         else:
 #             task_listbox.insert(tk.END, f"任务 {task[0]}: {task_name}")
 
+# # 添加每日决斗回放选项
+# tasks.append("每日决斗回放")
+# var = tk.BooleanVar()
+# check_button = tk.Checkbutton(root, text="每日决斗回放", variable=var)
+# check_button.grid(row=current_row, column=0, sticky="w", padx=10, pady=5)
+# check_vars.append(var)
+# current_row += 1
+
+# # 添加自动求卡册点赞功能选项
+# tasks.append("自动求卡册点赞（还用不了）")
+# var = tk.BooleanVar()
+# check_button = tk.Checkbutton(root, text="自动求卡册点赞（还用不了）", variable=var)
+# check_button.grid(row=current_row, column=0, sticky="w", padx=10, pady=5)
+# check_vars.append(var)
+# current_row += 1
+
+# # 添加战队副本选项
+# clan_copy_var = tk.BooleanVar()
+# clan_copy_check_button = tk.Checkbutton(key_frame, text="战队副本", variable=clan_copy_var)
+# clan_copy_check_button.grid(row=len(key_options) // 3 + 1, column=0, padx=5, pady=5, sticky="w")
 
 
-# 确认按钮事件处理函数
+# 在“龙崎迷宫自动”任务后面添加下拉框
+maze_floor_label = tk.Label(root, text="龙崎迷宫自动开始楼层：")
+maze_floor_label.grid(row=current_row, column=1, sticky="e")
+maze_floor_menu = tk.OptionMenu(root, maze_floor_var, *maze_floor_options)
+maze_floor_menu.grid(row=current_row, column=2, padx=4, pady=5, sticky='ew')
+current_row += 1  # 增加行号，为下一个选项腾出空间
+
+#迷宫运行函数
+def move(pos,tasker):
+    # pipeline_override = {
+    #     "MazeMove": {"target":[]},
+    #     "IfMazeMoveNow": {"target":[]}
+    # }
+    if pos == "leftup":
+        pos1 = [200, 583, 67, 42]
+        pipeline_override = {
+            "MazeMove": {"target":pos1},
+            "IfMazeMoveNow": {"target":pos1}
+        }
+        tasker.post_pipeline("MazeMove",pipeline_override)
+    elif pos == "leftdown":
+        pos1 = [189, 706, 82, 52]
+        pipeline_override = {
+            "MazeMove": {"target":pos1},
+            "IfMazeMoveNow": {"target":pos1}
+        }
+        tasker.post_pipeline("MazeMove",pipeline_override)
+    elif pos == "rightup":
+        pos1 = [449, 568, 85, 56]
+        pipeline_override = {
+            "MazeMove": {"target":pos1},
+            "IfMazeMoveNow": {"target":pos1}
+        }
+        tasker.post_pipeline("MazeMove",pipeline_override)
+    elif pos == "rightdown":
+        pos1 = [448, 707, 85, 52]
+        pipeline_override = {
+            "MazeMove": {"target":pos1},
+            "IfMazeMoveNow": {"target":pos1}
+        }
+        tasker.post_pipeline("MazeMove",pipeline_override)
+    else:
+        pos1 = pos
+        pipeline_override = {
+            "MazeMove": {"target":pos1},
+            "IfMazeMoveNow": {"target":pos1}
+        }
+        tasker.post_pipeline("MazeMove",pipeline_override) 
+
+def FourthFloor(tasker):
+    move("rightdown", tasker)
+    move("leftdown", tasker)
+    move("rightdown", tasker)
+    move("leftdown", tasker)
+    move("rightdown", tasker)
+    move("leftdown", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("leftup", tasker)
+    move("rightdown", tasker)
+    
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("leftdown", tasker)
+    move("leftdown", tasker)
+    
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("leftdown", tasker)
+    move("rightdown", tasker)
+    move("rightup", tasker)
+
+def FirstFloor(tasker):
+    move("rightdown", tasker)
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("leftdown", tasker)
+    move("rightdown", tasker)
+    move("leftdown", tasker)
+    move("leftdown", tasker)
+    move("rightup", tasker)    
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+
+def SecondFloor(tasker):
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("leftdown", tasker)  
+    move("leftup", tasker)
+    move("leftdown", tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    # if exists(Template(r"tpl1653800261462.png", threshold=0.95, record_pos=(-0.282, -0.337), resolution=(900, 1600))):
+    #     move("leftup", tasker)
+    # else:
+    #     move("leftup", tasker)
+    move("leftup", tasker) #just kankan xingbuxing
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightup", tasker)
+    move("rightdown", tasker)
+    move("leftup", tasker)
+    move("rightup", tasker)
+    move("leftup", tasker)
+
+def ThirdFloor(tasker):
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("leftdown", tasker)  
+    move("leftdown", tasker)
+    move("leftup", tasker)
+    move("leftdown", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightup", tasker)
+    move([449, 449, 71, 35], tasker)
+    move("leftup", tasker)
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("rightdown", tasker)
+    move("rightup", tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("leftdown", tasker)
+    move([202, 863, 59, 38],tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("leftdown", tasker)  
+    move("leftdown", tasker)
+    move("leftup", tasker)
+    move("leftdown", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightup", tasker)
+    move([449, 449, 71, 35], tasker)
+    move("leftup", tasker)
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("rightdown", tasker)
+    move("rightup", tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("leftdown", tasker)
+    move([202, 863, 59, 38],tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("leftdown", tasker)  
+    move("leftdown", tasker)
+    move("leftup", tasker)
+    move("leftdown", tasker)
+    move("rightdown", tasker)
+    move("rightdown", tasker)
+    move("rightup", tasker)
+    move([449, 449, 71, 35], tasker)
+    move("leftup", tasker)
+    move("rightup", tasker)
+    move("rightup", tasker)
+    move("rightdown", tasker)
+    move("rightup", tasker)
+    move("leftup", tasker)
+    move("leftup", tasker)
+    move("leftdown", tasker)
+    move([202, 863, 59, 38],tasker)
+    move("leftup",tasker)
+
+
+
+# 修改 on_confirm 函数
 def on_confirm(tasker, TaskList):
     TaskList.clear()  # 清空TaskList
     for i, var in enumerate(check_vars):
         if var.get():  # 如果勾选框被勾选
             task = [i + 1]
-            if i + 1 == 2 and selected_world.get():
-                task.append(selected_world.get())
+            if i + 1 == 2:  # 刷主页人机直到体力清空
                 if manual_entry_var.get():
                     task.append(manual_entry_var.get())  # 添加刷主页人机的输入
-                if use_duelist_beads_var.get():  # 如果勾选了是否1体力用决斗珠
-                    task.append("use_duelist_beads")  # 添加到TaskList中
-            if i + 1 == 3 and selected_portal_level.get():
+                cycle_time = cycle_time_entry.get()  # 获取循环执行时间
+                if cycle_time.isdigit():  # 确保是整数
+                    task.append(int(cycle_time))  # 添加循环时间
+            elif i + 1 == 3:  # 清自动传送门
                 task.append(selected_portal_level.get())
-            if i + 1 == 4:
+            elif i + 1 == 4:  # 手动清传送门（不装卡垫，顶部视角）
                 task.append(selected_portal_key.get())
                 if manual_portal_input_var.get() is not None:
                     task.append(str(manual_portal_input_var.get()))  # 确保是字符串
                 else:
                     task.append(str(0))
-            if i + 1 == 5 and selected_activity_type.get():
+            elif i + 1 == 5:  # 刷活动
                 task.append(selected_activity_type.get())
+            elif i + 1 == 1:  # 清战队任务加战队副本
+                # 如果勾选了清战队任务加战队副本，则检查钥匙选项和战队副本选项
+                selected_keys = []
+                for j, key_var in enumerate(key_vars):
+                    if key_var.get():
+                        selected_keys.append(j + 1)  # 添加钥匙的序号
+                if selected_keys:
+                    task.append(selected_keys)  # 将选中的钥匙序号列表添加到任务中
+                if clan_copy_var.get():
+                    task.append("ClanCopy")  # 添加战队副本选项
+            elif i + 1 == 8:  # 自动龙崎迷宫
+                # 添加自动龙崎迷宫任务的参数（如果有）
+                task.append(maze_floor_var.get())  # 添加龙崎迷宫自动任务的楼层选项
             TaskList.append(task)
     run_start_pipeline(tasker, TaskList)
-    #update_task_list_display(TaskList)  # 更新显示
-
 
 
 # 勾选框点击事件处理函数
@@ -238,261 +501,85 @@ current_task_label = tk.Label(root, text="", font=("Arial", 12), fg="black")
 # 使用grid布局管理器将标签放置在左下角
 current_task_label.grid(row=len(tasks) + 5, column=0, sticky="w")
 
-def on_task_completed(task_name):
-    # 这个函数在任务完成后被调用，用于更新UI
-    current_task_label.config(text=f"任务 {task_name} 执行完毕")
+
+def update_label():
+    global toggle_state, running
+    if running:
+        if toggle_state:
+            current_task_label.config(text=f"   右上角关注up主")
+        else:
+            current_task_label.config(text=f"   挖矿虽好，可不要贪杯哦")
+        toggle_state = not toggle_state
+        root.after(10000, update_label)  # 5秒后再次调用 toggle_label 函数
 
 #这里开始执行pipeline任务
 def run_start_pipeline(tasker,TaskList):
     pipeline_override = {
-        "HomePageDuelList": {"template": []},
-        "HomePageBot": {"template": []},
-        "BatterierEmpty": {"next": []}
+        #"HomePageDuelList": {"template": []},
+        #"HomePageBot": {"template": []},
+        "BatterierEmpty": {"next": []},
+        "ShutDownClan2": {"next": []}
     }
     while TaskList:
         TaskNum = TaskList.pop(0)
         current_task_name = tasks[TaskNum[0] - 1]  # 获取当前任务名称
         current_task_label.config(text=f"   挖矿虽好，可不要贪杯哦")  # 更新显示当前任务名称
+        root.after(5000, update_label)
         if(TaskNum[0] == 2):
             
             world_name = TaskNum[1]  # 获取世界名称
+            cycle_time = TaskNum[2]  # 获取循环执行时间（分钟）
             # 根据世界名称选择对应的图片列表
-            if ("use_duelist_beads" in TaskNum and TaskNum[-1] == "use_duelist_beads"):  # 如果勾选了是否1体力用决斗珠
-                pipeline_override["BatterierEmpty"] = {
-                    "roi":[135, 79, 7, 10]
-                }
-            else:
-                pipeline_override["BatterierEmpty"]={
-                    "roi": [
-                        111,
-                        79,
-                        5,
-                        11
-                    ]
-                }
-            if world_name == "DM世界":
-                pipeline_override["HomePageDuelList"]["template"] = [
-                    "伊西斯·伊修达尔.png",
-                    "光与暗之假面.png",
-                    "利希德.png",
-                    "城之内克也.png",
-                    "基斯·霍华德.png",
-                    "天才吕场.png",
-                    "孔雀舞.png",
-                    "帕伽索斯·J·克劳福德.png",
-                    "御伽龙儿.png",
-                    "恐龙龙崎.png",
-                    "昆虫羽蛾.png",
-                    "暗游戏.png",
-                    "暗貘良.png",
-                    "暗马利克.png",
-                    "梶木渔太.png",
-                    "武藤游戏.png",
-                    "海马圭平.png",
-                    "海马濑人.png",
-                    "潘多拉.png",
-                    "真崎杏子.png",
-                    "迷宫兄弟.png",
-                    "鬼谷冢.png"
-                ]
-                pipeline_override["HomePageBot"]["template"] = [
-                    "Bot8.png",
-                    "Bot11.png",
-                    "Bot13.png",
-                    "Bot9.png",
-                    "Bot5.png",
-                    "Bot4.png",
-                    "Bot17.png",
-                    "Bot15.png",
-                    "Bot16.png",
-                    "Bot17.png",
-                    "Bot18.png",
-                    "Bot19.png",
-                    "Bot20.png",
-                    "Bot21.png",
-                    "Bot14.png",
-                    "Bot2.png"
-                ]
-            elif world_name == "DSOD世界":
-                pipeline_override["HomePageDuelList"]["template"] = [
-                    "海马濑人（DSOD）.png",
-                    "海马圭平（DSOD）.png",
-                    "武藤游戏（DSOD）.png",
-                    "真崎杏子（DSOD）.png",
-                    "塞拉.png"
-                ]
-                pipeline_override["HomePageBot"]["template"] = [
-                    "Bot1.png",
-                    "Bot11.png",
-                    "Bot8.png",
-                    "Bot5.png",
-                    "Bot15.png",
-                    "Bot19.png",
-                    "Bot13.png",
-                    "Bot9.png",
-                    "Bot16.png",
-                    "Bot21.png",
-                    "Bot14.png",
-                    "Bot17.png",
-                    "Bot20.png",
-                    "Bot4.png"
-                ]
-            elif world_name == "GX世界":
-                pipeline_override["HomePageDuelList"]["template"] = [
-                    "万丈目准.png",
-                    "三则大地.png",
-                    "丸藤翔.png",
-                    "凯撒亮.png",
-                    "吉姆·克劳戴尔·库克.png",
-                    "天上院明日香.png",
-                    "尤贝尔.png",
-                    "尤贝尔十代.png",
-                    "库洛诺斯·德·梅迪契.png",
-                    "斋王琢磨.png",
-                    "早乙女礼.png",
-                    "游城十代.png",
-                    "约翰·安德森.png",
-                    "艾德·菲尼克斯.png",
-                    "迪拉诺剑山.png",
-                    "霸王.png"
-                ]
-                pipeline_override["HomePageBot"]["template"] = [
-                    "Bot8.png",
-                    "Bot2.png",
-                    "Bot16.png",
-                    "Bot11.png",
-                    "Bot13.png",
-                    "Bot9.png",
-                    "Bot5.png",
-                    "Bot4.png",
-                    "Bot17.png",
-                    "Bot22.png",
-                    "Bot23.png",
-                    "Bot24.png",
-                    "Bot25.png",
-                    "Bot26.png",
-                    "Bot39.png"
-                ]
-            elif world_name == "5Ds世界":
-                pipeline_override["HomePageDuelList"]["template"] = [
-                    "不动游星.png",
-                    "杰克·亚特拉斯.png",
-                    "乌鸦·霍根.png",
-                    "十六夜亚纪.png",
-                    "龙亚.png",
-                    "龙可.png",
-                    "卡利渚.png",
-                    "暗印者鬼柳京介.png",
-                    "暗印者卡利渚.png",
-                    "暗印者雷克斯·戈德温.png",
-                    "帕拉多格斯.png",
-                    "普拉西多.png",
-                    "安提诺米.png"
-                ]
-                pipeline_override["HomePageBot"]["template"] = [
-                    "Bot1.png",
-                    "Bot2.png",
-                    "Bot3.png",
-                    "Bot4.png",
-                    "Bot5.png",
-                    "Bot6.png",
-                    "Bot7.png",
-                    "Bot8.png",
-                    "Bot9.png",
-                    "Bot10.png",
-                    "Bot11.png",
-                    "Bot12.png",
-                    "Bot16.png",
-                    "Bot13.png",
-                    "Bot17.png"
-                ]
-            elif world_name == "Z4世界":
-                pipeline_override["HomePageDuelList"]["template"] = [
-                    "Ⅲ.png",
-                    "Ⅳ.png",
-                    "天城快斗.png",
-                    "武田铁男.png",
-                    "游马和星光体.png",
-                    "神代凌牙.png",
-                    "神代璃绪.png",
-                    "神月安奈.png",
-                    "观月小鸟.png"
-                ]
-                pipeline_override["HomePageBot"]["template"] = [
-                    "Bot8.png",
-                    "Bot16.png",
-                    "Bot11.png",
-                    "Bot13.png",
-                    "Bot9.png",
-                    "Bot5.png",
-                    "Bot4.png",
-                    "Bot17.png",
-                    "Bot21.png",
-                    "Bot27.png",
-                    "Bot28.png",
-                    "Bot29.png",
-                    "Bot30.png"
-                ]
-            elif world_name == "A5世界":
-                pipeline_override["HomePageDuelList"]["template"] = [
-                    "塞瑞娜.png",
-                    "权现坂升.png",
-                    "柊柚子.png",
-                    "榊游矢.png",
-                    "泽渡慎吾.png",
-                    "游斗.png",
-                    "赤马零儿.png",
-                    "黑咲隼.png"
-                ]
-                pipeline_override["HomePageBot"]["template"] = [
-                    "Bot8.png",
-                    "Bot16.png",
-                    "Bot11.png",
-                    "Bot13.png",
-                    "Bot9.png",
-                    "Bot5.png",
-                    "Bot4.png",
-                    "Bot17.png",
-                    "Bot31.png",
-                    "Bot32.png",
-                    "Bot33.png",
-                    "Bot34.png"
-                ]
-            elif world_name == "V6世界":
-                pipeline_override["HomePageDuelList"]["template"] = [
-                    "Go鬼塚.png",
-                    "Playnaker和Ai.png",
-                    "左轮.png",
-                    "焚魂烈火.png",
-                    "蓝色天使.png"
-                ]
-                pipeline_override["HomePageBot"]["template"] = [
-                    "Bot8.png",
-                    "Bot16.png",
-                    "Bot11.png",
-                    "Bot13.png",
-                    "Bot9.png",
-                    "Bot5.png",
-                    "Bot4.png",
-                    "Bot17.png",
-                    "Bot35.png",
-                    "Bot36.png",
-                    "Bot37.png",
-                    "Bot38.png"
-                ]
-            if(int(TaskNum[2])>0):
-                pipeline_override["BatterierEmpty"]["next"] = ["FindDuelBead"]
-            i=int(TaskNum[2])
+            i=int(TaskNum[1])
             while i>=0:
                 if(i>0):
-                    tasker.post_pipeline("HomePage",pipeline_override)
+                    tasker.post_pipeline("NewHomePage",pipeline_override)
+                    tasker.post_pipeline("FindDuelBead")
                     i-=1
                 else:
-                    pipeline_override["BatterierEmpty"]["next"] = ["Stop"]
-                    tasker.post_pipeline("HomePage",pipeline_override)
+                    tasker.post_pipeline("NewHomePage",pipeline_override)
                     i-=1
+            while True:
+                # 等待循环时间
+                time.sleep(cycle_time * 60)  # 转换为秒
+                tasker.post_pipeline("HomePage")  # 回到主页
         elif(TaskNum[0] == 1):
-            tasker.post_pipeline("FindClan")
+            if(len(TaskNum)>1):
+                if isinstance(TaskNum[1], list):
+                    pipeline_override["ShutDownClan2"]["next"] = ["ClanStoreFind"]
+                    tasker.post_pipeline("FindClan",pipeline_override)
+                    i = int(len(TaskNum[1]))
+                    ClanTaskList = TaskNum[1]
+                    while ClanTaskList:
+                        ClanStoreTask = ClanTaskList.pop(0)
+                        if(ClanStoreTask == 1):
+                            pipeline_override = {"SelectKey":{"template":"OrKey.png"}}
+                        elif(ClanStoreTask == 2):
+                            pipeline_override = {"SelectKey":{"template":"RedKey.png"}}
+                        elif(ClanStoreTask == 3):
+                            pipeline_override = {"SelectKey":{"template":"GreenKey.png"}}
+                        elif(ClanStoreTask == 4):
+                            pipeline_override = {"SelectKey":{"template":"WhiteKey.png"}}
+                        elif(ClanStoreTask == 5):
+                            pipeline_override = {"SelectKey":{"template":"BlackKey.png"}}
+                        elif(ClanStoreTask == 6):    
+                            pipeline_override = {"SelectKey":{"template":"BlueKey.png"}}
+                        elif(ClanStoreTask == 7):
+                            pipeline_override = {"SelectKey":{"template":"YellowKey.png"}}
+                        tasker.post_pipeline("GotoSelectKey",pipeline_override)
+                    tasker.post_pipeline("ReturnClanHome")
+                    #tasker.post_pipeline("ClanCopy")
+                    if len(TaskNum) == 3:
+                        if TaskNum[2] == "ClanCopy":
+                            tasker.post_pipeline("ClanCopy")
+                    else:
+                        tasker.post_pipeline("ReturnClanHome")
+                elif(TaskNum[1] == "ClanCopy"):
+                    pipeline_override["ShutDownClan2"]["next"] = ["ClanCopy"]
+                    tasker.post_pipeline("FindClan",pipeline_override)
+            elif(len(TaskNum) == 1):
+                pipeline_override["ShutDownClan2"]["next"] = ["ClanCopy"]
+                tasker.post_pipeline("FindClan",pipeline_override)
         elif(TaskNum[0] == 3):
             pipeline_override = {"SelectPortals":{"expected":TaskNum[1]}}
             tasker.post_pipeline("PortalsEntry",pipeline_override)
@@ -561,19 +648,28 @@ def run_start_pipeline(tasker,TaskList):
                 Taskpar = "DiceActivityEntry"
             elif(activity_type == "组队决斗活动"):
                 Taskpar = "TeamActivityEntry"
+            elif(activity_type == "周年庆活动2025（需手动点进活动区域）"):
+                Taskpar = "NewYearActivity2025"
             pipeline_override = {
                 "ActivityEntry": {"next": Taskpar}
             }
             tasker.post_pipeline("ActivityEntry", pipeline_override)
-        elif TaskNum[0] == 7:  # 一键日常
-            pipeline_override = {
-                "ShutDownClan3": {"next": ["PortalsEntry"]},
-                "ShutDownClanCopy": {"next": ["PortalsEntry"]},
-                "SelectPortals": {"expected": "10级"},
-                "PortalsBackToHomePage": {"next": ["HomePage"]},
-                "Stop": {"next": ["HomePageReward"]}
-            }
-            tasker.post_pipeline("FindClan", pipeline_override)
+        elif TaskNum[0] == 7:  # 每日回放
+            pipeline_override = {}
+            tasker.post_pipeline("VideoReview", pipeline_override)
+        elif TaskNum[0] == 8:  # 自动龙崎迷宫
+            # 自动龙崎迷宫
+            start_floor = TaskNum[1]  # 获取开始楼层
+            tasker.post_pipeline("Mazeauto")
+            if start_floor == "第一层":
+                FirstFloor(tasker)
+                SecondFloor(tasker)
+                ThirdFloor(tasker)
+            if start_floor =="第二层":
+                SecondFloor(tasker)
+                ThirdFloor(tasker)
+            if start_floor =="第三层":
+                ThirdFloor(tasker)
 
 
 def run_OneKeyDaily(tasker, world):
@@ -590,7 +686,9 @@ def run_OneKeyDaily(tasker, world):
 def main():
     user_path = "./"
     Toolkit.init_option(user_path)
-
+    global toggle_state, running
+    running = True  # 初始化运行标志
+    toggle_state = True  # 初始化切换状态
     
     # # 确保在调用其他功能之前初始化库
     # from maa.library import Library

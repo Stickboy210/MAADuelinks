@@ -1,0 +1,97 @@
+{
+    "VideoReview":{
+        "pre_wait_freezes":{
+            "threshold": 0.6,
+            "time": 2000
+        },
+        "action": "Click",
+        "target":[651, 459, 45, 50],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "GotoVideoReview"
+        ]
+    },
+    "GotoVideoReview":{
+        "recognition":"TemplateMatch",
+        "template":"Video.png",
+        "target":[318, 291, 296, 304],
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "StartVideo"
+        ]
+    },
+    "StartVideo":{
+        "recognition":"OCR",
+        "expected":"重放",
+        "roi":[72, 447, 574, 386],
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "WaitVideoEnd"
+        ]
+    },
+    "WaitVideoEnd":{
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1000
+        },
+        "next": [
+            "EndVideo",
+            "IfHome",
+            "WaitVideoEnd"
+        ]
+    },
+    "EndVideo":{
+        "recognition":"OCR",
+        "expected": [
+            "确定",
+            "下一步",
+            "结束",
+            "关闭",
+            "重试"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "EndVideo",
+            "IfHome",
+            "ClickVideo"
+        ]
+    },
+    "ClickVideo":{
+        "action": "Click",
+        "target":[651, 459, 45, 50],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "EndVideo",
+            "IfHome",
+            "ClickVideo"
+        ]
+    },
+    "IfHome":{
+        "recognition":"OCR",
+        "expected":"活动",
+        "roi":[591, 259, 128, 62],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":1000
+        },
+        "next":[]
+    }
+}
