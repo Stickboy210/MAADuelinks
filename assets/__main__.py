@@ -9,6 +9,8 @@ from maa.custom_recognition import CustomRecognition
 from maa.custom_action import CustomAction
 from maa.notification_handler import NotificationHandler, NotificationType
 from maa.job import Job, JobWithResult
+
+from threading import Thread
 import time
 
 import tkinter as tk
@@ -55,7 +57,7 @@ world_options = [
 portal_level_options = ["10级", "20级", "30级", "40级"]
 
 # 活动种类选项
-activity_type_options = ["转轮活动","骰子活动","组队决斗活动","周年庆活动2025（需手动点进活动区域）"]
+activity_type_options = ["转轮活动","骰子活动","组队决斗活动","DD城堡","周年庆活动2025（需手动点进活动区域）"]
 
 # 传送门钥匙种类选项
 portal_key_options = [
@@ -130,6 +132,7 @@ def open_url(url):
 current_row = 1
 
 # 在“刷主页人机直到体力清空”任务后面添加“使用决斗珠次数”和“循环执行时间”选项
+# 在“刷主页人机直到体力清空”任务后面添加“使用决斗珠次数”和“循环执行时间”选项
 for i, task_name in enumerate(tasks, start=1):
     var = tk.BooleanVar()
     check_button = tk.Checkbutton(root, text=task_name, variable=var)
@@ -140,14 +143,14 @@ for i, task_name in enumerate(tasks, start=1):
     # 为每个任务创建附加选项
     if task_name == "刷主页人机直到体力清空":
         # “使用决斗珠次数”输入框
-        tk.Label(root, text="使用决斗珠次数：").grid(row=current_row, column=1, sticky="e")
+        tk.Label(root, text="使用决斗珠次数：").grid(row=current_row, column=1, sticky="e", padx=4, pady=2)
         manual_entry = tk.Entry(root, textvariable=manual_entry_var, width=5)
-        manual_entry.grid(row=current_row, column=2, padx=4, pady=5, sticky='ew')
+        manual_entry.grid(row=current_row, column=2, padx=2, pady=2, sticky='ew')
         
         # “循环执行时间”输入框
-        tk.Label(root, text="循环执行时间（分钟）：").grid(row=current_row, column=3, sticky="e")
+        tk.Label(root, text="循环执行间隔（分钟）：").grid(row=current_row, column=3, sticky="e", padx=4, pady=2)
         cycle_time_entry = tk.Entry(root, width=5)
-        cycle_time_entry.grid(row=current_row, column=4, padx=4, pady=5, sticky='ew')
+        cycle_time_entry.grid(row=current_row, column=4, padx=2, pady=2, sticky='ew')
         
         current_row += 1  # 增加行号，为下一个选项腾出空间
     elif task_name == "清自动传送门":
@@ -167,6 +170,10 @@ for i, task_name in enumerate(tasks, start=1):
         current_row += 1
         activity_type_menu = tk.OptionMenu(root, selected_activity_type, *activity_type_options)
         activity_type_menu.grid(row=current_row, column=0, padx=4, pady=5, sticky='ew')
+        # 在活动选项下方添加反序勾选框
+        activity_reverse_var = tk.BooleanVar(root)
+        activity_reverse_check = tk.Checkbutton(root, text="是否反序", variable=activity_reverse_var)
+        activity_reverse_check.grid(row=current_row, column=1, padx=4, pady=5, sticky='ew')
         current_row += 1  # 增加行号，为下一个选项腾出空间
     elif task_name == "清战队任务加战队副本":
         key_frame = tk.Frame(root, borderwidth=2, relief="groove")  # 创建一个矩形框
@@ -220,6 +227,7 @@ for i, task_name in enumerate(tasks, start=1):
 # clan_copy_var = tk.BooleanVar()
 # clan_copy_check_button = tk.Checkbutton(key_frame, text="战队副本", variable=clan_copy_var)
 # clan_copy_check_button.grid(row=len(key_options) // 3 + 1, column=0, padx=5, pady=5, sticky="w")
+
 
 
 # 在“龙崎迷宫自动”任务后面添加下拉框
@@ -436,8 +444,10 @@ def on_confirm(tasker, TaskList):
                     task.append(str(manual_portal_input_var.get()))  # 确保是字符串
                 else:
                     task.append(str(0))
+            # 在确认按钮处理逻辑中
             elif i + 1 == 5:  # 刷活动
                 task.append(selected_activity_type.get())
+                task.append(activity_reverse_var.get())  # 添加反序状态
             elif i + 1 == 1:  # 清战队任务加战队副本
                 # 如果勾选了清战队任务加战队副本，则检查钥匙选项和战队副本选项
                 selected_keys = []
@@ -449,11 +459,13 @@ def on_confirm(tasker, TaskList):
                 if clan_copy_var.get():
                     task.append("ClanCopy")  # 添加战队副本选项
             elif i + 1 == 8:  # 自动龙崎迷宫
-                # 添加自动龙崎迷宫任务的参数（如果有）
                 task.append(maze_floor_var.get())  # 添加龙崎迷宫自动任务的楼层选项
             TaskList.append(task)
-    run_start_pipeline(tasker, TaskList)
-
+    
+    # 使用线程异步执行 tasker
+    thread = Thread(target=run_start_pipeline, args=(tasker, TaskList.copy()))
+    thread.daemon = True  # 设置为守护线程
+    thread.start()
 
 # 勾选框点击事件处理函数
 def on_check_button_click(task_num, var):
@@ -522,151 +534,166 @@ def run_start_pipeline(tasker,TaskList):
         current_task_name = tasks[TaskNum[0] - 1]  # 获取当前任务名称
         current_task_label.config(text=f"   挖矿虽好，可不要贪杯哦")  # 更新显示当前任务名称
         root.after(5000, update_label)
-        if(TaskNum[0] == 2):
-            
-            world_name = TaskNum[1]  # 获取世界名称
-            cycle_time = TaskNum[2]  # 获取循环执行时间（分钟）
-            # 根据世界名称选择对应的图片列表
-            i=int(TaskNum[1])
-            while i>=0:
-                if(i>0):
-                    tasker.post_pipeline("NewHomePage",pipeline_override)
-                    tasker.post_pipeline("FindDuelBead")
-                    i-=1
-                else:
-                    tasker.post_pipeline("NewHomePage",pipeline_override)
-                    i-=1
-            while True:
-                # 等待循环时间
-                time.sleep(cycle_time * 60)  # 转换为秒
-                tasker.post_pipeline("HomePage")  # 回到主页
-        elif(TaskNum[0] == 1):
-            if(len(TaskNum)>1):
-                if isinstance(TaskNum[1], list):
-                    pipeline_override["ShutDownClan2"]["next"] = ["ClanStoreFind"]
-                    tasker.post_pipeline("FindClan",pipeline_override)
-                    i = int(len(TaskNum[1]))
-                    ClanTaskList = TaskNum[1]
-                    while ClanTaskList:
-                        ClanStoreTask = ClanTaskList.pop(0)
-                        if(ClanStoreTask == 1):
-                            pipeline_override = {"SelectKey":{"template":"OrKey.png"}}
-                        elif(ClanStoreTask == 2):
-                            pipeline_override = {"SelectKey":{"template":"RedKey.png"}}
-                        elif(ClanStoreTask == 3):
-                            pipeline_override = {"SelectKey":{"template":"GreenKey.png"}}
-                        elif(ClanStoreTask == 4):
-                            pipeline_override = {"SelectKey":{"template":"WhiteKey.png"}}
-                        elif(ClanStoreTask == 5):
-                            pipeline_override = {"SelectKey":{"template":"BlackKey.png"}}
-                        elif(ClanStoreTask == 6):    
-                            pipeline_override = {"SelectKey":{"template":"BlueKey.png"}}
-                        elif(ClanStoreTask == 7):
-                            pipeline_override = {"SelectKey":{"template":"YellowKey.png"}}
-                        tasker.post_pipeline("GotoSelectKey",pipeline_override)
-                    tasker.post_pipeline("ReturnClanHome")
-                    #tasker.post_pipeline("ClanCopy")
-                    if len(TaskNum) == 3:
-                        if TaskNum[2] == "ClanCopy":
-                            tasker.post_pipeline("ClanCopy")
+        try:
+            if(TaskNum[0] == 2):
+                
+                world_name = TaskNum[1]  # 获取世界名称
+                if(len(TaskNum) > 2):
+                    cycle_time = TaskNum[2]  # 获取循环执行时间（分钟）
+                # 根据世界名称选择对应的图片列表
+                i=int(TaskNum[1])
+                while i>=0:
+                    if(i>0):
+                        tasker.post_pipeline("NewHomePage",pipeline_override)
+                        tasker.post_pipeline("FindDuelBead")
+                        i-=1
                     else:
+                        tasker.post_pipeline("NewHomePage",pipeline_override)
+                        i-=1
+                # while True:
+                #     # 等待循环时间
+                #     time.sleep(cycle_time * 60)  # 转换为秒
+                #     tasker.post_pipeline("HomePage")  # 回到主页
+            elif(TaskNum[0] == 1):
+                if(len(TaskNum)>1):
+                    if isinstance(TaskNum[1], list):
+                        pipeline_override["ShutDownClan2"]["next"] = ["ClanStoreFind"]
+                        tasker.post_pipeline("FindClan",pipeline_override)
+                        i = int(len(TaskNum[1]))
+                        ClanTaskList = TaskNum[1]
+                        while ClanTaskList:
+                            ClanStoreTask = ClanTaskList.pop(0)
+                            if(ClanStoreTask == 1):
+                                pipeline_override = {"SelectKey":{"template":"OrKey.png"}}
+                            elif(ClanStoreTask == 2):
+                                pipeline_override = {"SelectKey":{"template":"RedKey.png"}}
+                            elif(ClanStoreTask == 3):
+                                pipeline_override = {"SelectKey":{"template":"GreenKey.png"}}
+                            elif(ClanStoreTask == 4):
+                                pipeline_override = {"SelectKey":{"template":"WhiteKey.png"}}
+                            elif(ClanStoreTask == 5):
+                                pipeline_override = {"SelectKey":{"template":"BlackKey.png"}}
+                            elif(ClanStoreTask == 6):    
+                                pipeline_override = {"SelectKey":{"template":"BlueKey.png"}}
+                            elif(ClanStoreTask == 7):
+                                pipeline_override = {"SelectKey":{"template":"YellowKey.png"}}
+                            tasker.post_pipeline("GotoSelectKey",pipeline_override)
                         tasker.post_pipeline("ReturnClanHome")
-                elif(TaskNum[1] == "ClanCopy"):
+                        #tasker.post_pipeline("ClanCopy")
+                        if len(TaskNum) == 3:
+                            if TaskNum[2] == "ClanCopy":
+                                tasker.post_pipeline("ClanCopy")
+                        else:
+                            tasker.post_pipeline("ReturnClanHome")
+                    elif(TaskNum[1] == "ClanCopy"):
+                        pipeline_override["ShutDownClan2"]["next"] = ["ClanCopy"]
+                        tasker.post_pipeline("FindClan",pipeline_override)
+                elif(len(TaskNum) == 1):
                     pipeline_override["ShutDownClan2"]["next"] = ["ClanCopy"]
                     tasker.post_pipeline("FindClan",pipeline_override)
-            elif(len(TaskNum) == 1):
-                pipeline_override["ShutDownClan2"]["next"] = ["ClanCopy"]
-                tasker.post_pipeline("FindClan",pipeline_override)
-        elif(TaskNum[0] == 3):
-            pipeline_override = {"SelectPortals":{"expected":TaskNum[1]}}
-            tasker.post_pipeline("PortalsEntry",pipeline_override)
-        elif(TaskNum[0] == 4):
-            # 定义一个字典来存储name和对应的expected与template值
-            data = {
-                "迷宫兄弟（绿钥匙）": {"expected": "DM", "template": "迷宫兄弟.png"},
-                "天上院明日香（青色钥匙）": {"expected": "GX", "template": "天上院明日香.png"},
-                "丸藤翔（黄色钥匙）": {"expected": "GX", "template": "丸藤翔.png"},
-                "暗貘良（黑色钥匙）": {"expected": "DM", "template": "暗貘良.png"},
-                "帕伽索斯·J·克劳福德（白色钥匙）": {"expected": "DM", "template": "帕伽索斯·J·克劳福德.png"},
-                "基斯·霍华德（红色钥匙）": {"expected": "DM", "template": "基斯·霍华德.png"}
-            }
+            elif(TaskNum[0] == 3):
+                pipeline_override = {"SelectPortals":{"expected":TaskNum[1]}}
+                tasker.post_pipeline("PortalsEntry",pipeline_override)
+            elif(TaskNum[0] == 4):
+                # 定义一个字典来存储name和对应的expected与template值
+                data = {
+                    "迷宫兄弟（绿钥匙）": {"expected": "DM", "template": "迷宫兄弟.png"},
+                    "天上院明日香（青色钥匙）": {"expected": "GX", "template": "天上院明日香.png"},
+                    "丸藤翔（黄色钥匙）": {"expected": "GX", "template": "丸藤翔.png"},
+                    "暗貘良（黑色钥匙）": {"expected": "DM", "template": "暗貘良.png"},
+                    "帕伽索斯·J·克劳福德（白色钥匙）": {"expected": "DM", "template": "帕伽索斯·J·克劳福德.png"},
+                    "基斯·霍华德（红色钥匙）": {"expected": "DM", "template": "基斯·霍华德.png"}
+                }
 
-            # 初始化Expected和Template变量
-            Expected = ""
-            Template = ""
+                # 初始化Expected和Template变量
+                Expected = ""
+                Template = ""
 
-            # 使用if-elif-else结构来判断TaskNum[1]并赋值
-            if TaskNum[1] == "迷宫兄弟（绿钥匙）":
-                Expected = data["迷宫兄弟（绿钥匙）"]["expected"]
-                Template = data["迷宫兄弟（绿钥匙）"]["template"]
-            elif TaskNum[1] == "天上院明日香（青色钥匙）":
-                Expected = data["天上院明日香（青色钥匙）"]["expected"]
-                Template = data["天上院明日香（青色钥匙）"]["template"]
-            elif TaskNum[1] == "丸藤翔（黄色钥匙）":
-                Expected = data["丸藤翔（黄色钥匙）"]["expected"]
-                Template = data["丸藤翔（黄色钥匙）"]["template"]
-            elif TaskNum[1] == "暗貘良（黑色钥匙）":
-                Expected = data["暗貘良（黑色钥匙）"]["expected"]
-                Template = data["暗貘良（黑色钥匙）"]["template"]
-            elif TaskNum[1] == "帕伽索斯·J·克劳福德（白色钥匙）":
-                Expected = data["帕伽索斯·J·克劳福德（白色钥匙）"]["expected"]
-                Template = data["帕伽索斯·J·克劳福德（白色钥匙）"]["template"]
-            elif TaskNum[1] == "基斯·霍华德（红色钥匙）":
-                Expected = data["基斯·霍华德（红色钥匙）"]["expected"]
-                Template = data["基斯·霍华德（红色钥匙）"]["template"]
-            else:
-                print("未找到匹配的name")
-            pipeline_override = {
-                "SelectManualPortalsWorld2": {"expected": Expected},
-                "SelectManualPortalsRole": {"template": Template} # 以前是f"{TaskNum[2]}"
-            }
-            i = 1
-            tasker.post_pipeline("ManualPortalsEntry",pipeline_override)
-            while i < int(TaskNum[2]):
-                tasker.post_pipeline("ManualPortalsFind2",pipeline_override)
-                i+=1
+                # 使用if-elif-else结构来判断TaskNum[1]并赋值
+                if TaskNum[1] == "迷宫兄弟（绿钥匙）":
+                    Expected = data["迷宫兄弟（绿钥匙）"]["expected"]
+                    Template = data["迷宫兄弟（绿钥匙）"]["template"]
+                elif TaskNum[1] == "天上院明日香（青色钥匙）":
+                    Expected = data["天上院明日香（青色钥匙）"]["expected"]
+                    Template = data["天上院明日香（青色钥匙）"]["template"]
+                elif TaskNum[1] == "丸藤翔（黄色钥匙）":
+                    Expected = data["丸藤翔（黄色钥匙）"]["expected"]
+                    Template = data["丸藤翔（黄色钥匙）"]["template"]
+                elif TaskNum[1] == "暗貘良（黑色钥匙）":
+                    Expected = data["暗貘良（黑色钥匙）"]["expected"]
+                    Template = data["暗貘良（黑色钥匙）"]["template"]
+                elif TaskNum[1] == "帕伽索斯·J·克劳福德（白色钥匙）":
+                    Expected = data["帕伽索斯·J·克劳福德（白色钥匙）"]["expected"]
+                    Template = data["帕伽索斯·J·克劳福德（白色钥匙）"]["template"]
+                elif TaskNum[1] == "基斯·霍华德（红色钥匙）":
+                    Expected = data["基斯·霍华德（红色钥匙）"]["expected"]
+                    Template = data["基斯·霍华德（红色钥匙）"]["template"]
+                else:
+                    print("未找到匹配的name")
+                pipeline_override = {
+                    "SelectManualPortalsWorld2": {"expected": Expected},
+                    "SelectManualPortalsRole": {"template": Template} # 以前是f"{TaskNum[2]}"
+                }
+                i = 1
+                tasker.post_pipeline("ManualPortalsEntry",pipeline_override)
+                while i < int(TaskNum[2]):
+                    tasker.post_pipeline("ManualPortalsFind2",pipeline_override)
+                    i+=1
 
-        elif TaskNum[0] == 6:  # 领任务
-            Job_Result = tasker.post_pipeline("HomePageReward")
-            # if Job_Result.succeeded:
-            #     print("任务成功完成")
-            #     # 获取任务的详细结果
-            #     task_detail = Job_Result.get_task_detail(Job_Result.taskid)
-            #     print(task_detail)
-            # else:
-            #     print("任务未完成或失败")
-        elif TaskNum[0] == 5:  # 刷活动
-            activity_type = TaskNum[1]  # 获取活动种类
-            if (activity_type == "转轮活动"):
-                Taskpar = "WheelActivityEntry"
-            elif(activity_type == "传送门活动"):
-                Taskpar = ""
-            elif(activity_type == "骰子活动"):
-                Taskpar = "DiceActivityEntry"
-            elif(activity_type == "组队决斗活动"):
-                Taskpar = "TeamActivityEntry"
-            elif(activity_type == "周年庆活动2025（需手动点进活动区域）"):
-                Taskpar = "NewYearActivity2025"
-            pipeline_override = {
-                "ActivityEntry": {"next": Taskpar}
-            }
-            tasker.post_pipeline("ActivityEntry", pipeline_override)
-        elif TaskNum[0] == 7:  # 每日回放
-            pipeline_override = {}
-            tasker.post_pipeline("VideoReview", pipeline_override)
-        elif TaskNum[0] == 8:  # 自动龙崎迷宫
-            # 自动龙崎迷宫
-            start_floor = TaskNum[1]  # 获取开始楼层
-            tasker.post_pipeline("Mazeauto")
-            if start_floor == "第一层":
-                FirstFloor(tasker)
-                SecondFloor(tasker)
-                ThirdFloor(tasker)
-            if start_floor =="第二层":
-                SecondFloor(tasker)
-                ThirdFloor(tasker)
-            if start_floor =="第三层":
-                ThirdFloor(tasker)
+            elif TaskNum[0] == 6:  # 领任务
+                Job_Result = tasker.post_pipeline("HomePageReward")
+                # if Job_Result.succeeded:
+                #     print("任务成功完成")
+                #     # 获取任务的详细结果
+                #     task_detail = Job_Result.get_task_detail(Job_Result.taskid)
+                #     print(task_detail)
+                # else:
+                #     print("任务未完成或失败")
+            elif TaskNum[0] == 5:  # 刷活动
+                activity_type = TaskNum[1]  # 获取活动种类
+                if(len(TaskNum)>2):
+                    reverse_order = TaskNum[2]
+                if (activity_type == "转轮活动"):
+                    Taskpar = "WheelActivityEntry"
+                elif(activity_type == "传送门活动"):
+                    Taskpar = ""
+                elif(activity_type == "骰子活动"):
+                    Taskpar = "DiceActivityEntry"
+                elif(activity_type == "组队决斗活动"):
+                    Taskpar = "TeamActivityEntry"
+                elif(activity_type == "周年庆活动2025（需手动点进活动区域）"):
+                    Taskpar = "NewYearActivity2025"
+                elif(activity_type == "DD城堡"):
+                    Taskpar = "DDActivityEntry"
+                if activity_type == "DD城堡" and reverse_order:
+                    pipeline_override = {
+                        "StartDDActivity":{"index": -1},
+                        "ActivityEntry": {"next": Taskpar}
+                    }
+                else:
+                    pipeline_override = {
+                        "ActivityEntry": {"next": Taskpar}
+                    }
+                tasker.post_pipeline("ActivityEntry", pipeline_override)
+            elif TaskNum[0] == 7:  # 每日回放
+                pipeline_override = {}
+                tasker.post_pipeline("VideoReview", pipeline_override)
+            elif TaskNum[0] == 8:  # 自动龙崎迷宫
+                # 自动龙崎迷宫
+                start_floor = TaskNum[1]  # 获取开始楼层
+                tasker.post_pipeline("Mazeauto")
+                if start_floor == "第一层":
+                    FirstFloor(tasker)
+                    SecondFloor(tasker)
+                    ThirdFloor(tasker)
+                if start_floor =="第二层":
+                    SecondFloor(tasker)
+                    ThirdFloor(tasker)
+                if start_floor =="第三层":
+                    ThirdFloor(tasker)
+        except Exception as e:
+            print(f"任务执行失败: {e}")
+        # logging.error(f"任务 {TaskNum[0]} 执行失败: {e}")
 
 
 def run_OneKeyDaily(tasker, world):

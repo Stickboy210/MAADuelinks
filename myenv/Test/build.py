@@ -33,6 +33,9 @@ if maa_bin_path2 is None:
 # 构建 --add-data 参数
 add_data_param2 = f'{maa_bin_path2}{os.pathsep}MaaAgentBinary'
 
+#设定图标路径
+icon_path = './appicon.ico'
+
 
 # 运行 PyInstaller
 PyInstaller.__main__.run([
@@ -41,5 +44,6 @@ PyInstaller.__main__.run([
     '--name=MAADuelinks',
     f'--add-data={add_data_param}',
     f'--add-data={add_data_param2}',
+    f'--icon={icon_path}',  # 添加图标参数
 #    '--clean',
 ])
