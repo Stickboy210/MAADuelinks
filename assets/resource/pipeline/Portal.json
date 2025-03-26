@@ -38,7 +38,20 @@
         },
         "next": [
             "IfManualPortalsFind2",
+            "IfDDActivity",
             "IfSomethingWrong2",
+            "ManualPortalsFind2"
+        ]
+    },
+    "IfDDActivity":{
+        "recognition":"OCR",
+        "expected":"关闭",
+        "action":"Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next":[
             "ManualPortalsFind2"
         ]
     },
@@ -340,7 +353,7 @@
         "duration":400,
         "post_wait_freezes":{
             "time":600,
-            "threshold":0.6
+            "threshold":0.3
         },
         "next":[
             "IfAbleUse",
@@ -365,8 +378,8 @@
         "expected":"发动效果",
         "action":"Click",
         "post_wait_freezes":{
-            "time":1400,
-            "threshold":0.6
+            "time":1100,
+            "threshold":0.1
         },
         "next":[
             "IfNeedtoSelect",
@@ -381,7 +394,7 @@
         "target":[58, 773, 148, 212],
         "post_wait_freezes": {
             "time": 500,
-            "threshold": 0.6
+            "threshold": 0.1
         },
         "next":[
             "ConfirmSelect"
@@ -393,7 +406,7 @@
         "action":"Click",
         "post_wait_freezes":{
             "time":1100,
-            "threshold":0.70
+            "threshold":0.1
         },
         "next":[
             "MyActionTurn"
@@ -410,8 +423,8 @@
         "end_offset":[0,-300,20,20],
         "duration": 400,
         "post_wait_freezes": {
-            "time": 300,
-            "threshold": 0.4
+            "time": 400,
+            "threshold": 0.2
         },
         "next": [
             "IfAbleSummon",
@@ -430,8 +443,8 @@
         "end_offset":[0,-300,20,20],
         "duration": 400,
         "post_wait_freezes": {
-            "time": 300,
-            "threshold": 0.4
+            "time": 400,
+            "threshold": 0.2
         },
         "next": [
             "IfAbleSummon",
@@ -451,7 +464,7 @@
         "action": "Click",
         "post_wait_freezes": {
             "time": 1000,
-            "threshold": 0.6
+            "threshold": 0.1
         },
         "next": [
             "IfMagicCard",
@@ -466,6 +479,10 @@
             92,
             74
         ],
+        "post_wait_freezes": {
+            "threshold": 0.1,
+            "time": 400
+        },
         "next": [
             "BattlePhase"
         ]
@@ -479,7 +496,7 @@
             74
         ],
         "post_wait_freezes": {
-            "threshold": 0.6,
+            "threshold": 0.1,
             "time": 400
         },
         "next": [

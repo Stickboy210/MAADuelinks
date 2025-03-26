@@ -112,8 +112,9 @@
         ]
     },
     "FindMazePage2":{
+        "recognition":"TemplateMatch",
+        "template":"龙崎迷宫.png",
         "action":"Click",
-        "target":[305, 654, 355, 234],
         "post_wait_freezes":{
             "threshold":0.6,
             "time":600
@@ -164,7 +165,7 @@
         "action":"Click",
         "post_wait_freezes":{
             "threshold":0.6,
-            "time":1500
+            "time":5000
         },
         "next":[
             "IfalreadyMaze",

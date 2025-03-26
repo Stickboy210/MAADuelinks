@@ -14,7 +14,7 @@
   },
   "IfSomethingNeed":{
     "recognition":"OCR",
-    "expected":["取消","确定"],
+    "expected":["关闭","确定"],
     "action":"Click",
     "post_wait_freezes":{
       "threshold":0.6,
@@ -490,7 +490,21 @@
       ]
     ],
     "count": 10,
-    "next": []
+    "next": [
+      "IfDDActivityNow"
+    ]
+  },
+  "IfDDActivityNow":{
+    "recognition":"OCR",
+    "expected":"关闭",
+    "action":"Click",
+    "post_wait_freezes":{
+      "threshold":0.6,
+      "time":600
+    },
+    "next":[
+      
+    ]
   },
   "Stop": {
     "action": "DoNothing",

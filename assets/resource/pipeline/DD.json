@@ -1,0 +1,112 @@
+{
+    "DDActivityEntry": {
+        "action": "Click",
+        "target": [489, 908, 208, 107],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "IfDDActivityReward",
+            "IfDDActivityPage"
+        ]
+    },
+    "IfDDActivityPage":{
+        "recognition":"OCR",
+        "expected":"抽奖",
+        "roi":[41, 1096, 257, 61],
+        "next":[
+            "StartDDActivity",
+            "IfDDActivityReward"
+        ]
+    },
+    "IfDDActivityReward":{
+        "recognition":"OCR",
+        "expected":[
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+        ],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfDDActivityReward",
+            "IfDDActivityPage",
+            "ClickDD"
+        ]
+    },
+    "ClickDD":{
+        "action":"Click",
+        "target":[
+            8,
+            1040,
+            25,
+            20
+        ],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfDDActivityPage",
+            "IfDDActivityReward",
+            "ClickDD"
+        ]
+    },
+    "StartDDActivity":{
+        "recognition":"OCR",
+        "expected":"自动决斗",
+        "order_by":"Vertical",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "StartDDActivity",
+            "WaitDDDuelEnd"
+        ]
+    },
+    "WaitDDDuelEnd":{
+        "action":"Click",
+        "target":[
+            8,
+            1040,
+            25,
+            20
+        ],
+        "post_wait_freezes":{
+            "threshold":0.9,
+            "time":800
+        },
+        "next":[
+            "IfDDDuelEnd",
+            "IfDDActivityPage",
+            "WaitDDDuelEnd"
+        ]
+    },
+    "IfDDDuelEnd":{
+        "recognition":"OCR",
+        "expected":[
+            "确定",
+            "下一步",
+            "关闭",
+            "取消",
+            "重试"
+        ],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfDDDuelEnd",
+            "WaitDDDuelEnd"
+        ]
+    }
+}

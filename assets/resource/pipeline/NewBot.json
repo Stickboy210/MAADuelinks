@@ -42,7 +42,7 @@
     },
     "IfNotWorld":{
         "recognition":"OCR",
-        "expected":"家园",
+        "expected":["家园","关闭"],
         "roi":[327, 1084, 66, 60],
         "action":"Click",
         "post_wait_freezes":{
@@ -173,6 +173,8 @@
             "取消",
             "重试"
         ],
+        "order_by":"Vertical",
+        "index":-1,
         "action":"Click",
         "post_wait_freezes":{
             "threshold":0.6,

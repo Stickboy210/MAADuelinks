@@ -46,7 +46,7 @@
     },
     "SelectKey":{
         "recognition":"TemplateMatch",
-        "template":"Orkey.png",
+        "template":"NoName.png",
         "threshold":0.9,
         "action":"Click",
         "target_offset":[0,150,0,0],

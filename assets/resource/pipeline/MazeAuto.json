@@ -2,8 +2,9 @@
     "MazeMove":{
         "action":"Click",
         "post_wait_freezes":{
-            "threshold":0.6,
-            "time":2200
+            "threshold":0.9,
+            "time":1600,
+            "roi":[305, 640, 118, 105]
         },
         "next":[
             "IfDuelStart",
@@ -20,7 +21,7 @@
         "target":[327, 657, 59, 35],
         "post_wait_freezes":{
             "threshold":0.6,
-            "time":600
+            "time":2000
         },
         "next":[
             "IfDuelStart",
@@ -33,8 +34,9 @@
         "roi":[19, 1035, 692, 136],
         "action":"Click",
         "post_wait_freezes":{
-            "threshold":0.6,
-            "time":2000
+            "threshold":0.9,
+            "time":1600,
+            "roi":[305, 640, 118, 105]
         },
         "next":[
             "IfJustEnd"
@@ -65,8 +67,9 @@
         "roi":[7, 135, 713, 1049],
         "action":"Click",
         "post_wait_freezes":{
-            "threshold":0.6,
-            "time":2000
+            "threshold":0.9,
+            "time":1600,
+            "roi":[305, 640, 118, 105]
         },
         "next":[
             "IfMazeMoveNow",
@@ -79,8 +82,9 @@
         "roi":[5, 1074, 118, 107],
         "action":"Click",
         "post_wait_freezes":{
-            "threshold":0.6,
-            "time":2000
+            "threshold":0.9,
+            "time":1600,
+            "roi":[305, 640, 118, 105]
         },
         "next":[
             "IfDuelStart",
@@ -96,6 +100,11 @@
         "template":"MazeCoin.png",
         "roi":[115, 1101, 147, 54],
         "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.9,
+            "time":1600,
+            "roi":[305, 640, 118, 105]
+        },
         "next":[
             "ShutDownCoin"
         ]
@@ -106,8 +115,9 @@
         "roi":[7, 135, 713, 1049],
         "action":"Click",
         "post_wait_freezes":{
-            "threshold":0.6,
-            "time":2000
+            "threshold":0.9,
+            "time":1600,
+            "roi":[305, 640, 118, 105]
         },
         "next":[
             "IfMazeMoveNow"
@@ -119,8 +129,9 @@
         "roi":[7, 135, 713, 1049],
         "action":"Click",
         "post_wait_freezes":{
-            "threshold":0.8,
-            "time":2500
+            "threshold":0.9,
+            "time":2500,
+            "roi":[305, 640, 118, 105]
         },
         "next":[
             "IfJustEnd"

@@ -42,7 +42,7 @@
         "action": "Click",
         "post_wait_freezes": {
             "threshold": 0.9,
-            "time": 1000
+            "time": 500
         },
         "next": [
             "WheelActivityDuel",

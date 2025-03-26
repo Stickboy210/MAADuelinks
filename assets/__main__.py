@@ -57,12 +57,12 @@ world_options = [
 portal_level_options = ["10级", "20级", "30级", "40级"]
 
 # 活动种类选项
-activity_type_options = ["转轮活动","骰子活动","组队决斗活动","DD城堡","周年庆活动2025（需手动点进活动区域）"]
+activity_type_options = ["转轮活动","骰子活动","组队决斗活动","DD城堡","波动决斗","周年庆活动2025（需手动点进活动区域）"]
 
 # 传送门钥匙种类选项
 portal_key_options = [
     "迷宫兄弟（绿钥匙）", "天上院明日香（青色钥匙）", "丸藤翔（黄色钥匙）",
-    "暗貘良（黑色钥匙）", "帕伽索斯·J·克劳福德（白色钥匙）", "基斯·霍华德（红色钥匙）"
+    "暗貘良（黑色钥匙）", "帕伽索斯·J·克劳福德（白色钥匙）", "基斯·霍华德（红色钥匙）","默认传送门"
 ]
 
 # 龙崎迷宫自动任务的楼层选项
@@ -609,33 +609,36 @@ def run_start_pipeline(tasker,TaskList):
                 Expected = ""
                 Template = ""
 
-                # 使用if-elif-else结构来判断TaskNum[1]并赋值
-                if TaskNum[1] == "迷宫兄弟（绿钥匙）":
-                    Expected = data["迷宫兄弟（绿钥匙）"]["expected"]
-                    Template = data["迷宫兄弟（绿钥匙）"]["template"]
-                elif TaskNum[1] == "天上院明日香（青色钥匙）":
-                    Expected = data["天上院明日香（青色钥匙）"]["expected"]
-                    Template = data["天上院明日香（青色钥匙）"]["template"]
-                elif TaskNum[1] == "丸藤翔（黄色钥匙）":
-                    Expected = data["丸藤翔（黄色钥匙）"]["expected"]
-                    Template = data["丸藤翔（黄色钥匙）"]["template"]
-                elif TaskNum[1] == "暗貘良（黑色钥匙）":
-                    Expected = data["暗貘良（黑色钥匙）"]["expected"]
-                    Template = data["暗貘良（黑色钥匙）"]["template"]
-                elif TaskNum[1] == "帕伽索斯·J·克劳福德（白色钥匙）":
-                    Expected = data["帕伽索斯·J·克劳福德（白色钥匙）"]["expected"]
-                    Template = data["帕伽索斯·J·克劳福德（白色钥匙）"]["template"]
-                elif TaskNum[1] == "基斯·霍华德（红色钥匙）":
-                    Expected = data["基斯·霍华德（红色钥匙）"]["expected"]
-                    Template = data["基斯·霍华德（红色钥匙）"]["template"]
+                if TaskNum[1] == "默认传送门":
+                    tasker.post_pipeline("ManualPortalsFind2")
                 else:
-                    print("未找到匹配的name")
-                pipeline_override = {
-                    "SelectManualPortalsWorld2": {"expected": Expected},
-                    "SelectManualPortalsRole": {"template": Template} # 以前是f"{TaskNum[2]}"
-                }
+                    # 使用if-elif-else结构来判断TaskNum[1]并赋值
+                    if TaskNum[1] == "迷宫兄弟（绿钥匙）":
+                        Expected = data["迷宫兄弟（绿钥匙）"]["expected"]
+                        Template = data["迷宫兄弟（绿钥匙）"]["template"]
+                    elif TaskNum[1] == "天上院明日香（青色钥匙）":
+                        Expected = data["天上院明日香（青色钥匙）"]["expected"]
+                        Template = data["天上院明日香（青色钥匙）"]["template"]
+                    elif TaskNum[1] == "丸藤翔（黄色钥匙）":
+                        Expected = data["丸藤翔（黄色钥匙）"]["expected"]
+                        Template = data["丸藤翔（黄色钥匙）"]["template"]
+                    elif TaskNum[1] == "暗貘良（黑色钥匙）":
+                        Expected = data["暗貘良（黑色钥匙）"]["expected"]
+                        Template = data["暗貘良（黑色钥匙）"]["template"]
+                    elif TaskNum[1] == "帕伽索斯·J·克劳福德（白色钥匙）":
+                        Expected = data["帕伽索斯·J·克劳福德（白色钥匙）"]["expected"]
+                        Template = data["帕伽索斯·J·克劳福德（白色钥匙）"]["template"]
+                    elif TaskNum[1] == "基斯·霍华德（红色钥匙）":
+                        Expected = data["基斯·霍华德（红色钥匙）"]["expected"]
+                        Template = data["基斯·霍华德（红色钥匙）"]["template"]
+                    else:
+                        print("未找到匹配的name")
+                    pipeline_override = {
+                        "SelectManualPortalsWorld2": {"expected": Expected},
+                        "SelectManualPortalsRole": {"template": Template} # 以前是f"{TaskNum[2]}"
+                    }
+                    tasker.post_pipeline("ManualPortalsEntry",pipeline_override)
                 i = 1
-                tasker.post_pipeline("ManualPortalsEntry",pipeline_override)
                 while i < int(TaskNum[2]):
                     tasker.post_pipeline("ManualPortalsFind2",pipeline_override)
                     i+=1
@@ -665,6 +668,8 @@ def run_start_pipeline(tasker,TaskList):
                     Taskpar = "NewYearActivity2025"
                 elif(activity_type == "DD城堡"):
                     Taskpar = "DDActivityEntry"
+                elif(activity_type == "波动决斗"):
+                    Taskpar = "WaveActivityEntry"
                 if activity_type == "DD城堡" and reverse_order:
                     pipeline_override = {
                         "StartDDActivity":{"index": -1},

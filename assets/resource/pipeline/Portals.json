@@ -1,6 +1,7 @@
 {
     "PortalsEntry": {
         "next": [
+            "IfPortalsDDAct",
             "PortalsFind"
         ]
     },
@@ -14,6 +15,18 @@
         "next": [
             "IfPortalsFind",
             "PortalsFind"
+        ]
+    },
+    "IfPortalsDDAct":{
+        "recognition":"OCR",
+        "expected":"关闭",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "PortalsEntry"
         ]
     },
     "IfPortalsFind": {
@@ -163,7 +176,7 @@
         "expected": "活动",
         "roi": [591, 259, 128, 62],
         "next": [
-            "PortalsFind"
+            "PortalsEntry"
         ]
     },
     "ClickPortalsEnd": {
