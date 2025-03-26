@@ -448,3 +448,5 @@ install
 tools/ImageCropper/**/*.png
 
 Demo1.zip
+
+myenv/
