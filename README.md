@@ -18,9 +18,6 @@
 
 ## 如何使用
 首先从最新的视频简介（[最新视频](https://www.bilibili.com/video/BV124QoYGEfr/?vd_source=432e5ae7fe7562f78ce33e44df702b66)）下载MAADuelinks压缩包，解压后会得到MAADuelinks.exe文件和resource文件夹，将这两个文件放在同一文件夹下，然后打开MuMu模拟器中的《游戏王·决斗链接》，运行MAADuelinks.exe，程序会自动寻找模拟器的adb连接，连接成功后会出现UI如下（可能略有不同）：
-<div align="center">
-  ![image](https://github.com/user-attachments/assets/04268b0d-89a0-4116-9c46-ed108110f391)
-</div>
 
 ![image](https://github.com/user-attachments/assets/04268b0d-89a0-4116-9c46-ed108110f391)
 
@@ -28,37 +25,20 @@
 
 ## FAQ
 
-### 1. 我是第一次使用 Python，在命令行输入 `python ./configure.py` 或 `python -m pip install MaaFW` 之后没有反应？没有报错，也没有提示成功，什么都没有
-
-Win10 或者 Win11 系统自带了一份 "Python"，但它其实只是一个安装器，是没法用的。  
-你需要做的是关闭它或者删除它的环境变量，然后自己去 Python 官网下载并安装一份 Python。  
-[参考方法](https://www.bilibili.com/read/cv24692025/)
-
-### 2. 我输入 `python ./configure.py` 后报错：`Please clone this repository completely, don’t miss "--recursive", and don’t download the zip package!`
-
-![项目不完整1](https://github.com/user-attachments/assets/e1f697c0-e5b6-4853-8664-a358df7327a8)
-
-**请仔细阅读文档！！！**  
-就是你现在正在看的本篇文档，就在上面，“如何开发”里的第一条，都已经用粗体标出来了，再问我要骂人了！
-
-### 3. 使用 MaaDebugger 或 MaaPicli 时弹窗报错，应用程序错误：应用程序无法正常启动
-
-![缺少运行库](https://github.com/user-attachments/assets/942df84b-f47d-4bb5-98b5-ab5d44bc7c2a)
-
-一般是电脑缺少某些运行库，请安装一下 [vc_redist](https://aka.ms/vs/17/release/vc_redist.x64.exe) 。
-
-### 4. 我在这个仓库里提了 Issue 很久没人回复
-
-这里是《项目模板》仓库，它仅仅是一个模板，一般很少会修改，开发者也较少关注。  
-在此仓库请仅提问模板相关问题，其他问题最好前往对应的仓库提出，如果有 log，最好也带上它（`debug/maa.log` 文件）
-
-- MaaFW 本身及 MaaPiCli 的问题：[MaaFramework/issues](https://github.com/MaaXYZ/MaaFramework/issues)
-- MaaDebugger 的问题：[MaaDebugger/issues](https://github.com/MaaXYZ/MaaDebugger/issues)
-- 不知道算是哪里的、其他疑问等：[讨论区](https://github.com/orgs/MaaXYZ/discussions)
-
-### 5. OCR 文字识别一直没有识别结果，报错 "Failed to load det or rec", "ocrer_ is null"
-
-你不但没有仔细阅读文档，还无视了前面步骤的报错。我不想解释了，请再把本文档仔细阅读一遍！
+## 一、手动传送门为什么不攻击？
+手动传送门需要设置卡组全都是攻击力1800以上的能够通常召唤的，没有效果的怪兽，不要使用卡图较绿的怪，比如双子妖精、小仙人掌等，并且需要设置卡组卡垫为空，否则可能影响攻击识别现在不需要考虑卡垫什么的了！还可以携带装备卡以加快速度PS：现在新版本可以携带一些可以直接发动的魔法卡，比如地碎、地裂等卡片，用来加速手动传送门的速度，
+## 二、可以在什么设备上面运行？
+可以在windows系统上运行，目前只能在电脑的MuMu模拟器上下载决斗链接运行，暂不支持其他设备请谅解；
+## 三、模拟器如何设置？
+模拟器设置分辨率如下：
+ 
+		尽量采用和上述分辨率相同的设置，否则一些图标位置变化可能导致识别出错。
+## 四、有类似下面的报错：
+ 
+	解决方法：1. 直接重启电脑；2. 在任务管理器里结束abd进程
+## 五、自动刷迷宫如何使用？
+先在迷宫中设定好自动卡组（如真红眼，恐龙等）为默认卡组，然后返回主页运行自动迷宫选项，便会自动开刷。
+要注意：刷迷宫的过程中不能点击屏幕，如果中途停止需要将棋子点回起点处，并且保证棋子在屏幕中央。
 
 ## 鸣谢
 
