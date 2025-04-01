@@ -17,7 +17,9 @@
 > 低代码的同时仍拥有高扩展性，旨在打造一款丰富、领先、且实用的开源库，助力开发者轻松编写出更好的黑盒测试程序，并推广普及。
 
 ## 如何使用
-首先从最新的视频简介（<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114188718441757&bvid=BV124QoYGEfr&cid=28949089019&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>）下载MAADuelinks压缩包，解压后会得到MAADuelinks.exe文件和resource文件夹，将这两个文件放在同一文件夹下，然后打开MuMu模拟器中的《游戏王·决斗链接》，运行MAADuelinks.exe，程序会自动寻找模拟器的adb连接，连接成功后会出现UI如下（可能略有不同）：
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114188718441757&bvid=BV124QoYGEfr&cid=28949089019&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+首先从最新的视频简介下载MAADuelinks压缩包，解压后会得到MAADuelinks.exe文件和resource文件夹，将这两个文件放在同一文件夹下，然后打开MuMu模拟器中的《游戏王·决斗链接》，运行MAADuelinks.exe，程序会自动寻找模拟器的adb连接，连接成功后会出现UI如下（可能略有不同）：
+
 ![image](https://github.com/user-attachments/assets/04268b0d-89a0-4116-9c46-ed108110f391)
 
 
