@@ -9,7 +9,7 @@
 
 </div>
 
-本仓库为 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 所提供的项目模板，基于该模板开发的Yu-Gi-Oh!Duel Links国服的人机脚本。
+本仓库为基于 [MaaFramework](https://github.com/MaaXYZ/MaaFramework)模板开发的Yu-Gi-Oh!Duel Links国服的人机脚本。
 欢迎支持maa，也欢迎加入MaaDuelinks（笑）
 如果你有新的想法想要实现，可以加入我一起完善脚本！
 
