@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <p align="center">
-  <img alt="LOGO" src="./assets/伽拉忒亚.jpg" width="256" height="256" />
+  <img alt="LOGO" src="./assets/灰流丽拍小蓝.jpg" width="256" height="256" />
 </p>
 
 <div align="center">
