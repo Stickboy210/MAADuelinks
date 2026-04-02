@@ -14,7 +14,7 @@
   },
   "IfSomethingNeed":{
     "recognition":"OCR",
-    "expected":["取消","确定"],
+    "expected":["关闭","确定"],
     "action":"Click",
     "post_wait_freezes":{
       "threshold":0.6,
@@ -135,13 +135,13 @@
       482
     ],
     "detector": "SIFT",
-    "orger_by": "Score",
+    "orger_by": "Random",
     "green_mask": true,
-    "ratio": 1,
+    "ratio": 0.6,
     "action": "Click",
     "target_offset": [
-      25,
-      25,
+      0,
+      0,
       0,
       0
     ],
@@ -352,12 +352,7 @@
   "IfHomePage": {
     "recognition": "OCR",
     "expected": "活动介绍",
-    "roi": [
-      574,
-      307,
-      145,
-      73
-    ],
+    "roi": [591, 259, 128, 62],
     "next": [
       "HomePage"
     ]
@@ -459,12 +454,7 @@
   },
   "BatterierEmpty": {
     "recognition": "ColorMatch",
-    "roi": [
-      111,
-      79,
-      5,
-      11
-    ],
+    "roi": [67, 78, 5, 8],
     "lower": [
       [
         90,
@@ -500,7 +490,21 @@
       ]
     ],
     "count": 10,
-    "next": []
+    "next": [
+      "IfDDActivityNow"
+    ]
+  },
+  "IfDDActivityNow":{
+    "recognition":"OCR",
+    "expected":"关闭",
+    "action":"Click",
+    "post_wait_freezes":{
+      "threshold":0.6,
+      "time":600
+    },
+    "next":[
+      
+    ]
   },
   "Stop": {
     "action": "DoNothing",
@@ -524,7 +528,7 @@
   "UseDuelBead":{
     "recognition":"OCR",
     "expected":"使用",
-    "roi":[225, 228, 428, 48],
+    "roi":[360, 355, 161, 37],
     "action":"Click",
     "post_wait_freezes":{
       "threshold":0.6,

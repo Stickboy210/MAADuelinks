@@ -1,0 +1,520 @@
+{
+    "PVPManualPortalsEntry": {
+        "next": ["PVPManualPortalsFind"]
+    },
+    "PVPManualPortalsFind": {
+        "action": "Click",
+        "target": [19, 1215, 111, 57],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": ["PVPIfManualPortalsFind", "PVPIfSomethingWrong", "PVPManualPortalsFind"]
+    },
+    "PVPIfSomethingWrong": {
+        "recognition": "OCR",
+        "expected": ["关闭", "取消", "重试"],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
+        },
+        "next": ["PVPManualPortalsFind"]
+    },
+    "PVPManualPortalsFind2": {
+        "action": "Click",
+        "target": [19, 1215, 111, 57],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": ["PVPIfManualPortalsFind2", "PVPIfDDActivity", "PVPIfSomethingWrong2", "PVPManualPortalsFind2"]
+    },
+    "PVPIfDDActivity": {
+        "recognition": "OCR",
+        "expected": "关闭",
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": ["PVPManualPortalsFind2"]
+    },
+    "PVPIfManualPortalsFind2": {
+        "recognition": "OCR",
+        "expected": "传送门",
+        "roi": [114, 118, 146, 45],
+        "next": ["PVPStartManualPortals"]
+    },
+    "PVPIfSomethingWrong2": {
+        "recognition": "FeatureMatch",
+        "roi": [18, 1209, 695, 53],
+        "green_mask": true,
+        "template": ["Home.png", "Return.png"],
+        "count": 10,
+        "action": "Click",
+        "next": ["PVPIfManualPortalsFind", "PVPManualPortalsFind2"]
+    },
+    "PVPIfManualPortalsFind": {
+        "recognition": "OCR",
+        "expected": "传送门",
+        "roi": [114, 118, 146, 45],
+        "next": ["PVPAbjectPortalsWorld"]
+    },
+    "PVPAbjectPortalsWorld": {
+        "action": "Click",
+        "target": [103, 116, 149, 47],
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
+        },
+        "next": ["PVPSwipePortalsWorld"]
+    },
+    "PVPSwipePortalsWorld": {
+        "action": "Swipe",
+        "begin": [288, 721, 139, 66],
+        "end": [296, 1090, 131, 91],
+        "duration": 300,
+        "post_wait_freezes": {
+            "threshold": 0.60,
+            "time": 300
+        },
+        "next": ["PVPSelectDMPortals"]
+    },
+    "PVPSelectDMPortals": {
+        "recognition": "OCR",
+        "expected": "DM",
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 400
+        },
+        "next": ["PVPSelectManualPortals"]
+    },
+    "PVPSelectManualPortals": {
+        "action": "Click",
+        "target": [607, 680, 47, 61],
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
+        },
+        "next": ["PVPSelectManualPortalsWorld"]
+    },
+    "PVPSelectManualPortalsWorld": {
+        "action": "Click",
+        "target": [75, 142, 184, 40],
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
+        },
+        "next": ["PVPSwipeManualPortalsWorld"]
+    },
+    "PVPSwipeManualPortalsWorld": {
+        "action": "Swipe",
+        "begin": [288, 721, 139, 66],
+        "end": [296, 1090, 131, 91],
+        "duration": 300,
+        "post_wait_freezes": {
+            "threshold": 0.60,
+            "time": 600
+        },
+        "next": ["PVPSwipeManualPortalsWorld2"]
+    },
+    "PVPSwipeManualPortalsWorld2": {
+        "action": "Swipe",
+        "begin": [283, 1005, 85, 42],
+        "end": [287, 950, 67, 37],
+        "duration": 300,
+        "post_wait_freezes": {
+            "threshold": 0.70,
+            "time": 1400
+        },
+        "next": ["PVPSelectManualPortalsWorld2"]
+    },
+    "PVPSelectManualPortalsWorld2": {
+        "recognition": "OCR",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 200,
+            "threshold": 0.6
+        },
+        "next": ["PVPSelectManualPortalsRole"]
+    },
+    "PVPSelectManualPortalsRole": {
+        "recognition": "FeatureMatch",
+        "template": "基斯·霍华德.png",
+        "roi": [50, 211, 621, 897],
+        "count": 50,
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": ["PVPSelectManualPortalsRole2"]
+    },
+    "PVPSelectManualPortalsRole2": {
+        "recognition": "OCR",
+        "expected": ["确认", "关闭"],
+        "roi": [128, 985, 493, 271],
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 200
+        },
+        "next": ["PVPSelectManualPortalsLevel"]
+    },
+    "PVPSelectManualPortalsLevel": {
+        "recognition": "OCR",
+        "expected": "10级",
+        "roi": [26, 829, 666, 95],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
+        },
+        "next": ["PVPStartManualPortals"]
+    },
+    "PVPStartManualPortals": {
+        "recognition": "OCR",
+        "expected": "决斗",
+        "roi": [29, 1060, 375, 97],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
+        },
+        "next": ["PVPStartManualDuelPortals", "PVPClickManualPortals"]
+    },
+    "PVPClickManualPortals": {
+        "action": "Click",
+        "target": [649, 761, 10, 10],
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.6
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfMyTurn", "PVPStartManualDuelPortals", "PVPClickManualPortals"]
+    },
+    "PVPStartManualDuelPortals": {
+        "recognition": "OCR",
+        "expected": "决斗",
+        "roi": [29, 1060, 375, 97],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfMyTurn", "PVPClickManualPortals"]
+    },
+    "PVPManualPortalsAction": {
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfMyTurn", "PVPIfEndPhase"]
+    },
+    "PVPIfMyTurn": {
+        "recognition": "OCR",
+        "roi": [392, 58, 51, 37],
+        "expected": "你",
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPMyActionTurn", "PVPIfEndPhase"]
+    },
+    "PVPMyActionTurn": {
+        "recognition": "OCR",
+        "roi": [465, 59, 128, 40],
+        "expected": "行动步骤",
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPSwipeCard1", "PVPSwipeCard2", "PVPIfMagicCard", "PVPBattlePhase0"]
+    },
+    "PVPIfMagicCard": {
+        "recognition": "ColorMatch",
+        "roi": [44, 1063, 426, 90],
+        "lower": [[21, 150, 139], [1, 135, 121], [11, 112, 113]],
+        "upper": [[55, 179, 169], [17, 159, 143], [40, 139, 132]],
+        "count": 80,
+        "connected": true,
+        "action": "Swipe",
+        "end_offset": [0, -300, 20, 20],
+        "duration": 400,
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.3
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfAbleUse", "PVPGotoAttack"]
+    },
+    "PVPGotoAttack": {
+        "action": "Click",
+        "target": [649, 761, 10, 10],
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPBattlePhase0"]
+    },
+    "PVPIfAbleUse": {
+        "recognition": "OCR",
+        "roi": [202, 877, 142, 146],
+        "expected": "发动效果",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 1100,
+            "threshold": 0.1
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPMyActionTurn"]
+    },
+    "PVPIfNeedtoSelect": {
+        "recognition": "OCR",
+        "expected": "选择",
+        "roi": [11, 683, 226, 48],
+        "action": "Click",
+        "target": [58, 773, 148, 212],
+        "post_wait_freezes": {
+            "time": 500,
+            "threshold": 0.1
+        },
+        "next": ["PVPIfWinDuel", "PVPConfirmSelect"]
+    },
+    "PVPConfirmSelect": {
+        "recognition": "OCR",
+        "expected": "确认",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 1100,
+            "threshold": 0.1
+        },
+        "next": ["PVPIfWinDuel", "PVPObAvtionTurn", "PVPIActionTurn", "PVPIfNeedtoSelect"]
+    },
+    "PVPIActionTurn": {
+        "recognition": "OCR",
+        "roi": [392, 58, 51, 37],
+        "expected": "你",
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPMyActionTurn", "PVPIfEndPhase"]
+    },
+    "PVPObAvtionTurn": {
+        "recognition": "OCR",
+        "roi": [392, 58, 51, 37],
+        "expected": "对方",
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfEndPhase"]
+    },
+    "PVPSwipeCard1": {
+        "recognition": "ColorMatch",
+        "roi": [64, 1069, 436, 118],
+        "lower": [[187, 105, 59], [193, 126, 80], [182, 86, 45]],
+        "upper": [[195, 127, 81], [201, 144, 103], [192, 109, 62]],
+        "count": 80,
+        "connected": true,
+        "action": "Swipe",
+        "end_offset": [0, -300, 20, 20],
+        "duration": 400,
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.2
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfAbleSummon", "PVPIfMagicCard", "PVPBattlePhase0"]
+    },
+    "PVPSwipeCard2": {
+        "recognition": "ColorMatch",
+        "roi": [64, 1069, 436, 118],
+        "lower": [[195, 165, 99], [190, 141, 58], [194, 152, 78]],
+        "upper": [[207, 180, 126], [198, 152, 76], [203, 164, 98]],
+        "count": 80,
+        "connected": true,
+        "action": "Swipe",
+        "end_offset": [0, -300, 20, 20],
+        "duration": 400,
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.2
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfAbleSummon", "PVPIfMagicCard", "PVPBattlePhase0"]
+    },
+    "PVPIfAbleSummon": {
+        "recognition": "OCR",
+        "roi": [202, 877, 142, 146],
+        "expected": "通常召唤",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 1000,
+            "threshold": 0.1
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfMagicCard", "PVPBattlePhase0"]
+    },
+    "PVPBattlePhase0": {
+        "action": "Click",
+        "target": [612, 778, 92, 74],
+        "post_wait_freezes": {
+            "threshold": 0.1,
+            "time": 400
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPBattlePhase"]
+    },
+    "PVPBattlePhase": {
+        "action": "Click",
+        "target": [612, 778, 92, 74],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 500
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfBattlePhase", "PVPIfEndHandcard", "PVPIfEndPhase"]
+    },
+    "PVPIfEndHandcard": {
+        "recognition": "OCR",
+        "expected": "手卡",
+        "roi": [237, 639, 231, 97],
+        "action": "Click",
+        "target": [58, 773, 148, 212],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 300
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPConfirmCard"]
+    },
+    "PVPConfirmCard": {
+        "recognition": "OCR",
+        "expected": "确认",
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 400
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfEndPhase"]
+    },
+    "PVPIfBattlePhase": {
+        "recognition": "OCR",
+        "roi": [465, 59, 128, 40],
+        "expected": "战斗步骤",
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPAttackMonsterMiddle1", "PVPAttackMonsterMiddle2", "PVPAttackMonsterLeft1", "PVPAttackMonsterLeft2", "PVPAttackMonsterRight1", "PVPAttackMonsterRight2", "PVPBattlePhase0"]
+    },
+    "PVPAttackMonsterMiddle1": {
+        "recognition": "ColorMatch",
+        "roi": [315, 661, 91, 63],
+        "lower": [[187, 105, 59], [193, 126, 80], [182, 86, 45]],
+        "upper": [[195, 127, 81], [201, 144, 103], [192, 109, 62]],
+        "count": 30,
+        "connected": true,
+        "action": "Swipe",
+        "begin": [338, 709, 38, 33],
+        "end": [294, 76, 124, 106],
+        "duration": 400,
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1100
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfWin", "PVPAttackMonsterMiddle2", "PVPAttackMonsterLeft1", "PVPAttackMonsterLeft2", "PVPAttackMonsterRight1", "PVPAttackMonsterRight2", "PVPBattlePhase0"]
+    },
+    "PVPAttackMonsterMiddle2": {
+        "recognition": "ColorMatch",
+        "roi": [315, 661, 91, 63],
+        "lower": [[195, 165, 99], [190, 141, 58], [194, 152, 78]],
+        "upper": [[207, 180, 126], [198, 152, 76], [203, 164, 98]],
+        "count": 30,
+        "connected": true,
+        "action": "Swipe",
+        "begin": [338, 709, 38, 33],
+        "end": [294, 76, 124, 106],
+        "duration": 400,
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1100
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfWin", "PVPAttackMonsterLeft1", "PVPAttackMonsterLeft2", "PVPAttackMonsterRight1", "PVPAttackMonsterRight2", "PVPBattlePhase0"]
+    },
+    "PVPAttackMonsterLeft1": {
+        "recognition": "ColorMatch",
+        "roi": [170, 660, 86, 71],
+        "lower": [[187, 105, 59], [193, 126, 80], [182, 86, 45]],
+        "upper": [[195, 127, 81], [201, 144, 103], [192, 109, 62]],
+        "count": 30,
+        "connected": true,
+        "action": "Swipe",
+        "begin": [196, 701, 35, 44],
+        "end": [294, 76, 124, 106],
+        "duration": 400,
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1100
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfWin", "PVPAttackMonsterLeft2", "PVPAttackMonsterRight1", "PVPAttackMonsterRight2", "PVPBattlePhase0"]
+    },
+    "PVPAttackMonsterLeft2": {
+        "recognition": "ColorMatch",
+        "roi": [170, 660, 86, 71],
+        "lower": [[195, 165, 99], [190, 141, 58], [194, 152, 78]],
+        "upper": [[207, 180, 126], [198, 152, 76], [203, 164, 98]],
+        "count": 30,
+        "connected": true,
+        "action": "Swipe",
+        "begin": [196, 701, 35, 44],
+        "end": [294, 76, 124, 106],
+        "duration": 400,
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1100
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfWin", "PVPAttackMonsterRight1", "PVPAttackMonsterRight2", "PVPBattlePhase0"]
+    },
+    "PVPAttackMonsterRight1": {
+        "recognition": "ColorMatch",
+        "roi": [462, 660, 90, 62],
+        "lower": [[187, 105, 59], [193, 126, 80], [182, 86, 45]],
+        "upper": [[195, 127, 81], [201, 144, 103], [192, 109, 62]],
+        "count": 30,
+        "connected": true,
+        "action": "Swipe",
+        "begin": [492, 703, 31, 33],
+        "end": [294, 76, 124, 106],
+        "duration": 400,
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1100
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfWin", "PVPAttackMonsterRight2", "PVPBattlePhase0"]
+    },
+    "PVPAttackMonsterRight2": {
+        "recognition": "ColorMatch",
+        "roi": [462, 660, 90, 62],
+        "lower": [[195, 165, 99], [190, 141, 58], [194, 152, 78]],
+        "upper": [[207, 180, 126], [198, 152, 76], [203, 164, 98]],
+        "count": 30,
+        "connected": true,
+        "action": "Swipe",
+        "begin": [492, 703, 31, 33],
+        "end": [294, 76, 124, 106],
+        "duration": 400,
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1100
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfWin", "PVPBattlePhase0"]
+    },
+    "PVPIfWin": {
+        "recognition": "OCR",
+        "expected": ["确定", "下一步", "关闭", "取消", "重试"],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfWin", "PVPIfManualPortalsHomePage", "PVPIfMyTurn", "PVPClickManualPortalsEnd"]
+    },
+    "PVPIfManualPortalsHomePage": {
+        "recognition": "TemplateMatch",
+        "template": "DuelButton.png"
+    },
+    "PVPClickManualPortalsEnd": {
+        "action": "Click",
+        "target": [8, 1040, 25, 20],
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPWaitManualPortalsRewardEnd"]
+    },
+    "PVPWaitManualPortalsRewardEnd": {
+        "post_wait_freezes": {
+            "time": 300,
+            "threshold": 0.6
+        },
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfManualPortalsHomePage", "PVPIfWin", "PVPClickManualPortalsEnd"]
+    },
+    "PVPIfWinDuel": {
+        "recognition": "OCR",
+        "expected": ["保存重放"],
+        "post_wait_freezes": {
+            "time": 400,
+            "threshold": 0.6
+        },
+        "next": ["PVPIfWin"]
+    },
+    "PVPIfEndPhase": {
+        "action": "Click",
+        "target": [317, 550, 66, 53],
+        "next": ["PVPIfWinDuel", "PVPIfNeedtoSelect", "PVPIfMyTurn", "PVPIfWin", "PVPIfEndHandcard", "PVPIfEndPhase"]
+    }
+}

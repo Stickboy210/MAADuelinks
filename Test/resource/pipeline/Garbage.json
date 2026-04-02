@@ -1,0 +1,107 @@
+{
+    "Garbage":{
+        "next":[
+            "IfNotGarbageHome",
+            "TakeGarbage"
+        ]
+    },
+    "IfNotGarbageHome":{
+        "recognition":"OCR",
+        "expected":"世界",
+        "roi":[327, 1084, 66, 60],
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "TakeGarbage"
+        ]
+    },
+    "TakeGarbage":{
+        "action": "Click",
+        "target": [19, 1215, 111, 57],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "IfPortals",
+            "CollectGarbagePortals1"
+        ]
+    },
+    "CollectGarbagePortals1":{
+        "action": "Click",
+        "target": [94, 423, 62, 37],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 1000
+        },
+        "next": [
+            "IfCollected",
+            "IfPortals"
+        ]
+    },
+
+    "IfCollected":{
+        "recognition": "OCR",
+        "expected": "确定",
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "IfGarbageHome",
+            "ClickGarbage"
+        ]
+    },
+    "IfGarbageHome":{
+        "recognition":"OCR",
+        "expected":"活动",
+        "roi":[591, 259, 128, 62],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "ClickGarbage"
+        ]
+    },
+    "ClickGarbage":{
+        "action": "Click",
+        "target":[651, 459, 45, 50],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 500
+        },
+        "next": [
+            "IfGarbageHome",
+            "IfCollected"
+        ]
+    },
+    "IfPortals":{
+        "recognition": "OCR",
+        "expected": "传送门",
+        "roi": [
+            114,
+            118,
+            146,
+            45
+        ],
+        "next": [
+            "BackToGarbage"
+        ]
+    },
+    "BackToGarbage":{
+        "action": "Click",
+        "target":[13, 1210, 95, 53],
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "CollectGarbagePortals1"
+        ]
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "ZhengfuDuel":{
+        "recognition": "TemplateMatch",
+        "template": "DuelButton.png",
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 300
+        },
+        "next": [
+            "ZhengfuDuel",
+            "PVPIfMyTurn",
+            "PVPClickManualPortals"
+        ]
+    },
+    "IfPVPDuelEnd": {
+        "recognition": "TemplateMatch",
+        "template": "DuelButton.png"
+    }
+}

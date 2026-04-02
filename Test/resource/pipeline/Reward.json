@@ -10,12 +10,7 @@
     },
     "HomePageReward": {
         "action": "Click",
-        "target": [
-            232,
-            153,
-            9,
-            22
-        ],
+        "target": [191, 1115, 88, 38],
         "next": [
             "WaitTaskReward"   
         ]
@@ -85,6 +80,7 @@
         },
         "next": [
             "GetWeeklyReward",
+            "DiamondReward",
             "CareerReward"
         ]
     },
@@ -174,7 +170,22 @@
             "threshold": 0.6
         },
         "next": [
+            "DiamondReward",
             "CareerReward"
+        ]
+    },
+    "DiamondReward": {
+        "recognition": "OCR",
+        "expected": "完成所有",
+        "roi":[61, 186, 259, 51],
+        "action": "Click",
+        "target_offset": [490, 0, 0, 0],
+        "post_wait_freezes": {
+            "time": 600,
+            "threshold": 0.6
+        },
+        "next": [
+            "IdentifyWeeky"
         ]
     },
     "GetCareerReward": {

@@ -1,0 +1,156 @@
+{
+    "RideDuelActivity":{
+        "next":[
+            "RideDuelActivityEntry"
+        ]
+    },
+    "RideDuelActivityEntry":{
+        "action":"Click",
+        "target": [489, 908, 208, 107],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":600
+        },
+        "next":[
+            "IfRideDuelActivityReward",
+            "IfRideDuelActivityPage"
+        ]
+    },
+    "IfRideDuelActivityReward":{},
+    "IfRideDuelActivityPage":{
+        "recognition": "OCR",
+        "expected": "骑乘决斗",
+        "action": "Click",
+        "post_wait_freezes": {
+            "threshold": 0.6,
+            "time": 600
+        },
+        "next": [
+            "StartRideDuel"
+        ]
+    },
+    "RideDuelBattlePhase0": {
+        "action": "Click",
+        "target": [
+            612,
+            778,
+            92,
+            74
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.1,
+            "time": 400
+        },
+        "next": [
+            "RideDuelBattlePhase"
+        ]
+    },
+    "RideDuelBattlePhase": {
+        "action": "Click",
+        "target": [
+            612,
+            778,
+            92,
+            74
+        ],
+        "post_wait_freezes": {
+            "threshold": 0.1,
+            "time": 400
+        },
+        "next": [
+            "RideDuelIfBattlePhase",
+            "RideDuelIfEndHandcard",
+            "RideDuelIfEndPhase"
+        ]
+    },
+    "RideDuelIfBattlePhase":{},
+    "RideDuelIfEndHandcard":{},
+    "IfRideDuelBattlePhase": {
+        "recognition": "OCR",
+        "roi": [
+            465,
+            59,
+            128,
+            40
+        ],
+        "expected": "战斗步骤",
+        "next":[
+            "IfRideDuelEndPhase"
+        ]
+    },
+    "StartRideDuel": {
+        "next": [
+            "RideDuelIfMyTurn",
+            "RideDuelIfEndPhase"
+        ]
+    },
+    "RideDuelIfMyTurn": {
+        "recognition": "OCR",
+        "roi": [
+            392,
+            58,
+            51,
+            37
+        ],
+        "expected": "你",
+        "next": [
+            "RideDuelMyActionTurn",
+            "RideDuelIfEndPhase"
+        ]
+    },
+    "RideDuelIfEndPhase":{},
+    "RideDuelMyActionTurn": {
+        "recognition": "OCR",
+        "roi": [
+            465,
+            59,
+            128,
+            40
+        ],
+        "expected": "行动步骤",
+        "next": [
+            "RideDuelBattlePhase0"
+        ]
+    },
+    "IfRideDuelEndPhase": {
+        "action": "Click",
+        "target": [
+            317,
+            550,
+            66,
+            53
+        ],
+        "next": [
+            "IfMyTurn",
+            "IfWin",
+            "IfRideDuelEndHandcard",
+            "IfRideDuelEndPhase"
+        ]
+    },
+    "IfRideDuelEndHandcard":{
+        "recognition":"OCR",
+        "expected":"手卡",
+        "roi":[237, 639, 231, 97],
+        "action":"Click",
+        "target":[58, 773, 148, 212],
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":300
+        },
+        "next":[
+            "RideDuelConfirmCard"
+        ]
+    },
+    "RideDuelConfirmCard":{
+        "recognition":"OCR",
+        "expected":"确认",
+        "action":"Click",
+        "post_wait_freezes":{
+            "threshold":0.6,
+            "time":400
+        },
+        "next":[
+            "IfRideDuelEndPhase"
+        ]
+    }
+}
